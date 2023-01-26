@@ -18,6 +18,10 @@ pip list
 ```
 Result: <br>
 ![number2](https://user-images.githubusercontent.com/99194827/214727087-0cf22a1a-35d4-483a-8ede-729ae2d3fd56.png)
-From image above, it can be clearly seen that there are already 3 modules being installed initially.
+From image above, it can be clearly seen that there are _already 3 modules being installed_ initially.
+
+## Preparation
+Before answering the rest of questions, inject Green Taxi Trip on Jan 2019 and Taxi Zones data to PostgreSQL database. Inject Green Taxi Trip on Jan 2019 data by run this:
+
 
 ## Number 3
