@@ -28,7 +28,7 @@ Build containers for PostgreSQL database and pgAdmin by executing [this docker-c
 ```
 docker-compose up -d
 ```
-Executing [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/ingest_zones.py) with command below to inject Taxi Zones data to PostgreSQL database: <br>
+Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/ingest_zones.py) with command below to inject Taxi Zones data to PostgreSQL database: <br>
 ```
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv"
 
@@ -41,7 +41,7 @@ python3 ingest_zones.py \
     --table_name=zones \
     --url=${URL}
 ```
-Executing [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/ingest_green_data.py) with command below to inject Green Taxi Trip on Jan 2019 data to PostgreSQL database: <br>
+Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/ingest_green_data.py) with command below to inject Green Taxi Trip on Jan 2019 data to PostgreSQL database: <br>
 ```
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-01.csv.gz"
 
