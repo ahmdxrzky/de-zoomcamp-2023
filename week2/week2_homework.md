@@ -55,7 +55,9 @@ Last, execute command below on a different terminal to run that deployment:
 prefect deployment run etl-web-to-gcs/ETL-to-GCS
 ```
 ![image](https://user-images.githubusercontent.com/99194827/216754210-d3b7e9ff-6d89-4a32-9734-772ef12218b3.png)
-A deployment are enabled on the prefect GUI with no need to edit the configuration anymore, since it's already defined when build the deployment.
+A deployment are enabled on the prefect UI with no need to edit the configuration anymore, since it's already defined when build the deployment. <br>
+Result: <br>
+_"0 5 1 \* \*_ in cron syntax means _At 05:00 AM UTC on day 1 of the month_.
 
 ## Question 3
 Execute command below to build and apply a prefect deployment named _ETL-to-GBQ_ based on _etl_gcs_to_bq_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_gcs_to_bq.py):
@@ -76,8 +78,11 @@ Last, execute command below on a different terminal to run that deployment:
 ```
 prefect deployment run etl-main-flow/ETL-to-GBQ
 ```
-See logs on prefect GUI.
-![image](https://user-images.githubusercontent.com/99194827/216754765-e336d77d-c05f-42a1-bc68-de7747bb1882.png)
+See logs on prefect UI. <br>
+Result:
+![image](https://user-images.githubusercontent.com/99194827/216754941-50b916ed-dee7-4741-8ead-eeb6bded2825.png)
 From image above, it can be clearly seen that there are _14851920_ data being migrated from GCS to BigQuery.
 
 ## Question 4
+Create a GitHub storage block on prefect UI.
+![image](https://user-images.githubusercontent.com/99194827/216757198-e69e0546-4de8-432f-8401-91df1db08bc7.png)
