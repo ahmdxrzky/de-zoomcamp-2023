@@ -1,10 +1,15 @@
 # Answer for Homework Week 2
 
 ## Question 1
-Executing [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py) with command below to loads _Green Taxi Trip on Jan 2020_ data to GCS:
+Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py) with command below to loads _Green Taxi Trip on Jan 2020_ data to GCS:
 ```
 python3 etl_web_to_gcs.py
 ```
+There are several edits done to the python file:
+1. Change 'tpep_pickup_datetime' and 'tpep_dropoff_datetime' to 'lpep_pickup_datetime' and 'lpep_dropoff_datetime' on _clean_ function, because there are no column named as 'tpep_pickup_datetime' and 'tpep_dropoff_datetime' in any green taxi dataset.
+2. Create folders based on parquet file path on _write_local_ function, if there is no such directory (take the parent directory path from file path with pathlib).
+3. Change color, year, and month value on _etl_web_to_gcs_ function.
+
 To see logs from the prefect flow above, execute command below to activate the GUI of prefect and click the link given on the output:
 ```
 prefect orion start
@@ -15,7 +20,7 @@ From image above, it can be clearly seen that there are _447770_ rows on data of
 
 ## Question 2
 ### First Way
-Execute command below to build a prefect deployment named as _ETL-to-GCS_ based on _etl_web_to_gcs_ flow from _./etl_web_to_gcs.py_ file:
+Execute command below to build a prefect deployment named as _ETL-to-GCS_ based on _etl_web_to_gcs_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py):
 ```
 prefect deployment build ./etl_web_to_gcs.py:etl_web_to_gcs -n "ETL-to-GCS"
 ```
@@ -23,7 +28,7 @@ Command above will generate a YAML file contains configurations for the deployme
 ```
 prefect deployment apply etl_web_to_gcs-deployment.yaml
 ```
-Everytime a deployment want to be run, execute command below to activate a prefect agent named _default_:
+Everytime a deployment want to be run, execute command below to activate a prefect agent (in this case, an agent named _default_):
 ```
 prefect agent start -q default
 ```
@@ -36,12 +41,12 @@ prefect deployment run etl-web-to-gcs/ETL-to-GCS
 ```
 
 ### Second Way (the shorter one, perhaps)
-Execute command below to build and apply a prefect deployment named _ETL-to-GCS_ based on _etl_web_to_gcs_ flow from _./etl_web_to_gcs.py_ file with cron schedule set to "0 5 1 * *":
+Execute command below to build and apply a prefect deployment named _ETL-to-GCS_ based on _etl_web_to_gcs_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py) with cron schedule set to "0 5 1 * *":
 ```
 prefect deployment build ./etl_web_to_gcs.py:etl_web_to_gcs -n "ETL-to-GCS" --cron "0 5 1 * *" -a
 ```
 ```cron "0 5 1 * *"``` means that "0 5 1 \* \*" is passed as cron parameter to set the deployment scheduled run _At 05:00 AM (UTC on default) on day 1 of the month_.<br>
-Execute command below to activate a prefect agent named default:
+Execute command below to activate a prefect agent (in this case, an agent named default):
 ```
 prefect agent start -q default
 ```
@@ -49,5 +54,30 @@ Last, execute command below on a different terminal to run that deployment:
 ```
 prefect deployment run etl-web-to-gcs/ETL-to-GCS
 ```
+![image](https://user-images.githubusercontent.com/99194827/216754210-d3b7e9ff-6d89-4a32-9734-772ef12218b3.png)
+A deployment are enabled on the prefect GUI with no need to edit the configuration anymore, since it's already defined when build the deployment.
 
 ## Question 3
+Execute command below to build and apply a prefect deployment named _ETL-to-GBQ_ based on _etl_gcs_to_bq_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_gcs_to_bq.py):
+```
+prefect deployment build ./etl_gcs_to_bq.py:etl_main_flow -n "ETL-to-GBQ" -a
+```
+There are several edits done to the python file:
+1. Adjust local path on _extract_from_gcs_ and destination table on _write_bq_ function.
+2. Delete transform function and move read from parquet to _etl_gc_to_bq_ function, since no transformation and cleaning process needed.
+3. Use total row from the dataset that being migrated to BigQuery as returned value from _etl_gcs_to_bq_ function.
+4. Set log print parameter as True on _etl_main_flow_ flow declaration and add command print, so logs will record total rows that being migrated.
+
+Execute command below to activate a prefect agent (in this case, an agent named default):
+```
+prefect agent start -q default
+```
+Last, execute command below on a different terminal to run that deployment:
+```
+prefect deployment run etl-main-flow/ETL-to-GBQ
+```
+See logs on prefect GUI.
+![image](https://user-images.githubusercontent.com/99194827/216754765-e336d77d-c05f-42a1-bc68-de7747bb1882.png)
+From image above, it can be clearly seen that there are _14851920_ data being migrated from GCS to BigQuery.
+
+## Question 4
