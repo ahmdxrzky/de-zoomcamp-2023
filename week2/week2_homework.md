@@ -14,6 +14,7 @@ To see logs from the prefect flow above, execute command below to activate the G
 ```
 prefect orion start
 ```
+Click the latest flow run on Flow Runs menu. Then, click Logs tab to see recorded logs from that flow run.<br>
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/216642020-bb3901f8-88cd-478d-bfa5-f35fa2425867.png)
 From image above, it can be clearly seen that there are _447770_ rows on data of Green Taxi Trip on Jan 2020.
