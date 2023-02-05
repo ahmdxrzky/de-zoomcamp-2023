@@ -43,9 +43,9 @@ def etl_gcs_to_bq(
 ) -> int:
     """Parameterized ETL function to load data into BigQuery"""
     path = extract_from_gcs(color, year, month)
+    # edit starts here
     df = pd.read_parquet(path)
     total = write_bq(df)
-    # edit starts here
     return total
     # edit ends here
 
