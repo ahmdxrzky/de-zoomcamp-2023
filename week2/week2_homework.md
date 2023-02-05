@@ -57,9 +57,9 @@ prefect deployment build ./etl_gcs_to_bq.py:etl_main_flow -n "ETL-to-GBQ" -a
 ```
 There are several edits done to the python file:
 1. Adjust local path on _extract_from_gcs_ and destination table on _write_bq_ function.
-2. Delete transform function and move read from parquet to _etl_gc_to_bq_ function, since no transformation and cleaning process needed.
-3. Use total row from the dataset that being migrated to BigQuery as returned value from _etl_gcs_to_bq_ function.
-4. Set log print parameter as True on _etl_main_flow_ flow declaration and add command print, so logs will record total rows that being migrated.
+2. Delete transform function and move read from parquet to _etl_gcs_to_bq_ function, since no transformation and cleaning process needed.
+3. Use total row from the dataset that being migrated to BigQuery as returned value from _write_bq_ and _etl_gcs_to_bq_ functions.
+4. Set log prints parameter as True on _etl_main_flow_ flow declaration and add command print to function's body, so logs will record total rows that being migrated.
 
 Execute command below to activate a prefect agent (in this case, an agent named default):
 ```
@@ -69,7 +69,7 @@ Last, execute command below on a different terminal to run that deployment:
 ```
 prefect deployment run etl-main-flow/ETL-to-GBQ
 ```
-See logs on prefect UI. <br>
+See logs of latest flow run on prefect UI. <br>
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/216754941-50b916ed-dee7-4741-8ead-eeb6bded2825.png)
 From image above, it can be clearly seen that there are _14851920_ data being migrated from GCS to BigQuery.
