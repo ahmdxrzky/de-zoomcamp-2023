@@ -42,8 +42,9 @@ prefect deployment build ./etl_web_to_gcs.py:etl_web_to_gcs -n "ETL-to-GCS" --cr
 ![image](https://user-images.githubusercontent.com/99194827/216754210-d3b7e9ff-6d89-4a32-9734-772ef12218b3.png)
 A deployment are enabled on the prefect UI with no need to edit the configuration anymore, since it's already defined when build the deployment. <br>
 Result: <br>
-_"0 5 1 \* \*_ in cron syntax means _At 05:00 AM UTC on day 1 of the month_.
-Additional things:<br>
+_"0 5 1 \* \*_ in cron syntax means _At 05:00 AM UTC on day 1 of the month_. <br>
+
+### Additional things:
 After sure that the deployment is already deployed on prefect, don't forget to execute command below to activate an agent to run flow of that deployment (in this case, an agent named default):
 ```
 prefect agent start -q default
