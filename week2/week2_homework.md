@@ -8,7 +8,7 @@ python3 etl_web_to_gcs.py
 There are several edits done to the python file:
 1. Change 'tpep_pickup_datetime' and 'tpep_dropoff_datetime' to 'lpep_pickup_datetime' and 'lpep_dropoff_datetime' on _clean_ function, because there are no column named as 'tpep_pickup_datetime' and 'tpep_dropoff_datetime' in any green taxi dataset.
 2. Create folders based on parquet file path on _write_local_ function, if there is no such directory (take the parent directory path from file path with pathlib).
-3. Change color, year, and month value on _etl_web_to_gcs_ function.
+3. Set color, year, and month as parameters of _etl_web_to_gcs_ function.
 
 To see logs from the prefect flow above, execute command below to activate the GUI of prefect and click the link given on the output:
 ```
