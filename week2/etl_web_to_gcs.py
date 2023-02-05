@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 import pandas as pd
+from typing import Tuple
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
 
@@ -13,7 +14,7 @@ def fetch(dataset_url: str) -> pd.DataFrame:
 
 @task(log_prints=True)
 # edit starts here
-def clean(df: pd.DataFrame, color: str) -> pd.DataFrame:
+def clean(df: pd.DataFrame, color: str) -> Tuple[pd.DataFrame, str]:
     # edit ends here
     """Fix dtype issues"""
     #edit starts here
@@ -27,7 +28,9 @@ def clean(df: pd.DataFrame, color: str) -> pd.DataFrame:
     print(df.head(2))
     print(f"columns: {df.dtypes}")
     print(f"rows: {len(df)}")
-    return df
+    # edit starts here
+    return df, len(df)
+    # edit ends here
 
 @task()
 def write_local(df_clean: pd.DataFrame, color: str, dataset_file: str) -> Path:
@@ -55,16 +58,17 @@ def etl_web_to_gcs(
     color: str = "green",
     year: int = 2020,
     month: int = 1
-    # edit ends here
-) -> None:
+) -> int:
     """"The main ETL function"""
     dataset_file = f"{color}_tripdata_{year}-{month:02}"
     dataset_url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
 
     df = fetch(dataset_url)
-    df_clean = clean(df, color)
+    df_clean, total = clean(df, color)
     path = write_local(df_clean, color, dataset_file)
     write_gcs(path)
+    return total
+    # edit ends here
 
 if __name__ == "__main__":
     etl_web_to_gcs()
