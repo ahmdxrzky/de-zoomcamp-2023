@@ -10,7 +10,7 @@ There are several edits done to the python file:
 2. Create folders based on parquet file path on _write_local_ function, if there is no such directory (take the parent directory path from file path with pathlib).
 3. Set color, year, and month as parameters of _etl_web_to_gcs_ function.
 
-To see logs from the prefect flow above, execute command below to activate the GUI of prefect and click the link given on the output:
+To see logs from the prefect flow above, execute command below to activate the UI of prefect and click the link given on the output:
 ```
 prefect orion start
 ```
@@ -20,7 +20,7 @@ Result:
 From image above, it can be clearly seen that there are _447770_ rows on data of Green Taxi Trip on Jan 2020.
 
 ## Question 2
-### First Way
+### First Way (through Prefect UI)
 Execute command below to build a prefect deployment named as _ETL-to-GCS_ based on _etl_web_to_gcs_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py):
 ```
 prefect deployment build ./etl_web_to_gcs.py:etl_web_to_gcs -n "ETL-to-GCS"
@@ -29,36 +29,25 @@ Command above will generate a YAML file contains configurations for the deployme
 ```
 prefect deployment apply etl_web_to_gcs-deployment.yaml
 ```
-Everytime a deployment want to be run, execute command below to activate a prefect agent (in this case, an agent named _default_):
-```
-prefect agent start -q default
-```
-Edit the deployment configuration on prefect GUI. Move to Scheduling part and add schedule. Choose "cron" on "Schedule type" and type in ```0 5 1 \* \*``` on "Value", then click Save.
+Edit the deployment configuration on prefect UI. Move to Scheduling part and add schedule. Choose "cron" on "Schedule type" and type in ```0 5 1 \* \*``` on "Value", then click Save.
 ![image](https://user-images.githubusercontent.com/99194827/216657927-97a8eb6b-8188-4167-b2bf-8d7ec39de41e.png)
 From image above, it can be clearly seen that ```0 5 1 \* \*``` on cron part simply means _At 05:00 AM (UTC on default) on day 1 of the month_
-Last, execute command below on a different terminal to run that deployment:
-```
-prefect deployment run etl-web-to-gcs/ETL-to-GCS
-```
 
-### Second Way (the shorter one, perhaps)
+### Second Way (through terminal)
 Execute command below to build and apply a prefect deployment named _ETL-to-GCS_ based on _etl_web_to_gcs_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py) with cron schedule set to "0 5 1 * *":
 ```
 prefect deployment build ./etl_web_to_gcs.py:etl_web_to_gcs -n "ETL-to-GCS" --cron "0 5 1 * *" -a
 ```
-```cron "0 5 1 * *"``` means that "0 5 1 \* \*" is passed as cron parameter to set the deployment scheduled run _At 05:00 AM (UTC on default) on day 1 of the month_.<br>
-Execute command below to activate a prefect agent (in this case, an agent named default):
-```
-prefect agent start -q default
-```
-Last, execute command below on a different terminal to run that deployment:
-```
-prefect deployment run etl-web-to-gcs/ETL-to-GCS
-```
+```cron "0 5 1 * *"``` means that "0 5 1 \* \*" is passed as cron parameter to set the deployment scheduled run _At 05:00 AM (UTC on default) on day 1 of the month_.
 ![image](https://user-images.githubusercontent.com/99194827/216754210-d3b7e9ff-6d89-4a32-9734-772ef12218b3.png)
 A deployment are enabled on the prefect UI with no need to edit the configuration anymore, since it's already defined when build the deployment. <br>
 Result: <br>
 _"0 5 1 \* \*_ in cron syntax means _At 05:00 AM UTC on day 1 of the month_.
+Additional things:<br>
+After sure that the deployment is already deployed on prefect, don't forget to execute command below to activate an agent to run flow of that deployment (in this case, an agent named default):
+```
+prefect agent start -q default
+```
 
 ## Question 3
 Execute command below to build and apply a prefect deployment named _ETL-to-GBQ_ based on _etl_gcs_to_bq_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_gcs_to_bq.py):
