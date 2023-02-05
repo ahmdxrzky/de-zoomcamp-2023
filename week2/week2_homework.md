@@ -120,7 +120,7 @@ Last, run [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/
 ```
 python3 gmail_send.py
 ```
-See inbox in email that being used as username on _Email Server Credentials_ block.
+See inbox in email that being used as username on _Email Server Credentials_ block. <br>
 Result:
 ![Screenshot 2023-02-05 200906](https://user-images.githubusercontent.com/99194827/216820762-f2d7c248-6413-4671-a61b-269c869b6871.png)
 ![Screenshot 2023-02-05 201126](https://user-images.githubusercontent.com/99194827/216820934-b948e015-9286-4332-9d81-7d5eea17a6c8.png)
@@ -128,6 +128,6 @@ From image above, it can be clearly seen that there are _514392_ rows on data of
 
 ## Question 6
 Create a _Secret_ block on Prefect UI. That block is used to hide any string that shouldn't be publicly accessible.<br>
-After create the block, encrypted value will be shown as below:
+Result: <br>
 ![image](https://user-images.githubusercontent.com/99194827/216824310-95b8ed0a-0d3b-4b7d-9fe2-a808ca88f51f.png)
 From image above, it can be clearly seen that the encrypted value shown as _8 asterisks_.
