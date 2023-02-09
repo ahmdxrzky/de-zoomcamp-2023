@@ -1,7 +1,8 @@
 # Answer for Homework Week 3
 
 ## Setup
-Before answer the question, there are some important steps that should be done:
+(Disclaimer: all queries used as answer are already in [this file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week3/big_query.sql).<br>
+Before answer the questions, there are some important steps that should be done:
 
 #### Load data in .gz format to Google Cloud Storage
 Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week3/etl_gz_to_gcs.py) with command below to load _FHV Trip data along 2019_ in .gz format to GCS:
@@ -9,7 +10,7 @@ Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/ma
 python3 etl_web_to_gcs.py
 ```
 Important notes about the file above:
-1. All flow run under supervision of Prefect.
+1. All flows run under supervision of Prefect.
 2. It consists of a parent flow and a sub flow with two tasks.
 3. All flows defined with _log_prints_ parameter as True and all tasks defined with _retries_ parameter set to 3.
 4. Parent flow (_etl_year_):<br>
@@ -147,11 +148,3 @@ Answer: GCP Bucket
 ## Question 7
 Question: Best practice in BigQuery is by always clustering the data.<br>
 Answer: False
-
-## Question 8
-Question: Data pipeline to store gz file as parquet file in GCS. Create external and natural table on Big Query.
-Logic:
-Query:
-Result:
-
-From image above, it can be clearly seen that there are _447770_ rows on data of Green Taxi Trip on Jan 2020.
