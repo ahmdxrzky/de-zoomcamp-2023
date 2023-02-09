@@ -59,10 +59,11 @@ Result:<br>
 From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
 
 ## Question 2
-Question: Estimated amount of data for query of counting distinct number of _affiliated_base_number_ on both tables.
+Question: Estimated amount of data for query of counting distinct number of _affiliated_base_number_ on both tables.<br>
 Logic:<br>
 - Take rows with distinct value of affiliated_base_number.
 - Count total rows.
+
 Query:<br>
 - on External table
 ```
@@ -87,6 +88,7 @@ Question: Records with null _PUlocationID_ and _DOlocationID_.<br>
 Logic:<br>
 - Take rows that have null value on PUlocationID and DOlocationID.
 - Count total rows.
+
 Query:<br>
 - on External table
 ```
@@ -120,6 +122,7 @@ Logic:<br>
 - Create new table from natural table that being partitioned by date of _pickup_datetime_ and clustered by affiliated_base_number.
 - Take rows with distinct value of affiliated_base_number.
 - Count total rows.
+
 Query:<br>
 - on Natural table
 ```
