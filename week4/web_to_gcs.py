@@ -5,7 +5,7 @@ import time
 
 """
 Pre-reqs: 
-1. `pip install pyarrow google-cloud-storage`
+1. `pip install pandas pyarrow google-cloud-storage`
 2. Set environment variable GOOGLE_APPLICATION_CREDENTIALS to your project/service-account key
 3. Set environment variable GCP_GCS_BUCKET as your bucket or change default value of BUCKET
 """
@@ -22,8 +22,8 @@ def download_gz(
     file_name: str
 ) -> None:
     """Download gz file from web"""
-    os.makedirs(f"data_csv/{service}", exist_ok=True)
-    os.system(f"wget {request_url} -O data_csv/{service}/{file_name}.gz")
+    os.makedirs(f"data/{service}", exist_ok=True)
+    os.system(f"wget {request_url} -O data/{service}/{file_name}.gz")
 
 
 def upload_to_gcs(
@@ -57,10 +57,10 @@ def web_to_gcs(
         file_name = service + '_tripdata_' + year + '-' + month + '.csv'
         request_url = init_url + service + "/" + file_name + ".gz"
         download_gz(request_url, service, file_name)
-        print(f"Local: data_csv/{service}/{file_name}.gz")
+        print(f"Local: data/{service}/{file_name}.gz")
 
         # upload it to gcs 
-        upload_to_gcs(BUCKET, f"data/{service}/{file_name}", os.path.join("data_csv", service, file_name + ".gz"))
+        upload_to_gcs(BUCKET, f"data/{service}/{file_name}", os.path.join("data", service, file_name + ".gz"))
         print(f"GCS: data/{service}/{file_name}.gz")
 
 
