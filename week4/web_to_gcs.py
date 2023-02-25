@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 import pyarrow
 from google.cloud import storage
 import time
@@ -17,14 +16,25 @@ init_url = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/'
 BUCKET = os.environ.get("GCP_GCS_BUCKET", "dtc-data-lake-bucketname")
 
 
-def download_gz(request_url, service, file_name):
+def download_gz(
+    request_url: str,
+    service: str,
+    file_name: str
+) -> None:
+    """Download gz file from web"""
     os.makedirs(f"data_csv/{service}", exist_ok=True)
     os.system(f"wget {request_url} -O data_csv/{service}/{file_name}.gz")
 
 
-def upload_to_gcs(bucket, object_name, local_file):
+def upload_to_gcs(
+    bucket: str,
+    object_name: str,
+    local_file: str
+) -> None:
     """
     Ref: https://cloud.google.com/storage/docs/uploading-objects#storage-upload-object-python
+    
+    Upload local file to GCS
     """
     client = storage.Client()
     bucket = client.bucket(bucket)
@@ -32,7 +42,11 @@ def upload_to_gcs(bucket, object_name, local_file):
     blob.upload_from_filename(local_file, timeout=50000)
 
 
-def web_to_gcs(year, service):
+def web_to_gcs(
+    year: str,
+    service: str
+) -> None:
+    """Main ETL process for each services per year"""
     for i in range(12):
         
         # sets the month part of the file_name string
