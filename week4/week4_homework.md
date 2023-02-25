@@ -37,16 +37,21 @@ SELECT * FROM `de-zoomcamp-375916.dezoomcamp.green_tripdata`;
 ```
 Do the same thing to yellow and FHV data trips by replacing every "green" words with "yellow" and "fhv", respectively.
 
+#### Create source and fact table
+Create source table and fact table by running dbt Cloud IDE based on [this repository](https://github.com/ahmdxrzky/dbt-test).<br>
+There will be these tables and views structured as below:
+![image](https://user-images.githubusercontent.com/99194827/221354453-96924eda-432e-4989-af24-ba0fcdbdbcde.png)
+
 ## Question 1
-Question: <br>
-Logic: <br>
+Question: Fact_trips records for 2019 and 2020 (test run variable disable) <br>
+Logic:  <br>
 Query:
 ```
-SELECT COUNT(1) AS fhv_vehicle_records_on_2019
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
+SELECT COUNT(1) AS total_fact_trips
+FROM `de-zoomcamp-375916.dbt_test.fact_trips`;
 ```
 Result:
-![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
+![image](https://user-images.githubusercontent.com/99194827/221353824-5a0156a3-11e9-45de-8a0d-adb74e617138.png)
 
 From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
 
