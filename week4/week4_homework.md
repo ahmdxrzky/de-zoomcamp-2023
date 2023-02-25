@@ -98,6 +98,6 @@ From images above, it can be clearly seen that there are _22998722_ rows on fact
 Question: Month with highest trip amount. <br>
 Logic: Visualize data through Google Data Studio. <br>
 Result:
-![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
+![image](https://user-images.githubusercontent.com/99194827/221365983-491f43ba-61bd-498d-897c-50f7e59681ea.png)
 
-From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
+From images above, it can be clearly seen that _January_ has the highest amount of FHV trips.
