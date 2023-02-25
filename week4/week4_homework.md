@@ -49,3 +49,55 @@ Result:
 ![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
 
 From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
+
+## Question 2
+Question: <br>
+Logic: <br>
+Query:
+```
+SELECT COUNT(1) AS fhv_vehicle_records_on_2019
+FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
+```
+Result:
+![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
+
+From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
+
+## Question 3
+Question: <br>
+Logic: <br>
+Query:
+```
+SELECT COUNT(1) AS fhv_vehicle_records_on_2019
+FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
+```
+Result:
+![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
+
+From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
+
+## Question 4
+Question: <br>
+Logic: <br>
+Query:
+```
+SELECT COUNT(1) AS fhv_vehicle_records_on_2019
+FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
+```
+Result:
+![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
+
+From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
+
+## Question 5
+Question: <br>
+Logic: <br>
+Query:
+```
+SELECT COUNT(1) AS fhv_vehicle_records_on_2019
+FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
+```
+Result:
+![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
+
+From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
