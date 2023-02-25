@@ -53,7 +53,7 @@ FROM `de-zoomcamp-375916.dbt_test.fact_trips`;
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/221353824-5a0156a3-11e9-45de-8a0d-adb74e617138.png)
 
-From images above, it can be clearly seen that there are _61622271_ rows on fact_trips table (when test_run variable disabled). Choose _61648442_ as answer since it's the closest one.
+From image above, it can be clearly seen that there are _61622271_ rows on fact_trips table (when test_run variable disabled). Choose _61648442_ as answer since it's the closest one.
 
 ## Question 2
 Question: Distribution of service type for data of year 2019 and 2020. <br>
@@ -61,7 +61,7 @@ Logic: Visualize data through Google Data Studio. <br>
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/221363053-65b9dee4-3c6b-4974-9670-956ea9bda799.png)
 
-From images above, it can be clearly seen that ratio between Yellow and Green service on 2019 and 2020 is _89.8:10.2_. Choose _89.9/10.1_ as answer since it's the closest one.
+From image above, it can be clearly seen that ratio between Yellow and Green service on 2019 and 2020 is _89.8:10.2_. Choose _89.9/10.1_ as answer since it's the closest one.
 
 ## Question 3
 Question: stg_fhv_tripdata records for 2019 <br>
@@ -77,7 +77,7 @@ FROM `de-zoomcamp-375916.dbt_test.stg_fhv_tripdata`;
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/221359258-038e0fa9-6cab-40da-939e-f2510f220dc9.png)
 
-From images above, it can be clearly seen that there are _43244696_ rows on stg_fhv_tripdata table.
+From image above, it can be clearly seen that there are _43244696_ rows on stg_fhv_tripdata table.
 
 ## Question 4
 Question: fact_fhv_trips records for 2019 <br>
@@ -92,7 +92,7 @@ SELECT COUNT(1) AS total_fact_fhv_trips FROM `de-zoomcamp-375916.dbt_test.fact_f
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/221359559-ecb2bea4-867a-426a-b870-fbb72c7686ea.png)
 
-From images above, it can be clearly seen that there are _22998722_ rows on fact_fhv_trips.
+From image above, it can be clearly seen that there are _22998722_ rows on fact_fhv_trips.
 
 ## Question 5
 Question: Month with highest trip amount. <br>
@@ -100,4 +100,4 @@ Logic: Visualize data through Google Data Studio. <br>
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/221365983-491f43ba-61bd-498d-897c-50f7e59681ea.png)
 
-From images above, it can be clearly seen that _January_ has the highest amount of FHV trips.
+From image above, it can be clearly seen that _January_ has the highest amount of FHV trips.
