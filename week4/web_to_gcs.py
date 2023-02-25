@@ -5,7 +5,7 @@ import time
 
 """
 Pre-reqs: 
-1. `pip install pandas pyarrow google-cloud-storage`
+1. `pip install pyarrow google-cloud-storage`
 2. Set environment variable GOOGLE_APPLICATION_CREDENTIALS to your project/service-account key
 3. Set environment variable GCP_GCS_BUCKET as your bucket or change default value of BUCKET
 """
