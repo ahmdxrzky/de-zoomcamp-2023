@@ -39,12 +39,12 @@ Do the same thing to yellow and FHV data trips by replacing every "green" words 
 
 #### Create source and fact table
 Create source table and fact table by running dbt Cloud IDE based on [this repository](https://github.com/ahmdxrzky/dbt-test).<br>
-There will be these tables and views structured as below:
+There will be these tables and views structured as below:<br>
 ![image](https://user-images.githubusercontent.com/99194827/221354453-96924eda-432e-4989-af24-ba0fcdbdbcde.png)
 
 ## Question 1
 Question: fact_trips records for 2019 and 2020 (test run variable disable) <br>
-Logic: Count total record on fact_trips (make sure that the test run variable has been disabled or set to False. <br>
+Logic: Count total record on fact_trips (make sure that the test run variable has been disabled or set to False). <br>
 Query:
 ```
 SELECT COUNT(1) AS total_fact_trips
@@ -59,19 +59,16 @@ From images above, it can be clearly seen that there are _61622271_ rows on fact
 Question: Distribution of service type for data of year 2019 and 2020. <br>
 Logic: Visualize data through Google Data Studio. <br>
 Result:
-![image](https://user-images.githubusercontent.com/99194827/221355275-3867e5b0-0cb5-44c5-a4a4-b7bd82beb581.png)
+![image](https://user-images.githubusercontent.com/99194827/221363053-65b9dee4-3c6b-4974-9670-956ea9bda799.png)
 
 From images above, it can be clearly seen that ratio between Yellow and Green service on 2019 and 2020 is _89.8:10.2_. Choose _89.9/10.1_ as answer since it's the closest one.
 
 ## Question 3
 Question: stg_fhv_tripdata records for 2019 <br>
-Logic: <br>
+Logic:
 - Add fhv_tripdata as data source on schema.yml at staging folder.
 - Create [stg_fhv_tripdata.sql](https://github.com/ahmdxrzky/dbt-test/blob/main/models/staging/stg_fhv_tripdata.sql) file at staging folder.
-- Run dbt Cloud IDE by executing this command below:
-```
-dbt run --select stg_fhv_tripdata --var 'is_test_run: false'
-```
+- Run that model. <br>
 Query:
 ```
 SELECT COUNT(1) AS total_staging_fhv_trips
@@ -84,13 +81,10 @@ From images above, it can be clearly seen that there are _43244696_ rows on stg_
 
 ## Question 4
 Question: fact_fhv_trips records for 2019 <br>
-Logic: <br>
+Logic:
 - Create [fact_fhv_trips.sql](https://github.com/ahmdxrzky/dbt-test/blob/main/models/core/fact_fhv_trips.sql) file at core folder.
 - Add fact_fhv_trips on schema.yml at core folder.
-- Run dbt Cloud IDE by executing this command below:
-```
-dbt run -m fact_fhv_trips
-```
+- Run that model. <br>
 Query:
 ```
 SELECT COUNT(1) AS total_fact_fhv_trips FROM `de-zoomcamp-375916.dbt_test.fact_fhv_trips`;
@@ -101,13 +95,8 @@ Result:
 From images above, it can be clearly seen that there are _22998722_ rows on fact_fhv_trips.
 
 ## Question 5
-Question: <br>
-Logic: <br>
-Query:
-```
-SELECT COUNT(1) AS fhv_vehicle_records_on_2019
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
-```
+Question: Month with highest trip amount. <br>
+Logic: Visualize data through Google Data Studio. <br>
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
 
