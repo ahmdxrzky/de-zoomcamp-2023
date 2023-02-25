@@ -44,7 +44,7 @@ There will be these tables and views structured as below:
 
 ## Question 1
 Question: Fact_trips records for 2019 and 2020 (test run variable disable) <br>
-Logic:  <br>
+Logic: Count total record on fact_trips (make sure that the test run variable has been disabled or set to False. <br>
 Query:
 ```
 SELECT COUNT(1) AS total_fact_trips
@@ -53,20 +53,15 @@ FROM `de-zoomcamp-375916.dbt_test.fact_trips`;
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/221353824-5a0156a3-11e9-45de-8a0d-adb74e617138.png)
 
-From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
+From images above, it can be clearly seen that there are _61622271_ rows on fact_trips table (when test_run variable disabled). Choose _61648442_ as answer since it's the closest one.
 
 ## Question 2
-Question: <br>
-Logic: <br>
-Query:
-```
-SELECT COUNT(1) AS fhv_vehicle_records_on_2019
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
-```
+Question: Distribution of service type for data of year 2019 and 2020. <br>
+Logic: Visualize data through Google Data Studio. <br>
 Result:
-![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
+![image](https://user-images.githubusercontent.com/99194827/221355275-3867e5b0-0cb5-44c5-a4a4-b7bd82beb581.png)
 
-From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
+From images above, it can be clearly seen that ratio between Yellow and Green service on 2019 and 2020 is _89.8:10.2_. Choose _89.9/10.1_ as answer since it's the closest one.
 
 ## Question 3
 Question: <br>
