@@ -67,7 +67,7 @@ Question: stg_fhv_tripdata records for 2019 <br>
 Logic:
 - Add fhv_tripdata as data source on schema.yml at staging folder.
 - Create [stg_fhv_tripdata.sql](https://github.com/ahmdxrzky/dbt-test/blob/main/models/staging/stg_fhv_tripdata.sql) file at staging folder.
-- Run that model. <br>
+- Run that model through dbt terminal by disabling test_run variable. <br>
 
 Query:
 ```
@@ -83,7 +83,7 @@ Question: fact_fhv_trips records for 2019 <br>
 Logic:
 - Create [fact_fhv_trips.sql](https://github.com/ahmdxrzky/dbt-test/blob/main/models/core/fact_fhv_trips.sql) file at core folder.
 - Add fact_fhv_trips on schema.yml at core folder.
-- Run that model. <br>
+- Run that model through dbt terminal by disabling test_run variable. <br>
 
 Query:
 ```
