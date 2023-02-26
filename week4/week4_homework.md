@@ -47,8 +47,7 @@ Question: fact_trips records for 2019 and 2020 (test run variable disable) <br>
 Logic: Count total record on fact_trips (make sure that the test run variable has been disabled or set to False). <br>
 Query:
 ```
-SELECT COUNT(1) AS total_fact_trips
-FROM `de-zoomcamp-375916.dbt_test.fact_trips`;
+SELECT COUNT(1) AS total_fact_trips FROM `de-zoomcamp-375916.dbt_test.fact_trips`;
 ```
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/221353824-5a0156a3-11e9-45de-8a0d-adb74e617138.png)
@@ -69,10 +68,10 @@ Logic:
 - Add fhv_tripdata as data source on schema.yml at staging folder.
 - Create [stg_fhv_tripdata.sql](https://github.com/ahmdxrzky/dbt-test/blob/main/models/staging/stg_fhv_tripdata.sql) file at staging folder.
 - Run that model. <br>
+
 Query:
 ```
-SELECT COUNT(1) AS total_staging_fhv_trips
-FROM `de-zoomcamp-375916.dbt_test.stg_fhv_tripdata`;
+SELECT COUNT(1) AS total_staging_fhv_trips FROM `de-zoomcamp-375916.dbt_test.stg_fhv_tripdata`;
 ```
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/221359258-038e0fa9-6cab-40da-939e-f2510f220dc9.png)
@@ -85,6 +84,7 @@ Logic:
 - Create [fact_fhv_trips.sql](https://github.com/ahmdxrzky/dbt-test/blob/main/models/core/fact_fhv_trips.sql) file at core folder.
 - Add fact_fhv_trips on schema.yml at core folder.
 - Run that model. <br>
+
 Query:
 ```
 SELECT COUNT(1) AS total_fact_fhv_trips FROM `de-zoomcamp-375916.dbt_test.fact_fhv_trips`;
