@@ -1,4 +1,4 @@
-# Answer for Homework Week 1 Part A
+# Answer for Homework Week 1 Part B
 
 ## Question 1
 ### Init
