@@ -3,7 +3,7 @@
 ## Question 1
 ### Init
 After downloading and setup GCP, gcloud-sdk, and terraform... <br>
-Execute command below on folder that contains [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/main.tf) and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/variables.tf)(I make edit on this file which is change the region to asia-southeast2) files to initialize and install all infrastructure needed:
+Execute command below on folder that contains [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/main.tf) and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/variables.tf) (I make edit on this file which is change the region to asia-southeast2) files to initialize and install all infrastructure needed:
 ```
 terraform init
 ```
