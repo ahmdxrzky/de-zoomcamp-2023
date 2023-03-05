@@ -1,7 +1,7 @@
 # Answer for Homework Week 4
+Disclaimer: all queries used as answer are already in [this file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week4/big_query.sql).
 
 ## Setup
-Disclaimer: all queries used as answer are already in [this file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week4/big_query.sql).<br>
 Before answer the questions, there are some important steps that should be done:
 
 #### Load all data in .gz format to Google Cloud Storage
