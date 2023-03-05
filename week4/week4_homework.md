@@ -47,7 +47,7 @@ There will be these tables and views structured as below:<br>
 Question: fact_trips records for 2019 and 2020 (test run variable disable) <br>
 Logic: Count total record on fact_trips (make sure that the test run variable has been disabled or set to False). <br>
 Query:
-```
+```sql
 SELECT COUNT(1) AS total_fact_trips FROM `de-zoomcamp-375916.dbt_test.fact_trips`;
 ```
 Result:
@@ -71,7 +71,7 @@ Logic:
 - Run that model through dbt terminal by disabling test_run variable. <br>
 
 Query:
-```
+```sql
 SELECT COUNT(1) AS total_staging_fhv_trips FROM `de-zoomcamp-375916.dbt_test.stg_fhv_tripdata`;
 ```
 Result:
@@ -87,7 +87,7 @@ Logic:
 - Run that model through dbt terminal by disabling test_run variable. <br>
 
 Query:
-```
+```sql
 SELECT COUNT(1) AS total_fact_fhv_trips FROM `de-zoomcamp-375916.dbt_test.fact_fhv_trips`;
 ```
 Result:
