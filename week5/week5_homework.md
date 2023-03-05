@@ -120,3 +120,34 @@ From image above, it can be clearly seen that average size of parquet files is _
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/222947828-c80b1b46-ba0d-4287-8c84-676c516be563.png)
 From image above, it can be clearly seen that there are _452470_ records of fhvhv trips that started on June 15th.
+
+
+## Question 4
+Question: duration of the longest trip in hours. <br>
+Logic: 
+- Count duration of each trip in seconds by substracting dropoff_datetime with pickup_datetime.
+- Convert the duration in hours.
+- Order by the duration and limit only 1 record to take the longest trip only.
+
+Query:
+```python3
+spark.sql(
+    """
+    SELECT
+        DATEDIFF(second, pickup_datetime, dropoff_datetime)/3600 AS duration_of_longest_trip_in_hours
+    FROM
+        fhvhv_tripdata
+    ORDER BY
+        DATEDIFF(second, pickup_datetime, dropoff_datetime) DESC
+    LIMIT
+        1
+    """
+).show()
+```
+Result:
+![image](https://user-images.githubusercontent.com/99194827/222950883-aa24e65a-00b4-48c0-87e4-3a464b191175.png)
+From image above, it can be clearly seen that the longest trip spends _66.88_ hours (take 66.87 as it's the closest one).
+
+## Question 5
+Question: Spark run its UI in which local port?
+Answer: By default, Spark's UI runs in port _4040_.
