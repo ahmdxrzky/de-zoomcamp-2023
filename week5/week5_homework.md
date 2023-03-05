@@ -151,3 +151,59 @@ From image above, it can be clearly seen that the longest trip spends _66.88_ ho
 ## Question 5
 Question: Spark run its UI in which local port?
 Answer: By default, Spark's UI runs in port _4040_.
+
+## Question 6
+- Download taxi_zone_lookup.csv file [here](https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv) manually or via terminal by executing command below:
+  ```bash
+  https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv
+  ```
+- Use pandas to see data type from each column of that csv file.
+  ```python3
+  import pandas as pd
+
+  df_zones_pd = pd.read_csv("taxi_zone_lookup.csv")
+  df_zones_pd.dtypes
+  ```
+- Define schema for this table.
+  ```python3
+  from pyspark.sql import types
+
+  schema = types.StructType([
+      types.StructField('LocationID', types.IntegerType(), True),     # It's integer file based on pandas dtypes
+      types.StructField('Borough', types.StringType(), True),         # It's object file based on pandas dtypes
+      types.StructField('Zone', types.StringType(), True),            # It's object file based on pandas dtypes
+      types.StructField('service_zone', types.StringType(), True)    # It's object file based on pandas dtypes
+  ])
+  ```
+- Read csv file with Spark.
+  ```python3
+  df_zones = spark.read \
+      .option("header", "true") \
+      .schema(schema) \
+      .csv('taxi_zone_lookup.csv')
+  ```
+- Do outer join fhvhv trip data with zones data on fhvhv.PULocationID and zones.LocationID.
+  ```python3
+  from pyspark.sql.functions import col
+
+  joined_df = df.join(df_zones, col("PULocationID") == col("LocationID"), how='outer')
+  joined_df.registerTempTable('fhvhv_enriched_tripdata')
+  ```
+- Do SQL query with PySpark.
+  Question: The most frequent zone that being pickup location. <br>
+  Logic: Group data by Zone and order by how many record that use the Zone as pickup location. <br>
+  Query:
+  ```python3
+  spark.sql(
+      """
+      SELECT Zone AS most_frequent_pickup_location_zone
+      FROM fhvhv_enriched_tripdata
+      GROUP BY Zone
+      ORDER BY COUNT(*) DESC
+      LIMIT 1
+      """
+  ).show()
+
+Result:
+![image](https://user-images.githubusercontent.com/99194827/222951548-d1222322-112c-45d2-baf5-b54829abb39b.png)
+From image above, it can be clearly seen that the most frequent zone as pickup location is _Crown Heights North_.
