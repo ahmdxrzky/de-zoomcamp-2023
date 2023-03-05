@@ -2,7 +2,7 @@
 
 ## Question 1
 Execute command below to see help documentation for command _docker build_:
-```
+```bash
 docker build --help
 ```
 Result:
@@ -11,11 +11,11 @@ From image above, it can be clearly seen that tag ```--iidfile string``` can be 
 
 ## Question 2
 Execute command below to run docker based on _python:3.9_ image in _interactive_ mode and entrypoint _bash_:
-```
+```bash
 docker run -it --entrypoint=bash python:3.9
 ```
 Then, execute command below to check modules installed on the container:
-```
+```bash
 pip list
 ```
 Result:
@@ -25,11 +25,11 @@ From image above, it can be clearly seen that there are already _3 modules_ bein
 ## Preparation
 Before answering the rest of questions, inject Green Taxi Trip on Jan 2019 and Taxi Zones data to PostgreSQL database running on a container. <br>
 Build containers for PostgreSQL database and pgAdmin by executing [this docker-compose file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/docker-compose.yaml) with command below: <br>
-```
+```bash
 docker-compose up -d
 ```
 Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/ingest_zones.py) with command below to inject Taxi Zones data to PostgreSQL database: <br>
-```
+```bash
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv"
 
 python3 ingest_zones.py \
@@ -42,7 +42,7 @@ python3 ingest_zones.py \
     --url=${URL}
 ```
 Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/ingest_green_data.py) with command below to inject Green Taxi Trip on Jan 2019 data to PostgreSQL database: <br>
-```
+```bash
 URL="https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-01.csv.gz"
 
 python3 ingest_green_data.py \
@@ -68,7 +68,7 @@ Logic:
 - Count how many rows fulfill criteria above.
 
 Query:
-```
+```sql
 SELECT
 	COUNT(1) AS total_taxi_trips_on_jan_15
 FROM
@@ -90,7 +90,7 @@ Logic:
 - Show only the first row of pickup date (has been ordered).
 
 Query:
-```
+```sql
 SELECT
 	DATE(lpep_pickup_datetime) AS date_that_has_largest_trip_distance_value
 FROM
@@ -114,7 +114,7 @@ Logic:
 - Count how many rows fulfill criterias above.
 
 Query and Result for 2 passengers:
-```
+```sql
 SELECT
 	COUNT(1) AS trips_with_2_passengers_on_jan_1
 FROM
@@ -126,7 +126,7 @@ WHERE
 ```
 ![number5_2](https://user-images.githubusercontent.com/99194827/214861127-26d16f44-1fe8-4170-a540-abbfa95d236e.png)
 Query and Result for 3 passengers:
-```
+```sql
 SELECT
 	COUNT(1) AS trips_with_3_passengers_on_jan_1
 FROM
@@ -150,7 +150,7 @@ Logic:
 - Show only the first row of dropoff zone (has been ordered).
 
 Query:
-```
+```sql
 SELECT
 	DOregion."Zone" AS drop_off_zone_that_had_largest_tip
 FROM
