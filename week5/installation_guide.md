@@ -24,7 +24,7 @@ Unpack it:
 tar xzfv openjdk-11.0.2_linux-x64_bin.tar.gz
 ```
 
-define `JAVA_HOME` and add it to `PATH`:
+define `JAVA_HOME` and add it to `PATH` (also put this in .bashrc file in home directory):
 
 ```bash
 export JAVA_HOME="${HOME}/zoomcamp/week5/jdk-11.0.2"
@@ -65,7 +65,7 @@ Unpack:
 tar xzfv spark-3.3.2-bin-hadoop3.tgz
 ```
 
-Add it to `PATH`:
+Add it to `PATH` (also put this in .bashrc file in home directory):
 
 ```bash
 export SPARK_HOME="${HOME}/zoomcamp/week5/spark-3.3.2-bin-hadoop3"
@@ -93,7 +93,7 @@ distData.filter(_ < 10).collect()
 
 This document assumes you already have python.
 
-To run PySpark, we first need to add it to `PYTHONPATH`:
+To run PySpark, we first need to add it to `PYTHONPATH` (also put this in .bashrc file in home directory):
 
 ```bash
 export PYTHONPATH="${SPARK_HOME}/python/:$PYTHONPATH"
@@ -103,7 +103,7 @@ Make sure that the version under `${SPARK_HOME}/python/lib/` matches the filenam
 encounter `ModuleNotFoundError: No module named 'py4j'` while executing `import pyspark`.
 
 For example, if the file under `${SPARK_HOME}/python/lib/` is `py4j-0.10.9.3-src.zip`, then the
-`export PYTHONPATH` statement above should be changed to
+`export PYTHONPATH` statement above should be changed to (also put this in .bashrc file in home directory)
 
 ```bash
 export PYTHONPATH="${SPARK_HOME}/python/lib/py4j-0.10.9.5-src.zip:$PYTHONPATH"
