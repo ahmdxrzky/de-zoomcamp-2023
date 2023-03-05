@@ -36,8 +36,6 @@ From image above, it can be clearly seen that version of spark being used is _3.
   ```
 - Use pandas to see data type from each column of that csv file.
   ```python3
-  import pandas as pd
-
   df_pd = pd.read_csv("fhvhv_tripdata_2021-06.csv")
   df_pd.dtypes
   ```
@@ -48,8 +46,6 @@ From image above, it can be clearly seen that version of spark being used is _3.
   From this step, it can be seen that _Affiliated_base_number_ column has many missing values.
 - Define schema for this table.
   ```python3
-  from pyspark.sql import types
-
   schema = types.StructType([
       types.StructField('dispatching_base_num', types.StringType(), True),    # It's object file based on pandas dtypes
       types.StructField('pickup_datetime', types.TimestampType(), True),      # Datetime should be shown as timestamp data
@@ -78,8 +74,6 @@ From image above, it can be clearly seen that version of spark being used is _3.
   ```
 - Find average value of parquet files size.
   ```python3
-  import os
-  import pathlib
   data = os.listdir('fhvhv/2021/06')
   datas = [doc for doc in data if doc[-3:] == "uet"]
   sizes = []
@@ -95,7 +89,7 @@ From image above, it can be clearly seen that version of spark being used is _3.
   
 Result:
 ![image](https://user-images.githubusercontent.com/99194827/222946687-d8f56142-cff2-439a-9c3b-3f588059aa36.png)
-From image above, it can be clearly seen that average size of parquet files is _23.05 MB_ (choose 24 MB as it's the closest one).
+From image above, it can be clearly seen that average size of parquet files is _23.5 MB_ (choose 24 MB as it's the closest one).
 
 
 ## Question 3
@@ -103,7 +97,7 @@ From image above, it can be clearly seen that average size of parquet files is _
   ```
   df.registerTempTable('fhvhv_tripdata')
   ```
-- Do SQL query with PySpark.
+- Do SQL query with PySpark. <br>
   Question: fhvhv trip records that started on June 15th. <br>
   Logic: Count record from result of filtering pickup date that equal with '2021-06-15' <br>
   Query:
@@ -149,30 +143,26 @@ Result:
 From image above, it can be clearly seen that the longest trip spends _66.88_ hours (take 66.87 as it's the closest one).
 
 ## Question 5
-Question: Spark run its UI in which local port?
+Question: Spark run its UI in which local port? <br>
 Answer: By default, Spark's UI runs in port _4040_.
 
 ## Question 6
 - Download taxi_zone_lookup.csv file [here](https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv) manually or via terminal by executing command below:
   ```bash
-  https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv
+  wget https://github.com/DataTalksClub/nyc-tlc-data/releases/download/misc/taxi_zone_lookup.csv
   ```
 - Use pandas to see data type from each column of that csv file.
   ```python3
-  import pandas as pd
-
   df_zones_pd = pd.read_csv("taxi_zone_lookup.csv")
   df_zones_pd.dtypes
   ```
 - Define schema for this table.
   ```python3
-  from pyspark.sql import types
-
   schema = types.StructType([
       types.StructField('LocationID', types.IntegerType(), True),     # It's integer file based on pandas dtypes
       types.StructField('Borough', types.StringType(), True),         # It's object file based on pandas dtypes
       types.StructField('Zone', types.StringType(), True),            # It's object file based on pandas dtypes
-      types.StructField('service_zone', types.StringType(), True)    # It's object file based on pandas dtypes
+      types.StructField('service_zone', types.StringType(), True)     # It's object file based on pandas dtypes
   ])
   ```
 - Read csv file with Spark.
@@ -182,10 +172,8 @@ Answer: By default, Spark's UI runs in port _4040_.
       .schema(schema) \
       .csv('taxi_zone_lookup.csv')
   ```
-- Do outer join fhvhv trip data with zones data on fhvhv.PULocationID and zones.LocationID.
+- Do outer join fhvhv trip table with zones table on fhvhv.PULocationID and zones.LocationID.
   ```python3
-  from pyspark.sql.functions import col
-
   joined_df = df.join(df_zones, col("PULocationID") == col("LocationID"), how='outer')
   joined_df.registerTempTable('fhvhv_enriched_tripdata')
   ```
