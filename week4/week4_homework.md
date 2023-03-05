@@ -1,31 +1,32 @@
 # Answer for Homework Week 4
 
 ## Setup
-(Disclaimer: all queries used as answer are already in [this file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week4/big_query.sql).<br>
+Disclaimer: all queries used as answer are already in [this file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week4/big_query.sql).<br>
 Before answer the questions, there are some important steps that should be done:
 
 #### Load all data in .gz format to Google Cloud Storage
-Execute command below to install library needed:
-```
-pip install pyarrow google-cloud-storage
-```
-Setup these environment variables by executing command below:
-```
-export GOOGLE_APPLICATION_CREDENTIALS='path_to_json_file_contains_your_service_account_configuration
-export GCP_GCS_BUCKET='name_of_your_GCS_bucket'
-```
-Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week4/web_to_gcs.py) with command below to load _Green and Yellow Trip data along 2019 and 2020 also FHV Trip data along 2019_ in .gz format to GCS:
-```
-python3 etl_web_to_gcs.py
-```
+- Install libraries needed.
+  ```bash
+  pip install pyarrow google-cloud-storage
+  ```
+- Set some environment variables (also put it in .bashrc file on home directory).
+  ```bash
+  export GOOGLE_APPLICATION_CREDENTIALS='path_to_json_file_contains_your_service_account_configuration
+  export GCP_GCS_BUCKET='name_of_your_GCS_bucket'
+  ```
+- Download data needed. <br>
+  Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week4/web_to_gcs.py) with command below to load _Green and Yellow Trip data along 2019 and 2020 also FHV Trip data along 2019_ in .gz format to GCS:
+  ```bash
+  python3 etl_web_to_gcs.py
+  ```
 Important notes about the file above:
 1. Link for downloading data changed, since the old one is broken.
 2. File downloaded to local and uploaded to GCS as gz file. When file uploaded as parquet, errors about different data type between parquet column and bigquery field raised. When file uploaded as CSV, it took so long since size of files are so big.
 3. Timeout parameter set to 50000, so timeout error won't be raised when upload process took pretty long time.
 
 #### Create external and local table in BiqQuery with Trip data in GCS
-Execute query below on BigQuery to create an external table based on FHV Trips data along 2019 that have been stored on GCS and also its natural table that will be used as source data for data modelling with dbt:
-```
+Execute query below on BigQuery to create an external table based on green trips data along 2019 that have been stored on GCS and also its natural table that will be used as source data for data modelling with dbt:
+```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS `de-zoomcamp-375916.dezoomcamp.green_tripdata`
 OPTIONS (
   format = "CSV",
