@@ -2,7 +2,7 @@
 
 ## Question 1
 Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py) with command below to loads _Green Taxi Trip on Jan 2020_ data to GCS:
-```
+```bash
 python3 etl_web_to_gcs.py
 ```
 There are several edits done to the python file:
@@ -12,7 +12,7 @@ There are several edits done to the python file:
 4. Set color, year, and month as parameters of _etl_web_to_gcs_ function.
 
 To see logs from the flow above, execute command below to activate the Prefect UI:
-```
+```bash
 prefect orion start
 ```
 Click the latest flow run on Flow Runs menu. Then, click Logs tab to see recorded logs from that flow run.<br>
@@ -23,11 +23,11 @@ From image above, it can be clearly seen that there are _447770_ rows on data of
 ## Question 2
 ### First Way (through Prefect UI)
 Execute command below to build a prefect deployment named as _ETL-to-GCS_ based on _etl_web_to_gcs_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py):
-```
+```bash
 prefect deployment build ./etl_web_to_gcs.py:etl_web_to_gcs -n "ETL-to-GCS"
 ```
 Command above will generate a YAML file contains configurations for the deployment. Next, execute command below to apply that deployment to prefect:
-```
+```bash
 prefect deployment apply etl_web_to_gcs-deployment.yaml
 ```
 Edit the deployment configuration on Prefect UI. Move to "Scheduling" part and "Add schedule". Choose "Cron" on "Schedule type" and type in ```0 5 1 * *``` on "Value", then click Save.
@@ -36,7 +36,7 @@ From image above, it can be clearly seen that ```0 5 1 * *``` on cron part simpl
 
 ### Second Way (through terminal)
 Execute command below to build and apply a prefect deployment named _ETL-to-GCS_ based on _etl_web_to_gcs_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py) with cron schedule set to "0 5 1 * *":
-```
+```bash
 prefect deployment build ./etl_web_to_gcs.py:etl_web_to_gcs -n "ETL-to-GCS" --cron "0 5 1 * *" -a
 ```
 ```cron "0 5 1 * *"``` means that "0 5 1 \* \*" is passed as cron parameter to set the deployment scheduled run _At 05:00 AM (UTC on default) on day 1 of the month_.
@@ -47,18 +47,18 @@ _"0 5 1 \* \*_ in cron syntax means _At 05:00 AM UTC on day 1 of the month_. <br
 
 ### Additional things:
 After sure that the deployment is already deployed on prefect, don't forget to execute command below to activate an agent to run flow of that deployment (in this case, an agent named _default_):
-```
+```bash
 prefect agent start -q default
 ```
 
 ## Question 3
 Before focus on the ETL from GCS to GBQ, make sure that _Yellow Taxi Trip on February and March 2019_ data have already on the GCS. It can be easily done by running the deployment used in Q2 above two times (after activate a prefect agent) with these commands below:
-```
+```bash
 prefect deployment run etl-web-to-gcs/ETL-to-GCS -p "color=yellow" -p "year=2019" -p "month=2"
 prefect deployment run etl-web-to-gcs/ETL-to-GCS -p "color=yellow" -p "year=2019" -p "month=3"
 ```
 After all data that want to be migrated have already on GCS, execute command below to build and apply a prefect deployment named _ETL-to-GBQ_ based on _etl_gcs_to_bq_ flow from [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_gcs_to_bq.py):
-```
+```bash
 prefect deployment build ./etl_gcs_to_bq.py:etl_main_flow -n "ETL-to-GBQ" -a
 ```
 There are several edits done to the python file:
@@ -69,11 +69,11 @@ There are several edits done to the python file:
 5. Set "yellow", 2019, and [2, 3] as default value of color, year, and months variables on _etl_main_flow_ function, because we want to migrate _Yellow Taxi Trips on February and March 2019_ data.
 
 Execute command below to activate a prefect agent (in this case, an agent named _default_):
-```
+```bash
 prefect agent start -q default
 ```
 Last, execute command below on a different terminal to run that deployment:
-```
+```bash
 prefect deployment run etl-main-flow/ETL-to-GBQ
 ```
 See logs of latest flow run on Prefect UI. <br>
@@ -86,15 +86,15 @@ Create a GitHub storage block on Prefect UI.
 ![image](https://user-images.githubusercontent.com/99194827/216757198-e69e0546-4de8-432f-8401-91df1db08bc7.png)
 Next, upload the flow file to some github repository. In my case, I already upload the file [here](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py). <br>
 Then, execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/github_deploy.py) to build and apply a prefect deployment named _store-to-github_ based on _etl_web_to_gcs_ flow from python file that already uploaded on github before:
-```
+```bash
 python3 github_deploy.py
 ```
 Next, execute command below to activate a prefect agent (in this case, an agent named _default_):
-```
+```bash
 prefect agent start -q default
 ```
 Last, execute command below on a different terminal to run that deployment:
-```
+```bash
 prefect deployment run etl-web-to-gcs/store-to-github -p "month=11"
 ```
 See logs of latest flow run on Prefect UI. <br>
@@ -106,18 +106,18 @@ From image above, it can be clearly seen that there are _88605_ rows on data of 
 First, create a Prefect Cloud account [here](https://app.prefect.cloud).<br>
 Next, create a workspace to be connected with local machine.<br>
 Then, login to Prefect Cloud in the terminal by executing command below:
-```
+```bash
 prefect cloud login
 ```
 Authorize login in browser.<br>
 In terms to create notification of flow from this [script](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/etl_web_to_gcs.py), email and gcs blocks have to be created on Prefect Cloud. By default, those two blocks are not available on Prefect Cloud, so those two blocks have to be registered first by executing these command below:
-```
+```bash
 prefect block register -m prefect_gcp.cloud_store
 prefect block register -m prefect_email
 ```
 After that, create _Email Server Credentials_ block and fill in email and password used to username and password, respectively. Create _GCP Credentials_ and _GCS Bucket_ exactly same with same blocks on local machine that being used before.<br>
 Last, run [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week2/gmail_send.py) by executing command below:
-```
+```bash
 python3 gmail_send.py
 ```
 See inbox in email that being used as username on _Email Server Credentials_ block. <br>
