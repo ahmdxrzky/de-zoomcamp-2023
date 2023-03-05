@@ -77,7 +77,7 @@ From image above, it can be clearly seen that version of spark being used is _3.
     .parquet('fhvhv/2021/06', mode='overwrite')
   ```
 - Find average value of parquet files size.
-  ```
+  ```python3
   import os
   import pathlib
   data = os.listdir('fhvhv/2021/06')
@@ -98,20 +98,25 @@ Result:
 From image above, it can be clearly seen that average size of parquet files is _23.05 MB_ (choose 24 MB as it's the closest one).
 
 
+## Question 3
+- Register df as temp table.
+  ```
+  df.registerTempTable('fhvhv_tripdata')
+  ```
+- Do SQL query with PySpark.
+  Question: fhvhv trip records that started on June 15th. <br>
+  Logic: Count record from result of filtering pickup date that equal with '2021-06-15' <br>
+  Query:
+  ```python3
+  spark.sql(
+      """
+      SELECT COUNT(1) AS fhvhv_trips_that_started_on_june_15th
+      FROM fhvhv_tripdata
+      WHERE DATE(pickup_datetime) = '2021-06-15'
+      """
+  ).show()
+  ```
 
-
-
-
-
-
-
-Question:  <br>
-Logic:  <br>
-Query:
-```
-SELECT COUNT(1) AS total_fact_trips FROM `de-zoomcamp-375916.dbt_test.fact_trips`;
-```
 Result:
-![image](https://user-images.githubusercontent.com/99194827/221353824-5a0156a3-11e9-45de-8a0d-adb74e617138.png)
-
-From image above, it can be clearly seen that 
+![image](https://user-images.githubusercontent.com/99194827/222947828-c80b1b46-ba0d-4287-8c84-676c516be563.png)
+From image above, it can be clearly seen that there are _452470_ records of fhvhv trips that started on June 15th.
