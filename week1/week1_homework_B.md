@@ -4,7 +4,7 @@
 ### Init
 After downloading and setup GCP, gcloud-sdk, and terraform... <br>
 Execute command below on folder that contains [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/main.tf) and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week1/variables.tf) (I make edit on this file which is change the region to asia-southeast2) files to initialize and install all infrastructure needed:
-```
+```bash
 terraform init
 ```
 Output:
@@ -39,7 +39,7 @@ Image:
 
 ### Plan
 Then, execute command below for letting terraform see what changes might appear and ask for confirmation:
-```
+```bash
 terraform plan
 ```
 Output:
@@ -146,7 +146,7 @@ Image:
 
 ### Apply
 Last, apply changes to VM on GCP by execute command below:
-```
+```bash
 terraform apply
 ```
 Output:
