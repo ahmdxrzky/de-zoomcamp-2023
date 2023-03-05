@@ -1,12 +1,12 @@
 # Answer for Homework Week 3
+Disclaimer: all queries used as answer are already in [this file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week3/big_query.sql).
 
 ## Setup
-(Disclaimer: all queries used as answer are already in [this file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week3/big_query.sql).<br>
 Before answer the questions, there are some important steps that should be done:
 
 #### Load data in .gz format to Google Cloud Storage
 Execute [this python file](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week3/etl_gz_to_gcs.py) with command below to load _FHV Trip data along 2019_ in .gz format to GCS:
-```
+```bash
 python3 etl_web_to_gcs.py
 ```
 Important notes about the file above:
@@ -20,7 +20,7 @@ To retrieve data for each month, file need to be downloaded to local with _write
 
 #### Create external table in BiqQuery with FHV Trip data along 2019 in GCS
 Execute query below to create an external table based on FHV Trips data along 2019 that have been stored on GCS:
-```
+```sql
 CREATE EXTERNAL TABLE IF NOT EXISTS `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`
   OPTIONS (
     format ="CSV",
@@ -31,7 +31,7 @@ Query above indicates that a table named as _fhv_2019_external_ with data source
 
 #### Create table in BigQuery with FHV Trip data along 2019 (no partition and cluster needed == natural table)
 Execute query below to create a table from external table created before:
-```
+```sql
 CREATE OR REPLACE TABLE `de-zoomcamp-375916.dezoomcamp.fhv_2019_natural` AS
 SELECT * FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`
 ```
@@ -41,20 +41,20 @@ Question: FHV vehicle records for year 2019.<br>
 Logic: Count total records on the table.<br>
 Query:<br>
 - on External table
-```
-SELECT COUNT(1) AS fhv_vehicle_records_on_2019
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
-```
+  ```sql
+  SELECT COUNT(1) AS fhv_vehicle_records_on_2019
+  FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
+  ```
 - on Natural table
-```
-SELECT COUNT(1) AS fhv_vehicle_records_on_2019
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_natural`;
-```
+  ```sql
+  SELECT COUNT(1) AS fhv_vehicle_records_on_2019
+  FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_natural`;
+  ```
 Result:<br>
 - on External table
-![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
+  ![image](https://user-images.githubusercontent.com/99194827/217843339-edc11b29-4ad8-4e9d-9d04-91a4250e9978.png)
 - on Natural table
-![image](https://user-images.githubusercontent.com/99194827/217843589-861df26e-7f14-4f9b-8dd4-7c6f5c6107ba.png)
+  ![image](https://user-images.githubusercontent.com/99194827/217843589-861df26e-7f14-4f9b-8dd4-7c6f5c6107ba.png)
 
 From images above, it can be clearly seen that there are _43244696_ rows on data of FHV Trip along 2019.
 
@@ -66,20 +66,20 @@ Logic:<br>
 
 Query:<br>
 - on External table
-```
-SELECT COUNT(DISTINCT affiliated_base_number) AS distinct_number_of_affiliated_base_number
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
-```
+  ```sql
+  SELECT COUNT(DISTINCT affiliated_base_number) AS distinct_number_of_affiliated_base_number
+  FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`;
+  ```
 - on Natural table
-```
-SELECT COUNT(DISTINCT affiliated_base_number) AS distinct_number_of_affiliated_base_number
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_natural`;
-```
+  ```sql
+  SELECT COUNT(DISTINCT affiliated_base_number) AS distinct_number_of_affiliated_base_number
+  FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_natural`;
+  ```
 Result:<br>
 - on External table
-![image](https://user-images.githubusercontent.com/99194827/217848526-71421b6d-44ae-4a97-b696-d4af428f7948.png)
+  ![image](https://user-images.githubusercontent.com/99194827/217848526-71421b6d-44ae-4a97-b696-d4af428f7948.png)
 - on Natural table
-![image](https://user-images.githubusercontent.com/99194827/217848702-66bee11f-ba9e-43b3-8064-047601a4e825.png)
+  ![image](https://user-images.githubusercontent.com/99194827/217848702-66bee11f-ba9e-43b3-8064-047601a4e825.png)
 
 From images above, it can be clearly seen that there are _0 B_ and _317.94 MB_ data will be processed on external and natural table, respectively.
 
@@ -91,22 +91,22 @@ Logic:<br>
 
 Query:<br>
 - on External table
-```
-SELECT COUNT(1) AS null_on_PUloc_and_DOloc
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`
-WHERE PUlocationID is null and DOlocationID is null;
-```
+  ```sql
+  SELECT COUNT(1) AS null_on_PUloc_and_DOloc
+  FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`
+  WHERE PUlocationID is null and DOlocationID is null;
+  ```
 - on Natural table
-```
-SELECT COUNT(1) AS null_on_PUloc_and_DOloc
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`
-WHERE PUlocationID is null and DOlocationID is null;
-```
+  ```sql
+  SELECT COUNT(1) AS null_on_PUloc_and_DOloc
+  FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_external`
+  WHERE PUlocationID is null and DOlocationID is null;
+  ```
 Result:<br>
 - on External table
-![image](https://user-images.githubusercontent.com/99194827/217850046-36ebb41b-ce11-46b5-8778-63574bc79a84.png)
+  ![image](https://user-images.githubusercontent.com/99194827/217850046-36ebb41b-ce11-46b5-8778-63574bc79a84.png)
 - on Natural table
-![image](https://user-images.githubusercontent.com/99194827/217850385-7cf1008c-4594-497f-8ecb-6c9a91007a22.png)
+  ![image](https://user-images.githubusercontent.com/99194827/217850385-7cf1008c-4594-497f-8ecb-6c9a91007a22.png)
 
 From images above, it can be clearly seen that there are _717748_ rows that have null value on its PUlocationID and DOlocationID.
 
@@ -125,22 +125,22 @@ Logic:<br>
 
 Query:<br>
 - on Natural table
-```
-SELECT COUNT(DISTINCT affiliated_base_number) AS distinct_number_of_affiliated_base_number_along_march_2019
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_natural`
-WHERE DATE(pickup_datetime) BETWEEN '2019-03-01' AND '2019-03-31';
-```
+  ```sql
+  SELECT COUNT(DISTINCT affiliated_base_number) AS distinct_number_of_affiliated_base_number_along_march_2019
+  FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_natural`
+  WHERE DATE(pickup_datetime) BETWEEN '2019-03-01' AND '2019-03-31';
+  ```
 - on Partitioned and Clustered table
-```
-SELECT COUNT(DISTINCT affiliated_base_number) AS distinct_number_of_affiliated_base_number_along_march_2019
-FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_partitioned_clustered`
-WHERE DATE(pickup_datetime) BETWEEN '2019-03-01' AND '2019-03-31';
-```
+  ```sql
+  SELECT COUNT(DISTINCT affiliated_base_number) AS distinct_number_of_affiliated_base_number_along_march_2019
+  FROM `de-zoomcamp-375916.dezoomcamp.fhv_2019_partitioned_clustered`
+  WHERE DATE(pickup_datetime) BETWEEN '2019-03-01' AND '2019-03-31';
+  ```
 Result:<br>
 - on Natural table
-![image](https://user-images.githubusercontent.com/99194827/217857599-e6d50e1e-5c35-47a6-9095-45be4d9612b6.png)
+  ![image](https://user-images.githubusercontent.com/99194827/217857599-e6d50e1e-5c35-47a6-9095-45be4d9612b6.png)
 - on Partitioned and Clustered table
-![image](https://user-images.githubusercontent.com/99194827/217857833-28a6e520-8564-49b6-8a65-f69a48d35111.png)
+  ![image](https://user-images.githubusercontent.com/99194827/217857833-28a6e520-8564-49b6-8a65-f69a48d35111.png)
 
 From images above, it can be clearly seen that there are _647.87 MB_ and _23.05 MB_ data will be processed on natural and partitioned_and_clustered table, respectively.
 
