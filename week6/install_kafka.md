@@ -24,7 +24,7 @@ Unpack it:
 tar xzfv openjdk-11.0.2_linux-x64_bin.tar.gz
 ```
 
-define `JAVA_HOME` and add it to `PATH`:
+define `JAVA_HOME` and add it to `PATH` (it'll be good if this is passed to .bashrc file too):
 
 ```bash
 export JAVA_HOME="${HOME}/zoomcamp/week6/jdk-11.0.2"
@@ -65,7 +65,7 @@ Unpack:
 tar xzfv kafka_2.12-3.3.2.tgz
 ```
 
-define `KAFKA_HOME` and add it to `PATH`:
+define `KAFKA_HOME` and add it to `PATH` (it'll be good if this is passed to .bashrc file too):
 
 ```bash
 export KAFKA_HOME="${HOME}/zoomcamp/week6/kafka_2.12-3.3.2"
