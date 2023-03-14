@@ -66,7 +66,12 @@ ORDER BY count DESC
 LIMIT 1;
 ```
 Result:<br>
-10:14 AM
-![image](https://user-images.githubusercontent.com/99194827/224883830-272ea557-3450-4586-bf3b-a6240141945e.png)
-10:15 AM
-![image](https://user-images.githubusercontent.com/99194827/224883963-bbd07942-8be0-4619-a007-3ee39c631d53.png)
+<table>
+  <tr>
+    <td valign="top"><img src="https://user-images.githubusercontent.com/99194827/224883830-272ea557-3450-4586-bf3b-a6240141945e.png"/></td>
+    <td valign="top"><img src="https://user-images.githubusercontent.com/99194827/224883963-bbd07942-8be0-4619-a007-3ee39c631d53.png"/></td>
+  </tr>
+</table>
+
+Final Result:
+![image](https://user-images.githubusercontent.com/99194827/224885139-d46113a2-b03b-4895-be9a-77dc9477bbbe.png)
