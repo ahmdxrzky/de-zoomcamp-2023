@@ -1,8 +1,5 @@
 import os
-import sys
-import time
 import pandas as pd
-from datetime import datetime
 from pathlib import Path
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
@@ -43,24 +40,12 @@ def etl_source_per_month(year: int, month: int) -> None:
     return
 
 @flow(log_prints=True)
-def etl_source_to_gcs(initial: bool = False) -> None:
+def etl_source_to_gcs() -> None:
     """"The main ETL function"""
-    if initial == True:
-        for year in range(2011, 2023):
-            for month in range(1, 13):
-                etl_source_per_month(year, month)
-        for month in range(1, 2):
-            etl_source_per_month(2023, month)
-    else:
-        date_time = datetime.fromtimestamp(time.time())
-        year = date_time.year
-        month = date_time.month - 1
-        etl_source_per_month(year, month)
+    for year in range(2011, 2024):
+        for month in range(1, 13):
+            etl_source_per_month(year, month)
     return
 
 if __name__ == "__main__":
-    try:
-        arg1 = sys.argv[1]
-        etl_source_to_gcs(arg1)
-    except:
-        etl_source_to_gcs()
+    etl_source_to_gcs()

@@ -1,5 +1,5 @@
 # Introduction
-Patterns of weather are becoming more difficult to be identified by year. There are many factors that causing this, especially global warming. In the past, Indonesian people could be certain that the dry season would occur from this month to that month and the rainy season would occur from this month to that month. Now, this is no longer the case. Therefore, this project aims to investigate the seasonal patterns in Denpasar City from 2011 to the present.
+Patterns of weather are becoming more difficult to be identified year by year. There are many factors that causing this, especially global warming. In the past, Indonesian people could be certain that the dry season would occur from this month to that month and the rainy on the other hand. Now, this is no longer the case. Therefore, this project aims to investigate the seasonal patterns in Denpasar City from 2011 to the present.
 Data source: Kaggle, Denpasar Weather Data
 
 # Solution
@@ -50,6 +50,28 @@ After this process, a GCS bucket and a GBQ dataset have been built.
   Click link provided from command above. Fill name for the block on `Block Name`, name of the bucket built from terraform previously on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`.
 
 ## Ingest Initial Dataset
-In this 
+In this project, we simulate to do batch processing from data lake to data warehouse. Therefore, we should first define making sure that there are all data needed in data lake. To do this, we do ETL process using Prefect from source on internet into Google Cloud Storage by executing command below:
+```bash
+python3 ingest_dataset.py
+```
+By executing command above, we make sure weather data of Denpasar City from Jan 2011 to Dec 2023 are already on GCS. Why data from 2023 are already available to December? Surely, this data is imitative. I make it like that to stimulate real batch processing done monthly.<br>
+Now, we'll ingest data from Jan 2011 to Jan 2023 only to Google BigQuery, because the rest of it will be ingested batch per month. It can be done by executing command below:
+```bash
+python3 extract_dataset.py True
+```
+Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 and data of Mar 2023 will be ingested in Apr 1st, 2023, etc.
 
-## Create Prefect Deployment
+## Create, Apply, and Run Prefect Deployment for Monthly Batch Processing
+To ingesting dataset batch per month, we create and apply Prefect Deployment and set the cron to run monthly, by executing command below:
+```bash
+prefect deployment build ./extract_dataset.py:etl_monthly -n "ETL GCS to BGQ Monthly" --cron "0 0 1 * *" -a
+```
+Don't forget to start a Prefect Agent for the deployment by executing command below:
+```bash
+prefect agent start -q 'default-agent-pool
+```
+This deployment will run batch processing of previous month at 1st date of current month.
+
+## Data Transformation on Data Warehouse with dbt Cloud
+Connect a github repository and bigquery connection to dbt Cloud. Remember to create a development branch on the repository.<br>
+Go to `Develop` tab and click `Initialize`, then commit and push that to development branch on remote repository.<br>
