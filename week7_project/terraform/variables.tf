@@ -1,10 +1,9 @@
 locals {
-  data_lake_bucket = "zoomcamp_project"
+  data_lake_bucket = "zoomcamp_final_project"
 }
 
 variable "project" {
   description = "Your GCP Project ID"
-  default = "de-zoomcamp-375916"
 }
 
 variable "region" {
@@ -15,7 +14,6 @@ variable "region" {
 
 variable "credentials" {
   description = "Path to credential file"
-  default = "/home/rizky/zoomcamp/de-zoomcamp-375916-7d3bc8537cc2.json"
 }
 
 variable "storage_class" {
@@ -26,5 +24,5 @@ variable "storage_class" {
 variable "BQ_DATASET" {
   description = "BigQuery Dataset that raw data (from GCS) will be written to"
   type = string
-  default = "test"
+  default = "final_project"
 }
