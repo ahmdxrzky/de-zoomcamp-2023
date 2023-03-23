@@ -49,7 +49,7 @@ def etl_source_to_gcs(initial: bool = False) -> None:
         for year in range(2011, 2023):
             for month in range(1, 13):
                 etl_source_per_month(year, month)
-        for month in range(1, 3):
+        for month in range(1, 2):
             etl_source_per_month(2023, month)
     else:
         date_time = datetime.fromtimestamp(time.time())
