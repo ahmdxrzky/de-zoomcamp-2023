@@ -36,7 +36,7 @@ def write_parquet_gcs(local_path: Path, gcs_path: Path) -> None:
 @flow(log_prints=True)
 def etl_source_per_month(year: int, month: int) -> None:
     """ETL function per month"""
-    url = f"https://raw.githubusercontent.com/ahmdxrzky/de-zoomcamp-2023/main/week7_project/assets/datasets/{year}/{year}_{month:02}.csv"
+    url = f"https://raw.githubusercontent.com/ahmdxrzky/de-zoomcamp-2023/main/week7_project/assets/dataset/{year}/{year}_{month:02}.csv"
     df = fetch_from_source(url)
     local_path, gcs_path = write_parquet_local(df, year, month)
     write_parquet_gcs(local_path, gcs_path)
