@@ -1,4 +1,4 @@
-,dt,temp,temp_min,temp_max,pressure,sea_level,grnd_level,humidity,wind_speed,wind_deg,rain_1h,rain_3h,rain_6h,rain_12h,rain_24h,rain_today,clouds_all,weather_id,datetime,year,month
+index,dt,temp,temp_min,temp_max,pressure,sea_level,grnd_level,humidity,wind_speed,wind_deg,rain_1h,rain_3h,rain_6h,rain_12h,rain_24h,rain_today,clouds_all,weather_id,datetime,year,month
 183613,1414774800,26.0,26.0,26.0,1007.1,,,88,1.07,314,,,,,,,75,803,2014-11-01 00:00:00,2014,11
 183614,1414778400,26.0,26.0,26.0,1006.9,,,89,1.5,320,,,,,,,40,802,2014-11-01 01:00:00,2014,11
 183615,1414782000,26.0,26.0,26.0,1007.1,,,88,1.5,320,,,,,,,75,803,2014-11-01 02:00:00,2014,11

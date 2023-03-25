@@ -1,4 +1,4 @@
-,dt,temp,temp_min,temp_max,pressure,sea_level,grnd_level,humidity,wind_speed,wind_deg,rain_1h,rain_3h,rain_6h,rain_12h,rain_24h,rain_today,clouds_all,weather_id,datetime,year,month
+index,dt,temp,temp_min,temp_max,pressure,sea_level,grnd_level,humidity,wind_speed,wind_deg,rain_1h,rain_3h,rain_6h,rain_12h,rain_24h,rain_today,clouds_all,weather_id,datetime,year,month
 259603,1685552400,27.0,27.0,27.0,1011.0,,,69,6.2,110,,,,,,,40,802,2023-06-01 00:00:00,2023,6
 259604,1685556000,27.0,27.0,27.0,1010.0,,,74,7.2,110,,,,,,,20,801,2023-06-01 01:00:00,2023,6
 259605,1685559600,27.0,27.0,27.0,1009.0,,,74,6.7,110,,,,,,,20,801,2023-06-01 02:00:00,2023,6

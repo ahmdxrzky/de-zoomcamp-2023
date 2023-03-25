@@ -1,4 +1,4 @@
-,dt,temp,temp_min,temp_max,pressure,sea_level,grnd_level,humidity,wind_speed,wind_deg,rain_1h,rain_3h,rain_6h,rain_12h,rain_24h,rain_today,clouds_all,weather_id,datetime,year,month
+index,dt,temp,temp_min,temp_max,pressure,sea_level,grnd_level,humidity,wind_speed,wind_deg,rain_1h,rain_3h,rain_6h,rain_12h,rain_24h,rain_today,clouds_all,weather_id,datetime,year,month
 210993,1512061200,24.0,24.0,24.0,1008.0,,,88,0.5,0,,,,,,,20,801,2017-12-01 00:00:00,2017,12
 210994,1512064800,24.0,24.0,24.0,1008.0,,,83,0.5,0,,,,,,,20,801,2017-12-01 01:00:00,2017,12
 210995,1512068400,24.0,24.0,24.0,1007.0,,,83,1.0,200,,,,,,,40,802,2017-12-01 02:00:00,2017,12

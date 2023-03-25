@@ -1,4 +1,4 @@
-,dt,temp,temp_min,temp_max,pressure,sea_level,grnd_level,humidity,wind_speed,wind_deg,rain_1h,rain_3h,rain_6h,rain_12h,rain_24h,rain_today,clouds_all,weather_id,datetime,year,month
+index,dt,temp,temp_min,temp_max,pressure,sea_level,grnd_level,humidity,wind_speed,wind_deg,rain_1h,rain_3h,rain_6h,rain_12h,rain_24h,rain_today,clouds_all,weather_id,datetime,year,month
 240452,1617210000,26.7,26.2,27.0,1012.0,,,83,2.1,330,,,,,,,40,802,2021-04-01 00:00:00,2021,4
 240453,1617213600,26.07,26.0,26.2,1011.0,,,83,2.1,340,,,,,,,40,802,2021-04-01 01:00:00,2021,4
 240454,1617217200,26.08,26.0,26.2,1010.0,,,83,1.5,340,,,,,,,20,801,2021-04-01 02:00:00,2021,4
