@@ -1,10 +1,10 @@
 locals {
-  data_lake_bucket = "zoomcamp_final_project"
+  data_lake_bucket = "dezoomcamp_final_project"
 }
 
 variable "project" {
   description = "Your GCP Project ID"
-  default = "de-zoomcamp-375916"
+  default = "<gcp-project-id>"
 }
 
 variable "region" {
@@ -15,7 +15,7 @@ variable "region" {
 
 variable "credentials" {
   description = "Path to credential file"
-  default = "../config/de-zoomcamp-375916-7d3bc8537cc2.json"
+  default = "<path-to-service-account-keyfile>"
 }
 
 variable "storage_class" {

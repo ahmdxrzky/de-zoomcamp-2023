@@ -1,6 +1,5 @@
 env/
 *.png
-*terraform*
 *.parquet
 *prefect*
 *__pycache__*

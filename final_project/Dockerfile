@@ -1,3 +1,4 @@
+# Use Python:3.8 as base image
 FROM python:3.8
 
 # Install Terraform
@@ -7,22 +8,26 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
     && mv terraform /usr/local/bin \
     && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-# Copy files from local to container
-COPY ./terraform/main.tf /app/terraform/main.tf
-COPY ./terraform/variables.tf /app/terraform/variables.tf
-COPY ./assets /app/assets
-COPY ./config/de-zoomcamp-375916-7d3bc8537cc2.json /app/config/de-zoomcamp-375916-7d3bc8537cc2.json
+# Copy static files (files that doesn't need any adjustment) from local to container
 COPY ./requirements.txt /app/requirements.txt
 COPY ./final/ingest_dataset.py /app/final/ingest_dataset.py
 COPY ./final/extract_dataset.py /app/final/extract_dataset.py
+COPY ./terraform/main.tf /app/terraform/main.tf
+
+# Copy dynamic files from local to container
+# Make sure "default" value for "project" and "credentials" variables has been changed
+COPY ./terraform/variables.tf /app/terraform/variables.tf
+# Change <path-to-service-account-keyfile> with folder structure for service account keyfile
+# and change service-account-keyfile-name> with name of service account keyfile
+COPY ./<path-to-service-account-keyfile>/<service-account-keyfile-name>.json /app/config/<service-account-keyfile-name>.json
 
 # Set working directory
 WORKDIR /app
 
-# Install dependency packages
+# Install all of dependency packages
 RUN pip install -r /app/requirements.txt
 
-# # Build infrastructure with terraform
+# Build infrastructure with terraform
 RUN cd /app/terraform \
     && terraform init \
     && terraform plan \

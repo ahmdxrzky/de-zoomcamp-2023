@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 from pathlib import Path
 
-df = pd.read_csv("week7_project/assets/openweatherdata-denpasar-1990-2020.csv")
+df = pd.read_csv("final_project/assets/openweatherdata-denpasar-1990-2020.csv")
 df['dt'] = df['dt'] + 126230400
 df['datetime'] = df['dt'].apply(lambda x: datetime.fromtimestamp(x))
 df['year'] = df['datetime'].dt.year

@@ -37,7 +37,7 @@ docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
   ```bash
   prefect block create gcs-bucket
   ```
-  Click link provided from command above. Fill `gcs-bucket-final-project` for the block on `Block Name`, `zoomcamp_final_project` on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`.
+  Click link provided from command above. Fill `gcs-bucket-final-project` for the block on `Block Name`, `dezoomcamp_final_project` on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`.
 
 ## Ingest Initial Dataset
 In this project, we simulate to do batch processing from data lake to data warehouse. Therefore, we should first define making sure that there are all data needed in data lake. To do this, we do ETL process using Prefect from source on internet into Google Cloud Storage by executing command below:
@@ -71,3 +71,4 @@ dbt seed
 dbt run
 
 ## Looker studio
+Add data source
