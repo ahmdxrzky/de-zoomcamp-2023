@@ -4,6 +4,7 @@ locals {
 
 variable "project" {
   description = "Your GCP Project ID"
+  default = "de-zoomcamp-375916"
 }
 
 variable "region" {
@@ -14,6 +15,7 @@ variable "region" {
 
 variable "credentials" {
   description = "Path to credential file"
+  default = "../config/de-zoomcamp-375916-7d3bc8537cc2.json"
 }
 
 variable "storage_class" {

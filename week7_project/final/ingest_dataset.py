@@ -7,17 +7,18 @@ from prefect_gcp.cloud_storage import GcsBucket
 @task()
 def fetch_from_source(url: str) -> pd.DataFrame:
     """Download dataset from source"""
-    df = pd.read_csv(url)
+    df = pd.read_csv(url, index_col=0)
+    df.reset_index(inplace=True)
     return df
 
 @task()
 def write_parquet_local(df: pd.DataFrame, year: int, month: int) -> Path:
     """Write DataFrame out locally as parquet file"""
     gcs_path = Path(os.path.join("data", str(year), f"{year}_{month:02}.parquet"))
-    local_path = Path(os.path.join(Path(__file__).absolute().parent, gcs_path))
+    local_path = Path(os.path.join(Path(__file__).absolute().parent, "upload", gcs_path))
     if not os.path.exists(local_path.parent):
         os.system(f"mkdir -p {local_path.parent}")
-    df.to_parquet(local_path)
+    df.to_parquet(local_path, index=False)
     return local_path, gcs_path
 
 @task()

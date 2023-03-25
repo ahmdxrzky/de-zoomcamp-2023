@@ -17,3 +17,6 @@ for year in range(1995, 2024):
         if not os.path.exists(path.parent):
             os.system(f"mkdir -p {path.parent}")
         df_new.to_csv(path)
+        df_new = pd.read_csv(path, index_col=0)
+        df_new.reset_index(inplace=True)
+        df_new.to_csv(path, index=False)

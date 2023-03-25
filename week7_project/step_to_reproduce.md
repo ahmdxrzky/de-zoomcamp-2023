@@ -10,68 +10,64 @@ Data source: Kaggle, Denpasar Weather Data
 
 # Steps to Reproduce this Project
 
-## Deploy Docker Image
-In this project, we need some softwares and folders, stated as follows:
-1. `requirements.txt`: (file) list of dependable python packages
-2. `Terraform`: (software) platform of Infrastructure as a Code
-3. `terraform`: (folders) files for terraform configuration
-Those softwares can be easily downloaded by composing [this Dockerfile]() up.<br>
-
 ## Create Service Account
 Create a Service Account for Google Cloud Platform. Create a key for that Service Account. Download that key file (in json format).
 
-## Build the Infrastructures
-In this project, we need Google Cloud Storage (GCS) as Data Lake and Google BigQuery (GBQ) as Data Warehouse. Those infrastructures can be built in a time using Terraform.<br>
-Access `terraform` folder with terminal and execute these command:
-```bash
-terraform init
-terraform plan
-terraform apply
-```
-When executing `terraform plan` and `terraform apply`, terminal will ask value for `project` and `credentials` variable.<br>
-Open service account key file and see value for "project_id" key. Use this value for `project` variable.<br>
-Copy path of the service account key file. Use this value for `credentials` variable.<br>
-After this process, a GCS bucket and a GBQ dataset have been built.
+Put Key file to config folder
+Edit variables.tf on terraform folder. default project and credentials adjusting with self
+
+## Deploy Docker Image
+docker build -t rizky_dezoomcamp_final_project ./
+docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
 
 ## Do Configuration on Prefect
 - Activate Prefect
   ```bash
-  prefect orion start
+  prefect server start --host 0.0.0.0
   ```
 - Create Prefect Block for GCP Credentials
+  docker ps -a
+  docker exec -it <container-id> /bin/bash
   ```bash
+  prefect config set PREFECT_API_URL=http://0.0.0.0:4200/api
   prefect block create gcp-credentials
   ```
-  Click link provided from command above. Fill name for the block on `Block Name` and paste path of service account key file on `Service Account File`. Then, click `Create`.
+  Click link provided from command above. Fill `gcp-credentials-final-project` for the block on `Block Name` and `/app/config/<key-file-name>.json` on `Service Account File`. Then, click `Create`.
 - Create Prefect Block for GCS Bucket
   ```bash
   prefect block create gcs-bucket
   ```
-  Click link provided from command above. Fill name for the block on `Block Name`, name of the bucket built from terraform previously on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`.
+  Click link provided from command above. Fill `gcs-bucket-final-project` for the block on `Block Name`, `zoomcamp_final_project` on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`.
 
 ## Ingest Initial Dataset
 In this project, we simulate to do batch processing from data lake to data warehouse. Therefore, we should first define making sure that there are all data needed in data lake. To do this, we do ETL process using Prefect from source on internet into Google Cloud Storage by executing command below:
 ```bash
-python3 ingest_dataset.py
+python3 final/ingest_dataset.py
 ```
 By executing command above, we make sure weather data of Denpasar City from Jan 2011 to Dec 2023 are already on GCS. Why data from 2023 are already available to December? Surely, this data is imitative. I make it like that to stimulate real batch processing done monthly.<br>
 Now, we'll ingest data from Jan 2011 to Jan 2023 only to Google BigQuery, because the rest of it will be ingested batch per month. It can be done by executing command below:
 ```bash
-python3 extract_dataset.py True
+python3 final/extract_dataset.py True
 ```
 Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 and data of Mar 2023 will be ingested in Apr 1st, 2023, etc.
 
 ## Create, Apply, and Run Prefect Deployment for Monthly Batch Processing
 To ingesting dataset batch per month, we create and apply Prefect Deployment and set the cron to run monthly, by executing command below:
 ```bash
-prefect deployment build ./extract_dataset.py:etl_monthly -n "ETL GCS to BGQ Monthly" --cron "0 0 1 * *" -a
+prefect deployment build /app/final/extract_dataset.py:etl_monthly -n "ETL GCS to BGQ Monthly" --cron "0 0 1 * *" -a
 ```
 Don't forget to start a Prefect Agent for the deployment by executing command below:
 ```bash
-prefect agent start -q 'default-agent-pool
+prefect agent start -q 'default'
 ```
 This deployment will run batch processing of previous month at 1st date of current month.
 
 ## Data Transformation on Data Warehouse with dbt Cloud
-Connect a github repository and bigquery connection to dbt Cloud. Remember to create a development branch on the repository.<br>
-Go to `Develop` tab and click `Initialize`, then commit and push that to development branch on remote repository.<br>
+Register or Sign in
+Account settings > Add project > Connect github repo (connect with Github account and select repository) and bigquery connection (upload service account key file)
+Profile settings > Credentials > Select project > Development credentials > Dataset final_project
+Go to `Develop` tab, then commit and push that to development branch on remote repository.
+dbt seed
+dbt run
+
+## Looker studio

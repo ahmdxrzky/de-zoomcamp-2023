@@ -13,7 +13,7 @@ from prefect_gcp.cloud_storage import GcsBucket
 def extract_from_gcs(year: int, month: int) -> Path:
     """Download trip data from GCS"""
     gcs_path = Path(os.path.join("data", str(year), f"{year}_{month:02}.parquet"))
-    local_path = Path(os.path.join(Path(__file__).absolute().parent, "data", "download", gcs_path))
+    local_path = Path(os.path.join(Path(__file__).absolute().parent, "download", gcs_path))
     gcs_block = GcsBucket.load("gcs-bucket-final-project")
     if not os.path.exists(local_path.parent):
         os.system(f"mkdir -p {local_path.parent}")
