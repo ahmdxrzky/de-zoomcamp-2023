@@ -15,7 +15,7 @@ variable "region" {
 
 variable "credentials" {
   description = "Path to credential file"
-  default = "<path-to-service-account-keyfile>"
+  default = "../config/example.json"
 }
 
 variable "storage_class" {
