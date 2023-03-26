@@ -30,9 +30,9 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
 
 # Steps to Reproduce this Project
 ### Create Service Account
-- Access Google Cloud Console. Then, move to "Service Account" tab.
+- Access Google Cloud Console. Then, move to "Service Accounts" tab.
   ![WhatsApp Image 2023-03-26 at 16 53 08](https://user-images.githubusercontent.com/99194827/227768394-016caefa-2b2f-42cb-b046-6c4c4f92660b.jpeg)
-- Click "Create a Service Account". Adjust some configuration, such as name and description, then click "Create". Grant access this service account to project all needed roles. Then, click "Done".
+- Click "Create Service Account". Adjust some configuration, such as name and description, then click "Create". Grant all access needed by this service account to the project. Then, click "Done".
   ![WhatsApp Image 2023-03-26 at 16 53 08 (1)](https://user-images.githubusercontent.com/99194827/227768428-4fefee09-67ab-4b74-8774-7bd53a2216b4.jpeg) <br>
   ![WhatsApp Image 2023-03-26 at 16 53 08 (2)](https://user-images.githubusercontent.com/99194827/227768468-fb50c2e6-fdd6-4cc3-9ea7-ac510fb64ecc.jpeg) <br>
   ![WhatsApp Image 2023-03-26 at 16 53 08 (3)](https://user-images.githubusercontent.com/99194827/227768473-335ff2c5-8103-4e78-91cc-bba259f692a4.jpeg) <br>
@@ -43,13 +43,39 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
   ![WhatsApp Image 2023-03-26 at 16 53 09](https://user-images.githubusercontent.com/99194827/227768506-46f870b6-2b23-482b-b1a4-d8358206bb4b.jpeg)
 
 ### Create a Virtual Machine Instance on Google Compute Engine
-- Login to Google Cloud Console and move to "Compute Engine" tab. <br>
-  ![Screenshot 2023-03-26 101813](https://user-images.githubusercontent.com/99194827/227753342-fff3ae4e-eb86-4ca7-a573-5fa36c92b013.png)
-- Click "Create Instance". Adjust some configuration, such as name, region, and zone, then click "Create". <br>
-  ![Screenshot 2023-03-26 101942](https://user-images.githubusercontent.com/99194827/227753416-1d511350-3e8d-4264-9aec-ba24a3d4c9c9.png)
-- A VM Instance has been built, shown below: <br>
-  ![Screenshot 2023-03-26 101051](https://user-images.githubusercontent.com/99194827/227753185-42176bad-8f7e-461d-a2bf-d045925d1622.png)
-- Access our virtual machine by clicking "SSH" next to "External IP" column.
+- Access Google Cloud Console. Then, move to "VM Instances" tab.
+  ![WhatsApp Image 2023-03-26 at 17 37 15](https://user-images.githubusercontent.com/99194827/227770469-dd40c2b8-4626-45ef-b34f-e7f704c52004.jpeg)
+- Click "Create Instance". Adjust some configuration, such as name, region, and zone. In Firewall part, allow HTTP and HTTPS traffic. In Network part, define a network tags and enable IP forwarding. Then, click "Create".
+  ![WhatsApp Image 2023-03-26 at 17 37 16](https://user-images.githubusercontent.com/99194827/227770476-4e7faf79-4c28-4b89-af89-e0b9029b2788.jpeg)
+  ![WhatsApp Image 2023-03-26 at 17 37 20](https://user-images.githubusercontent.com/99194827/227770493-52efb4da-f336-4c0d-a367-01471b8bdb0b.jpeg)
+  ![WhatsApp Image 2023-03-26 at 17 37 23](https://user-images.githubusercontent.com/99194827/227770499-370718e7-c557-4918-95ea-d14f74b7f91a.jpeg)
+  ![WhatsApp Image 2023-03-26 at 17 37 27](https://user-images.githubusercontent.com/99194827/227770505-2f1f8f75-931e-4add-b7e4-521dd3e3fbc1.jpeg)
+  Copy value from "External IP" column and use this to access VM from local terminal.
+- Move to "Firewall" tab. Then, click "Create Firewall Rule"
+  ![WhatsApp Image 2023-03-26 at 17 37 30](https://user-images.githubusercontent.com/99194827/227770509-0be648a5-dfb5-4e71-a653-4d78029d0c4f.jpeg)
+  ![WhatsApp Image 2023-03-26 at 17 37 33](https://user-images.githubusercontent.com/99194827/227770527-2dc401bb-9958-40e5-a25d-e9f28ef76891.jpeg)
+- Adjust name and description of firewall rule. Add "project" on target tags, "0.0.0.0/0" on Source IPv4 ranges, and 4200 on TCP ports. Then, click "Create".
+  ![WhatsApp Image 2023-03-26 at 17 37 37](https://user-images.githubusercontent.com/99194827/227770534-5b7998d5-7d76-404a-ab27-6aeeb3ffd01b.jpeg)
+  ![WhatsApp Image 2023-03-26 at 17 37 40](https://user-images.githubusercontent.com/99194827/227770541-cdf124a0-4728-4a57-a22d-239d851ae5e8.jpeg)
+- Generate SSH Keygen
+  ```bash
+  ssh-keygen
+  ```
+  ![WhatsApp Image 2023-03-26 at 17 37 43](https://user-images.githubusercontent.com/99194827/227770547-b7050121-6b66-4cde-b28a-90ec859ea29b.jpeg)
+- Copy output of RSA key below.
+  ```bash
+  cat ~/.ssh/id_rsa.pub
+  ```
+  ![WhatsApp Image 2023-03-26 at 17 37 47](https://user-images.githubusercontent.com/99194827/227770563-cbce5d86-bc61-447b-9b88-c977d9f685f7.jpeg)
+- Paste RSA key to VM Instance. Click VM instance on Cloud Console "VM Instance" tab. Click "Edit". On "SSH Keys" part, click "Add item" and paste RSA key.
+  ![WhatsApp Image 2023-03-26 at 17 37 50](https://user-images.githubusercontent.com/99194827/227770573-12134023-2f78-4531-8db0-3ddf9658d012.jpeg)
+  ![WhatsApp Image 2023-03-26 at 17 37 54](https://user-images.githubusercontent.com/99194827/227770586-71064af8-cc39-4090-aed0-69531d74aec4.jpeg)
+- VM can be accessed through local terminal-cli now.
+  ```bash
+  ssh <username>@<external-ip>
+  ```
+  Replace <username> with username on last part of RSA key and <external-ip> with value of external IP address of VM instance. Enter "yes". <br>
+  ![WhatsApp Image 2023-03-26 at 17 37 56](https://user-images.githubusercontent.com/99194827/227770593-9fc2d3e4-fdbe-466a-9fa8-230266316ce9.jpeg)
 
 ### Clone Github Repository to Virtual Machine
 - Install git on virtual machine.
