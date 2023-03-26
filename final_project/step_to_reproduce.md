@@ -3,7 +3,7 @@ Patterns of weather are getting more difficult to be identified year by year. Th
 Data source: Kaggle, Denpasar Weather Data
 
 # Project Framework
-![framework](https://user-images.githubusercontent.com/99194827/227749135-1ea19939-5c61-412a-bd50-0d396168ebbc.png)
+![assets](https://user-images.githubusercontent.com/99194827/227752387-4736cd2d-ecf3-4579-a40e-1558f48d6413.png)
 1. Pipeline for processing dataset and extracting it from source to a data lake.
 2. Pipeline for batch moving the data from the data lake to a data warehouse.
 3. Transform the data in the data warehouse.
@@ -15,12 +15,11 @@ Data source: Kaggle, Denpasar Weather Data
 - Google Compute Engine (GCE). A GCE virtual machine used to develop and run this project along with Google Cloud Storage (GCS) and Google BigQuery (GBQ).
 - Terraform. Infrastructure as Code (IaC) tool to create a GCS Bucket and GBQ Dataset.
 ### Data Ingestion
-![assets_ingestion](https://user-images.githubusercontent.com/99194827/227749355-674c255c-cd06-48c9-88d6-7319d781a87a.png)
+![assets_ingestion](https://user-images.githubusercontent.com/99194827/227752393-db2c208e-8de5-40cb-bcf1-14c1dd8750b2.png)
 - Prefect. Workflow Orchestration tool to orchestrarize data pipeline.
 - Google Cloud Storage (GCS). GCS as Data Lake.
-- Apache Spark. Batch Processing tool to processing data per batch.
 ### Data Warehouse
-![assets_warehouse](https://user-images.githubusercontent.com/99194827/227749656-ac2b27ba-4674-4dd0-af43-fe42250a03b4.png) <br>
+![assets_warehouse](https://user-images.githubusercontent.com/99194827/227752398-cfe9a2c7-d9ca-4c5c-aa71-e47548758bf2.png) <br>
 Google BigQuery (GBQ). GBQ as Data Warehouse. Table being partitioned by datetime.
 ### Data Transformations
 ![assets_transform](https://user-images.githubusercontent.com/99194827/227749726-b8a42fab-b1d3-4edf-80c3-c1cf4d7d10a7.png) <br>
