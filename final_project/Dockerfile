@@ -12,13 +12,8 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
 COPY ./requirements.txt /app/requirements.txt
 COPY ./final/data_pipeline.py /app/final/data_pipeline.py
 COPY ./terraform/main.tf /app/terraform/main.tf
-
-# Copy dynamic files from local to container
-# Make sure "default" value for "project" and "credentials" variables has been changed
 COPY ./terraform/variables.tf /app/terraform/variables.tf
-# Change <path-to-service-account-keyfile> with folder structure for service account keyfile
-# and change service-account-keyfile-name> with name of service account keyfile
-COPY ./<path-to-service-account-keyfile>/<service-account-keyfile-name>.json /app/config/<service-account-keyfile-name>.json
+COPY ./config/example.json /app/config/example.json
 
 # Set working directory
 WORKDIR /app
