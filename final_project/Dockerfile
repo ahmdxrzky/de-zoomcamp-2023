@@ -10,8 +10,7 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
 
 # Copy static files (files that doesn't need any adjustment) from local to container
 COPY ./requirements.txt /app/requirements.txt
-COPY ./final/ingest_dataset.py /app/final/ingest_dataset.py
-COPY ./final/extract_dataset.py /app/final/extract_dataset.py
+COPY ./final/data_pipeline.py /app/final/data_pipeline.py
 COPY ./terraform/main.tf /app/terraform/main.tf
 
 # Copy dynamic files from local to container
