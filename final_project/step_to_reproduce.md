@@ -84,11 +84,11 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
   ```
 - In virtual machine terminal, clone this [github repository](https://github.com/ahmdxrzky/de-zoomcamp-2023).
   ```bash
-  git clone https://github.com/ahmdxrzky/de-zoomcamp-2023.git
-  mv de-zoomcamp-2023/final_project/ ./ && rm -rf de-zoomcamp-2023/
+  git clone https://github.com/ahmdxrzky/de-zoomcamp-2023.git && cd de-zoomcamp-2023/final_project
   ```
-- Copy contents of keyfile previously downloaded to the config/example.json file.
-- Edit variables.tf on terraform folder. Change default "project" to personal project id. <br>
+- Copy contents of keyfile previously downloaded to replace content in the config/example.json file.
+  ![WhatsApp Image 2023-03-26 at 18 01 49](https://user-images.githubusercontent.com/99194827/227771446-97487d79-2632-4040-a5b2-c3c606353b9d.jpeg)
+- Edit variables.tf on terraform folder. Change default "project" to personal project id.
   Before: <br>
   ![image](https://user-images.githubusercontent.com/99194827/227755227-0f915c22-4de4-4a10-9224-9d251e3d03fd.png) <br>
   After: <br>
