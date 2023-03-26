@@ -80,7 +80,7 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
 ### Clone Github Repository to Virtual Machine
 - Install git on virtual machine.
   ```bash
-  sudo apt-get install git
+  sudo apt-get install git -y
   ```
 - In virtual machine terminal, clone this [github repository](https://github.com/ahmdxrzky/de-zoomcamp-2023).
   ```bash
@@ -99,8 +99,7 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
 ### Deploy Docker Image
 - Install docker
   ```bash
-  sudo apt-get install docker.io
-  ls -l /var/run/docker.sock
+  sudo apt-get install docker.io -y
   sudo chmod 666 /var/run/docker.sock
   ```
 - Build docker image based on Dockerfile
@@ -113,13 +112,17 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
   ```
 
 ## Do Configuration on Prefect
-- Activate Prefect
+- Activate Prefect.
   ```bash
   prefect server start --host 0.0.0.0
   ```
-- Create Prefect Block for GCP Credentials
+- Open new terminal and access vm in the new terminal using ssh. Access same container by checking its id and run with exec command.
+  ```bash
   docker ps -a
   docker exec -it <container-id> /bin/bash
+  ```
+  Replace <container-id> with container id shown in output of command `docker ps -a`.
+- Create Prefect Block for GCP Credentials
   ```bash
   prefect config set PREFECT_API_URL=http://0.0.0.0:4200/api
   prefect block create gcp-credentials
