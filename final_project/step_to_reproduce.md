@@ -29,7 +29,7 @@ data build tools (dbt). Tool for transforming data in data warehouse.
 Google Looker Studio. Tool for visualizing data in two tiles (for this project).
 
 # Steps to Reproduce this Project
-## Create Service Account
+### Create Service Account
 - Move to "Service Account" tab. <br>
   ![Screenshot 2023-03-26 102244](https://user-images.githubusercontent.com/99194827/227753469-b87d19bd-d470-4945-98b5-83ef6ad79fde.png)
 - Click "Create a Service Account". Adjust some configuration, such as name, id, and description, then click "Create". <br>
@@ -38,33 +38,49 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
   ![Screenshot 2023-03-26 102844](https://user-images.githubusercontent.com/99194827/227753695-35fbf26c-0a9a-459f-98e3-431a7f74b951.png)
 - Click "Add key" and "Create new key". Choose "json" option and a keyfile in json format will be saved automatically.
 
-## Create a Virtual Machine Instance on Google Compute Engine
+### Create a Virtual Machine Instance on Google Compute Engine
 - Login to Google Cloud Console and move to "Compute Engine" tab. <br>
   ![Screenshot 2023-03-26 101813](https://user-images.githubusercontent.com/99194827/227753342-fff3ae4e-eb86-4ca7-a573-5fa36c92b013.png)
 - Click "Create Instance". Adjust some configuration, such as name, region, and zone, then click "Create". <br>
   ![Screenshot 2023-03-26 101942](https://user-images.githubusercontent.com/99194827/227753416-1d511350-3e8d-4264-9aec-ba24a3d4c9c9.png)
 - A VM Instance has been built, shown below: <br>
   ![Screenshot 2023-03-26 101051](https://user-images.githubusercontent.com/99194827/227753185-42176bad-8f7e-461d-a2bf-d045925d1622.png)
-  For example, I create a VM instance with name "dezoomcamp". Look to the right part, there are two columns named as "Internal IP" and "External IP". Copy value on "External IP" column.
-- Access our virtual machine from local terminal using ssh command. <br>
-  ```bash
-  ssh <external-ip-value>
-  ```
-  Replace <external-ip-value> with value from "External IP" column from previous step.
+- Access our virtual machine by clicking "SSH" next to "External IP" column.
 
-## Clone Github Repository to Virtual Machine
+### Clone Github Repository to Virtual Machine
+- Install git on virtual machine.
+  ```bash
+  sudo apt-get install git
+  ```
 - In virtual machine terminal, clone this [github repository](https://github.com/ahmdxrzky/de-zoomcamp-2023).
   ```bash
-  https://github.com/ahmdxrzky/de-zoomcamp-2023.git
+  git clone https://github.com/ahmdxrzky/de-zoomcamp-2023.git
+  mv de-zoomcamp-2023/final_project/ ./ && rm -rf de-zoomcamp-2023/
   ```
-- 
-Put Key file to config folder
-Edit variables.tf on terraform folder. default project and credentials adjusting with self
-
-## Deploy Docker Image
-Download docker
-docker build -t rizky_dezoomcamp_final_project ./
-docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
+- Copy contents of keyfile previously downloaded to the config/example.json file.
+- Edit variables.tf on terraform folder. Change default "project" to personal project id. <br>
+  Before: <br>
+  ![image](https://user-images.githubusercontent.com/99194827/227755227-0f915c22-4de4-4a10-9224-9d251e3d03fd.png) <br>
+  After: <br>
+  ![Screenshot 2023-03-26 112106](https://user-images.githubusercontent.com/99194827/227755721-f14ff9ac-f898-401e-8c6c-d891c8e586ac.png) <br>
+  Personal project id can be seen in cloud console: <br>
+  ![Screenshot 2023-03-26 112329](https://user-images.githubusercontent.com/99194827/227755302-2ec9f3e1-3b6c-4175-a003-0ed092bf8b87.png)
+  
+### Deploy Docker Image
+- Install docker
+  ```bash
+  sudo apt-get install docker.io
+  ls -l /var/run/docker.sock
+  sudo chmod 666 /var/run/docker.sock
+  ```
+- Build docker image based on Dockerfile
+  ```bash
+  docker build -t rizky_dezoomcamp_final_project ./
+  ```
+- Run docker container based on previously built docker image also exposing port 4200 for Prefect UI.
+  ```bash
+  docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
+  ```
 
 ## Do Configuration on Prefect
 - Activate Prefect
