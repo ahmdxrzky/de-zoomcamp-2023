@@ -30,13 +30,17 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
 
 # Steps to Reproduce this Project
 ### Create Service Account
-- Move to "Service Account" tab. <br>
-  ![Screenshot 2023-03-26 102244](https://user-images.githubusercontent.com/99194827/227753469-b87d19bd-d470-4945-98b5-83ef6ad79fde.png)
-- Click "Create a Service Account". Adjust some configuration, such as name, id, and description, then click "Create". <br>
-  ![Screenshot 2023-03-26 102443](https://user-images.githubusercontent.com/99194827/227753532-726fb56e-2f0c-43ef-a7d1-636dd39126bd.png)
-- Click three dots on row of the newly built Service Account and click "Manage keys". <br>
-  ![Screenshot 2023-03-26 102844](https://user-images.githubusercontent.com/99194827/227753695-35fbf26c-0a9a-459f-98e3-431a7f74b951.png)
-- Click "Add key" and "Create new key". Choose "json" option and a keyfile in json format will be saved automatically.
+- Access Google Cloud Console. Then, move to "Service Account" tab.
+  ![WhatsApp Image 2023-03-26 at 16 53 08](https://user-images.githubusercontent.com/99194827/227768394-016caefa-2b2f-42cb-b046-6c4c4f92660b.jpeg)
+- Click "Create a Service Account". Adjust some configuration, such as name and description, then click "Create". Grant access this service account to project all needed roles. Then, click "Done".
+  ![WhatsApp Image 2023-03-26 at 16 53 08 (1)](https://user-images.githubusercontent.com/99194827/227768428-4fefee09-67ab-4b74-8774-7bd53a2216b4.jpeg) <br>
+  ![WhatsApp Image 2023-03-26 at 16 53 08 (2)](https://user-images.githubusercontent.com/99194827/227768468-fb50c2e6-fdd6-4cc3-9ea7-ac510fb64ecc.jpeg) <br>
+  ![WhatsApp Image 2023-03-26 at 16 53 08 (3)](https://user-images.githubusercontent.com/99194827/227768473-335ff2c5-8103-4e78-91cc-bba259f692a4.jpeg) <br>
+- Click three dots on row of the newly built Service Account and click "Manage keys".
+  ![WhatsApp Image 2023-03-26 at 16 53 08 (4)](https://user-images.githubusercontent.com/99194827/227768483-fef0ea5b-daa5-4eda-8f19-5b4187fb76a2.jpeg)
+- Click "Add key" and "Create new key". Choose "json" option and a keyfile in json format will be downloaded automatically.
+  ![WhatsApp Image 2023-03-26 at 16 53 08 (5)](https://user-images.githubusercontent.com/99194827/227768498-1a5a398b-7aee-47ea-aa9e-80b0b21caeb1.jpeg)
+  ![WhatsApp Image 2023-03-26 at 16 53 09](https://user-images.githubusercontent.com/99194827/227768506-46f870b6-2b23-482b-b1a4-d8358206bb4b.jpeg)
 
 ### Create a Virtual Machine Instance on Google Compute Engine
 - Login to Google Cloud Console and move to "Compute Engine" tab. <br>
