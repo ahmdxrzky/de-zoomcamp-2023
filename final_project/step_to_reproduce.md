@@ -104,12 +104,12 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
 ## Ingest Initial Dataset
 In this project, we simulate to do batch processing from data lake to data warehouse. Therefore, we should first define making sure that there are all data needed in data lake. To do this, we do ETL process using Prefect from source on internet into Google Cloud Storage by executing command below:
 ```bash
-python3 final/ingest_dataset.py
+python3 final/data_pipeline.py True
 ```
 By executing command above, we make sure weather data of Denpasar City from Jan 2011 to Dec 2023 are already on GCS. Why data from 2023 are already available to December? Surely, this data is imitative. I make it like that to stimulate real batch processing done monthly.<br>
 Now, we'll ingest data from Jan 2011 to Jan 2023 only to Google BigQuery, because the rest of it will be ingested batch per month. It can be done by executing command below:
 ```bash
-python3 final/extract_dataset.py True
+python3 final/data_pipeline.py
 ```
 Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 and data of Mar 2023 will be ingested in Apr 1st, 2023, etc.
 
