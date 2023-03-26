@@ -12,7 +12,7 @@ Data source: Kaggle, Denpasar Weather Data
 # Tools
 ### Cloud
 ![assets_cloud](https://user-images.githubusercontent.com/99194827/227749263-755e2813-5c6e-4c10-93d7-4a2b32515922.png)
-- Google Compute Platform (GCP). A GCP virtual machine used to develop and run this project along with Google Cloud Storage (GCS) and Google BigQuery (GBQ).
+- Google Compute Engine (GCE). A GCE virtual machine used to develop and run this project along with Google Cloud Storage (GCS) and Google BigQuery (GBQ).
 - Terraform. Infrastructure as Code (IaC) tool to create a GCS Bucket and GBQ Dataset.
 ### Data Ingestion
 ![assets_ingestion](https://user-images.githubusercontent.com/99194827/227749355-674c255c-cd06-48c9-88d6-7319d781a87a.png)
@@ -37,6 +37,7 @@ Put Key file to config folder
 Edit variables.tf on terraform folder. default project and credentials adjusting with self
 
 ## Deploy Docker Image
+Download docker
 docker build -t rizky_dezoomcamp_final_project ./
 docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
 
