@@ -30,8 +30,34 @@ Google Looker Studio. Tool for visualizing data in two tiles (for this project).
 
 # Steps to Reproduce this Project
 ## Create Service Account
-Create a Service Account for Google Cloud Platform. Create a key for that Service Account. Download that key file (in json format).
+- Move to "Service Account" tab. <br>
+  ![Screenshot 2023-03-26 102244](https://user-images.githubusercontent.com/99194827/227753469-b87d19bd-d470-4945-98b5-83ef6ad79fde.png)
+- Click "Create a Service Account". Adjust some configuration, such as name, id, and description, then click "Create". <br>
+  ![Screenshot 2023-03-26 102443](https://user-images.githubusercontent.com/99194827/227753532-726fb56e-2f0c-43ef-a7d1-636dd39126bd.png)
+- Click three dots on row of the newly built Service Account and click "Manage keys". <br>
+  ![Screenshot 2023-03-26 102844](https://user-images.githubusercontent.com/99194827/227753695-35fbf26c-0a9a-459f-98e3-431a7f74b951.png)
+- Click "Add key" and "Create new key". Choose "json" option and a keyfile in json format will be saved automatically.
 
+## Create a Virtual Machine Instance on Google Compute Engine
+- Login to Google Cloud Console and move to "Compute Engine" tab. <br>
+  ![Screenshot 2023-03-26 101813](https://user-images.githubusercontent.com/99194827/227753342-fff3ae4e-eb86-4ca7-a573-5fa36c92b013.png)
+- Click "Create Instance". Adjust some configuration, such as name, region, and zone, then click "Create". <br>
+  ![Screenshot 2023-03-26 101942](https://user-images.githubusercontent.com/99194827/227753416-1d511350-3e8d-4264-9aec-ba24a3d4c9c9.png)
+- A VM Instance has been built, shown below: <br>
+  ![Screenshot 2023-03-26 101051](https://user-images.githubusercontent.com/99194827/227753185-42176bad-8f7e-461d-a2bf-d045925d1622.png)
+  For example, I create a VM instance with name "dezoomcamp". Look to the right part, there are two columns named as "Internal IP" and "External IP". Copy value on "External IP" column.
+- Access our virtual machine from local terminal using ssh command. <br>
+  ```bash
+  ssh <external-ip-value>
+  ```
+  Replace <external-ip-value> with value from "External IP" column from previous step.
+
+## Clone Github Repository to Virtual Machine
+- In virtual machine terminal, clone this [github repository](https://github.com/ahmdxrzky/de-zoomcamp-2023).
+  ```bash
+  https://github.com/ahmdxrzky/de-zoomcamp-2023.git
+  ```
+- 
 Put Key file to config folder
 Edit variables.tf on terraform folder. default project and credentials adjusting with self
 
