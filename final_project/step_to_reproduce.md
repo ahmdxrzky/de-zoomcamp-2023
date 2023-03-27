@@ -29,53 +29,65 @@ data build tools (dbt). Tool for transforming data in data warehouse.
 Google Looker Studio. Tool for visualizing data in two tiles (for this project).
 
 # Steps to Reproduce this Project
-### Create Service Account
-- Access Google Cloud Console. Then, move to "Service Accounts" tab.
-  ![WhatsApp Image 2023-03-26 at 16 53 08](https://user-images.githubusercontent.com/99194827/227768394-016caefa-2b2f-42cb-b046-6c4c4f92660b.jpeg)
-- Click "Create Service Account". Adjust some configuration, such as name and description, then click "Create". Grant all access needed by this service account to the project. Then, click "Done".
-  ![WhatsApp Image 2023-03-26 at 16 53 08 (1)](https://user-images.githubusercontent.com/99194827/227768428-4fefee09-67ab-4b74-8774-7bd53a2216b4.jpeg) <br>
-  ![WhatsApp Image 2023-03-26 at 16 53 08 (2)](https://user-images.githubusercontent.com/99194827/227768468-fb50c2e6-fdd6-4cc3-9ea7-ac510fb64ecc.jpeg) <br>
-  ![WhatsApp Image 2023-03-26 at 16 53 08 (3)](https://user-images.githubusercontent.com/99194827/227768473-335ff2c5-8103-4e78-91cc-bba259f692a4.jpeg) <br>
-- Click three dots on row of the newly built Service Account and click "Manage keys".
-  ![WhatsApp Image 2023-03-26 at 16 53 08 (4)](https://user-images.githubusercontent.com/99194827/227768483-fef0ea5b-daa5-4eda-8f19-5b4187fb76a2.jpeg)
-- Click "Add key" and "Create new key". Choose "json" option and a keyfile in json format will be downloaded automatically.
-  ![WhatsApp Image 2023-03-26 at 16 53 08 (5)](https://user-images.githubusercontent.com/99194827/227768498-1a5a398b-7aee-47ea-aa9e-80b0b21caeb1.jpeg)
-  ![WhatsApp Image 2023-03-26 at 16 53 09](https://user-images.githubusercontent.com/99194827/227768506-46f870b6-2b23-482b-b1a4-d8358206bb4b.jpeg)
+## Create Service Account
+### Access Google Cloud Console [here](https://console.cloud.google.com/getting-started). Then, move to "Service Accounts" tab.
+![Cloud Console](https://user-images.githubusercontent.com/99194827/228078545-add2b3b8-202d-4ffd-989f-0122b5969980.png)
+### Click "Create Service Account".
+![Screenshot 2023-03-28 051305](https://user-images.githubusercontent.com/99194827/228079307-30829881-8e52-44d0-8aed-39f20d25f849.png)
+### Fill in name and description (ID is auto-generate based on name) for service account, then click "Create".
+![Screenshot 2023-03-28 051359](https://user-images.githubusercontent.com/99194827/228079334-9bd09e3c-ab51-400a-ace9-cbeffbfc1592.png)
+### Grant all access needed by this service account to the project. Since this project will work around Cloud Storage and BigQuery, so I grant these roles for this service account. Then, click "Continue". Then, click "Done" on bottom of the page.
+![Screenshot 2023-03-28 051754](https://user-images.githubusercontent.com/99194827/228079475-2a304a14-01ae-4646-ab5f-b710d20203a9.png)
+### Click three dots on row of the newly built Service Account and click "Manage keys".
+![Screenshot 2023-03-28 052039](https://user-images.githubusercontent.com/99194827/228079986-950b8695-1e61-4fd0-8d1e-20476df5b441.png)
+### Click "Add key" and "Create new key".
+![Screenshot 2023-03-28 052151](https://user-images.githubusercontent.com/99194827/228080151-dd07124c-5182-46d1-9d7e-2d4ddc656426.png)
+### Choose "JSON" option and a keyfile in json format will be downloaded automatically. Save this for later.
+![Screenshot 2023-03-28 052232](https://user-images.githubusercontent.com/99194827/228080289-f73e2675-3bf9-44f3-b6a1-dd6a812852cf.png)
 
-### Create a Virtual Machine Instance on Google Compute Engine
-- Access Google Cloud Console. Then, move to "VM Instances" tab.
-  ![WhatsApp Image 2023-03-26 at 17 37 15](https://user-images.githubusercontent.com/99194827/227770469-dd40c2b8-4626-45ef-b34f-e7f704c52004.jpeg)
-- Click "Create Instance". Adjust some configuration, such as name, region, and zone. In Firewall part, allow HTTP and HTTPS traffic. In Network part, define a network tags and enable IP forwarding. Then, click "Create".
-  ![WhatsApp Image 2023-03-26 at 17 37 16](https://user-images.githubusercontent.com/99194827/227770476-4e7faf79-4c28-4b89-af89-e0b9029b2788.jpeg)
-  ![WhatsApp Image 2023-03-26 at 17 37 20](https://user-images.githubusercontent.com/99194827/227770493-52efb4da-f336-4c0d-a367-01471b8bdb0b.jpeg)
-  ![WhatsApp Image 2023-03-26 at 17 37 23](https://user-images.githubusercontent.com/99194827/227770499-370718e7-c557-4918-95ea-d14f74b7f91a.jpeg)
-  ![WhatsApp Image 2023-03-26 at 17 37 27](https://user-images.githubusercontent.com/99194827/227770505-2f1f8f75-931e-4add-b7e4-521dd3e3fbc1.jpeg)
-  Copy value from "External IP" column and use this to access VM from local terminal.
-- Move to "Firewall" tab. Then, click "Create Firewall Rule"
-  ![WhatsApp Image 2023-03-26 at 17 37 30](https://user-images.githubusercontent.com/99194827/227770509-0be648a5-dfb5-4e71-a653-4d78029d0c4f.jpeg)
-  ![WhatsApp Image 2023-03-26 at 17 37 33](https://user-images.githubusercontent.com/99194827/227770527-2dc401bb-9958-40e5-a25d-e9f28ef76891.jpeg)
-- Adjust name and description of firewall rule. Add "project" on target tags, "0.0.0.0/0" on Source IPv4 ranges, and 4200 on TCP ports. Then, click "Create".
-  ![WhatsApp Image 2023-03-26 at 17 37 37](https://user-images.githubusercontent.com/99194827/227770534-5b7998d5-7d76-404a-ab27-6aeeb3ffd01b.jpeg)
-  ![WhatsApp Image 2023-03-26 at 17 37 40](https://user-images.githubusercontent.com/99194827/227770541-cdf124a0-4728-4a57-a22d-239d851ae5e8.jpeg)
-- Generate SSH Keygen
-  ```bash
-  ssh-keygen
-  ```
-  ![WhatsApp Image 2023-03-26 at 17 37 43](https://user-images.githubusercontent.com/99194827/227770547-b7050121-6b66-4cde-b28a-90ec859ea29b.jpeg)
-- Copy output of RSA key below.
-  ```bash
-  cat ~/.ssh/id_rsa.pub
-  ```
-  ![WhatsApp Image 2023-03-26 at 17 37 47](https://user-images.githubusercontent.com/99194827/227770563-cbce5d86-bc61-447b-9b88-c977d9f685f7.jpeg)
-- Paste RSA key to VM Instance. Click VM instance on Cloud Console "VM Instance" tab. Click "Edit". On "SSH Keys" part, click "Add item" and paste RSA key.
-  ![WhatsApp Image 2023-03-26 at 17 37 50](https://user-images.githubusercontent.com/99194827/227770573-12134023-2f78-4531-8db0-3ddf9658d012.jpeg)
-  ![WhatsApp Image 2023-03-26 at 17 37 54](https://user-images.githubusercontent.com/99194827/227770586-71064af8-cc39-4090-aed0-69531d74aec4.jpeg)
-- VM can be accessed through local terminal-cli now.
-  ```bash
-  ssh <username>@<external-ip>
-  ```
-  Replace <username> with username on last part of RSA key and <external-ip> with value of external IP address of VM instance. Enter "yes". <br>
-  ![WhatsApp Image 2023-03-26 at 17 37 56](https://user-images.githubusercontent.com/99194827/227770593-9fc2d3e4-fdbe-466a-9fa8-230266316ce9.jpeg)
+## Create a Virtual Machine Instance on Google Compute Engine
+### Still in Google Cloud Console, move to "VM Instances" tab.
+![Screenshot 2023-03-28 052449](https://user-images.githubusercontent.com/99194827/228080597-900e3bb8-96b9-4e12-b1b4-f81a03683aa3.png)
+### Click "Create Instance".
+![Screenshot 2023-03-28 052531](https://user-images.githubusercontent.com/99194827/228080697-2cf00073-8e38-48c3-a1ff-012784f3a330.png)
+### Fill in name, region, and zone.
+![Screenshot 2023-03-28 052637](https://user-images.githubusercontent.com/99194827/228080851-981302b9-4a28-49fe-8839-6d1463c60b37.png)
+### Scroll down. In Firewall part, allow HTTP and HTTPS traffic.
+![Screenshot 2023-03-28 052723](https://user-images.githubusercontent.com/99194827/228081008-64cd7a46-d291-4eb5-839e-11c373d19493.png)
+### Scroll down again and drop down "Advanced options". In Networking part, fill in network tags and enable IP forwarding. Then, click "Create" on bottom of the page.
+![Screenshot 2023-03-28 052913](https://user-images.githubusercontent.com/99194827/228081268-5154c229-14d0-47e1-bf8c-826f2aaba207.png)
+### Remember value from "External IP" column. It will be used for accessing this VM from local machine.
+![Screenshot 2023-03-28 053032](https://user-images.githubusercontent.com/99194827/228081528-30053ed9-8a82-48d6-b9e1-ec2cf55b1f86.png)
+### Move to "Firewall" tab. Then, click "Create Firewall Rule"
+![Screenshot 2023-03-28 053143](https://user-images.githubusercontent.com/99194827/228081668-97d46b2e-6e3c-43a7-8aa3-ff07643cf54a.png)
+![Screenshot 2023-03-28 053232](https://user-images.githubusercontent.com/99194827/228085307-0d8c1bac-d9fa-4545-8509-824f9957472e.png)
+### Adjust name and description of firewall rule.
+![Screenshot 2023-03-28 053336](https://user-images.githubusercontent.com/99194827/228081917-55e32bf8-7662-4a80-9360-236cf464dcb9.png)
+### Fill in "project" on target tags (so this rule will apply to all VM with this tag, including the newly built one), "0.0.0.0/0" on Source IPv4 ranges (so all external machine can access this VM), and 4200 on TCP ports (port for Prefect UI). Then, click "Create" on bottom of the page.
+![Screenshot 2023-03-28 053556](https://user-images.githubusercontent.com/99194827/228082396-ce6819db-415a-42bb-bc11-6997f2ca55e8.png)
+### Move to local terminal (I use wsl terminal on Visual Studio Code. This also can be done with command prompt for windows). Then, generate SSH Keygen.
+```bash
+ssh-keygen
+```
+### Copy output of this command.
+```bash
+cat ~/.ssh/id_rsa.pub
+```
+### Click previously built VM instance.
+![Screenshot 2023-03-28 054131](https://user-images.githubusercontent.com/99194827/228083451-edcf0d0f-57e4-4821-9252-c469a4266e49.png)
+### Click "Edit".
+![Screenshot 2023-03-28 054144](https://user-images.githubusercontent.com/99194827/228083508-78e27ad8-fe32-4a97-9a21-f43123c13447.png)
+### On "SSH Keys" part, click "Add item" and paste RSA key from local terminal copied before. Then, click "Save" on bottom of the page.
+Before: <br>
+![Screenshot 2023-03-28 054214](https://user-images.githubusercontent.com/99194827/228083563-630142b0-6277-47fd-83d7-084ac24d699e.png) <br>
+After: <br>
+![Screenshot 2023-03-28 054235](https://user-images.githubusercontent.com/99194827/228083588-598ead42-e167-4309-a80c-981893591987.png)
+### VM can be accessed through local terminal-cli now.
+```bash
+ssh <username>@<external-ip>
+```
+Replace `<username>` with username of wsl machine and `<external-ip>` with value of external IP address of VM instance.
+![Screenshot 2023-03-28 054703](https://user-images.githubusercontent.com/99194827/228083970-62a10890-d508-4384-91d5-9756529ae59f.png)
 
 ### Clone Github Repository to Virtual Machine
 - Install git on virtual machine.
