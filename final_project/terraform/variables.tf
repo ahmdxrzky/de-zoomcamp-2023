@@ -15,7 +15,7 @@ variable "region" {
 
 variable "credentials" {
   description = "Path to credential file"
-  default = "../config/example.json"
+  default = "../config/keyfile.json"
 }
 
 variable "storage_class" {

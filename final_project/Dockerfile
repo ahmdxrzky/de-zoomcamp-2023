@@ -13,7 +13,7 @@ COPY ./requirements.txt /app/requirements.txt
 COPY ./final/data_pipeline.py /app/final/data_pipeline.py
 COPY ./terraform/main.tf /app/terraform/main.tf
 COPY ./terraform/variables.tf /app/terraform/variables.tf
-COPY ./config/example.json /app/config/example.json
+COPY ./config/keyfile.json /app/config/keyfile.json
 
 # Set working directory
 WORKDIR /app
