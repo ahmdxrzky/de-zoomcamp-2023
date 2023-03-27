@@ -7,7 +7,9 @@ Data source: Kaggle, Denpasar Weather Data
 1. Pipeline for processing dataset and extracting it from source to a data lake.
 2. Pipeline for batch moving the data from the data lake to a data warehouse.
 3. Transform the data in the data warehouse.
-4. Create a dashboard to see pattern of weather by year.
+4. Create a dashboard to see pattern of weather by year. <br>
+
+This project's guidance assumed readers have already know basic syntax for linux administration, such as `nano` to edit file on linux.
 
 # Tools
 ### Cloud
@@ -89,24 +91,27 @@ ssh <username>@<external-ip>
 Replace `<username>` with username of wsl machine and `<external-ip>` with value of external IP address of VM instance.
 ![Screenshot 2023-03-28 054703](https://user-images.githubusercontent.com/99194827/228083970-62a10890-d508-4384-91d5-9756529ae59f.png)
 
-### Clone Github Repository to Virtual Machine
-- Install git on virtual machine.
-  ```bash
-  sudo apt-get install git -y
-  ```
-- In virtual machine terminal, clone this [github repository](https://github.com/ahmdxrzky/de-zoomcamp-2023).
-  ```bash
-  git clone https://github.com/ahmdxrzky/de-zoomcamp-2023.git && cd de-zoomcamp-2023/final_project
-  ```
-- Copy contents of keyfile previously downloaded to replace content in the config/example.json file.
-  ![WhatsApp Image 2023-03-26 at 18 01 49](https://user-images.githubusercontent.com/99194827/227771446-97487d79-2632-4040-a5b2-c3c606353b9d.jpeg)
-- Edit variables.tf on terraform folder. Change default "project" to personal project id.
-  Before: <br>
-  ![image](https://user-images.githubusercontent.com/99194827/227755227-0f915c22-4de4-4a10-9224-9d251e3d03fd.png) <br>
-  After: <br>
-  ![Screenshot 2023-03-26 112106](https://user-images.githubusercontent.com/99194827/227755721-f14ff9ac-f898-401e-8c6c-d891c8e586ac.png) <br>
-  Personal project id can be seen in cloud console: <br>
-  ![Screenshot 2023-03-26 112329](https://user-images.githubusercontent.com/99194827/227755302-2ec9f3e1-3b6c-4175-a003-0ed092bf8b87.png)
+## Clone Github Repository to Virtual Machine
+### Install git on virtual machine.
+```bash
+sudo apt-get install git -y
+```
+### In virtual machine terminal, clone this [github repository](https://github.com/ahmdxrzky/de-zoomcamp-2023). Then, change working directory to final_project folder.
+```bash
+git clone https://github.com/ahmdxrzky/de-zoomcamp-2023.git && cd de-zoomcamp-2023/final_project
+```
+### Copy contents of keyfile previously downloaded to replace content in the config/keyfile.json file.
+Before: <br>
+![Screenshot 2023-03-28 060505](https://user-images.githubusercontent.com/99194827/228086611-ea35c539-5b90-4566-9807-29799240608c.png) <br>
+After: <br>
+![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
+### Edit variables.tf on terraform folder. Change default "project" to personal project id.
+Before: <br>
+![Screenshot 2023-03-28 060756](https://user-images.githubusercontent.com/99194827/228086951-05b40b94-1ade-4074-a072-c1e9174c0bb6.png) <br>
+After: <br>
+![Screenshot 2023-03-28 060905](https://user-images.githubusercontent.com/99194827/228086971-8687b1d2-7e64-4e93-b731-4ec493a2a0cc.png) <br>
+Personal project id can be obtained from service account keyfile downloaded and copied before. <br>
+![image](https://user-images.githubusercontent.com/99194827/228087061-9a8bdd2c-c733-403d-9e8c-f84b27ff2d08.png)
   
 ### Deploy Docker Image
 - Install docker
