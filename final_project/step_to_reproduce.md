@@ -128,28 +128,35 @@ docker build -t rizky_dezoomcamp_final_project ./
 docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
 ```
 
-## Do Configuration on Prefect
-- Activate Prefect.
-  ```bash
-  prefect server start --host 0.0.0.0
-  ```
-- Open new terminal and access vm in the new terminal using ssh. Access same container by checking its id and run with exec command.
-  ```bash
-  docker ps -a
-  docker exec -it <container-id> /bin/bash
-  ```
-  Replace <container-id> with container id shown in output of command `docker ps -a`.
-- Create Prefect Block for GCP Credentials
-  ```bash
-  prefect config set PREFECT_API_URL=http://0.0.0.0:4200/api
-  prefect block create gcp-credentials
-  ```
-  Click link provided from command above. Fill `gcp-credentials-final-project` for the block on `Block Name` and `/app/config/<key-file-name>.json` on `Service Account File`. Then, click `Create`.
-- Create Prefect Block for GCS Bucket
-  ```bash
-  prefect block create gcs-bucket
-  ```
-  Click link provided from command above. Fill `gcs-bucket-final-project` for the block on `Block Name`, `dezoomcamp_final_project` on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`.
+## Activate and Configurate Prefect
+### Activate Prefect.
+```bash
+prefect server start --host 0.0.0.0
+```
+### Open new terminal and access vm in the new terminal using ssh (same as before). Access same container by checking its id and run with exec command.
+```bash
+docker ps -a
+docker exec -it <container-id> /bin/bash
+```
+Replace `<container-id>` with container id shown in output of command `docker ps -a`. <br>
+![Screenshot 2023-03-28 062241](https://user-images.githubusercontent.com/99194827/228088746-9e988e0a-998a-484a-a7ee-d6558460ce58.png)
+### Activate and Access Prefect UI
+```bash
+prefect config set PREFECT_API_URL=/api
+```
+Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`. Replace `<external-ip>` with external IP address of the VM.
+### Create Prefect Block for GCP Credentials
+From Prefect UI, move to 'Blocks' tab.
+![Screenshot 2023-03-28 062930](https://user-images.githubusercontent.com/99194827/228089527-687c69f4-3ba6-42f1-94c1-b5ad9d115cc3.png) <br>
+Click "+" button, search "GCP Credentials", then click "+ Add". <br>
+![Screenshot 2023-03-28 063111](https://user-images.githubusercontent.com/99194827/228089771-b5d2a243-7ecc-4f8a-b032-7a01bd335d23.png) <br>
+Fill `gcp-credentials-final-project` for the block on `Block Name` and `/app/config/keyfile.json` on `Service Account File`. Then, click `Create`.
+![image](https://user-images.githubusercontent.com/99194827/228089865-a8b74240-f14b-4504-92c9-69938e2f6d2c.png)
+### Create Prefect Block for GCS Bucket
+Move again to 'Blocks' tab. Click "+" button, search "GCS Bucket", then click "+ Add". <br>
+![image](https://user-images.githubusercontent.com/99194827/228090032-a5a7d758-543b-4296-9404-411202c0398c.png) <br>
+Fill `gcs-bucket-final-project` for the block on `Block Name`, `dezoomcamp_final_project` on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`. <br>
+![image](https://user-images.githubusercontent.com/99194827/228090227-34a9c702-6468-4979-871d-12bea89a86f8.png)
 
 ## Ingest Initial Dataset
 In this project, we simulate to do batch processing from data lake to data warehouse. Therefore, we should first define making sure that there are all data needed in data lake. To do this, we do ETL process using Prefect from source on internet into Google Cloud Storage by executing command below:
