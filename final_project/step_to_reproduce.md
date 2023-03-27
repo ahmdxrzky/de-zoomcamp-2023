@@ -113,20 +113,20 @@ After: <br>
 Personal project id can be obtained from service account keyfile downloaded and copied before. <br>
 ![image](https://user-images.githubusercontent.com/99194827/228087061-9a8bdd2c-c733-403d-9e8c-f84b27ff2d08.png)
   
-### Deploy Docker Image
-- Install docker
-  ```bash
-  sudo apt-get install docker.io -y
-  sudo chmod 666 /var/run/docker.sock
-  ```
-- Build docker image based on Dockerfile
-  ```bash
-  docker build -t rizky_dezoomcamp_final_project ./
-  ```
-- Run docker container based on previously built docker image also exposing port 4200 for Prefect UI.
-  ```bash
-  docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
-  ```
+## Build Docker Image and Run Docker Container
+### Install docker on virtual machine.
+```bash
+sudo apt-get install docker.io -y
+sudo chmod 666 /var/run/docker.sock
+```
+### Still in final_project working directory, build docker image based on Dockerfile
+```bash
+docker build -t rizky_dezoomcamp_final_project ./
+```
+### Run docker container based on previously built docker image also exposing port 4200 for Prefect UI.
+```bash
+docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
+```
 
 ## Do Configuration on Prefect
 - Activate Prefect.
