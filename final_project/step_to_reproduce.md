@@ -1,5 +1,5 @@
 # Problem Statement
-Patterns of weather are getting more difficult to be identified year by year. There are many factors that causing this, especially global warming. In the past, Indonesian people could be certain that the dry season would occur from this month to that month and the rainy on the other hand. Now, this is no longer the case. Therefore, this project aims to investigate the seasonal patterns in Denpasar City from 2011 to the present. <br>
+Patterns of weather are getting more difficult to be identified year by year. There are many factors that causing this, especially global warming. In the past, Indonesian people could be certain that the dry season would occur from this month to that month and the rainy on the other hand. Now, this is no longer the case. Therefore, this project aims to investigate the seasonal patterns in Denpasar City from 2015 to the present. <br>
 Data source: Kaggle, Denpasar Weather Data
 
 # Project Framework
@@ -156,9 +156,9 @@ Replace `<container-id>` with container id shown in output of command `docker ps
 ![Screenshot 2023-03-28 062241](https://user-images.githubusercontent.com/99194827/228088746-9e988e0a-998a-484a-a7ee-d6558460ce58.png)
 
 ## Ingest Initial Dataset
-In this project, we simulate to do batch processing from source to data lake to data warehouse. Now, we'll ingest data from Jan 2011 to Jan 2023 as initial state of dataset. It can be done by executing command below:
+In this project, we simulate to do batch processing from source to data lake to data warehouse. Now, we'll ingest data from Jan 2015 to Jan 2023 as initial state of dataset. It can be done by executing command below:
 ```bash
-python3 final/initial_dataset.py True
+python3 final/data_pipeline.py True
 ```
 Terminal's condition on prefect running: <br>
 ![image](https://user-images.githubusercontent.com/99194827/228159806-2600a11d-5324-4a8d-9c93-8a4634c86407.png) <br>
@@ -171,19 +171,39 @@ To ingest data per batch monthly, we create and apply Prefect Deployment and set
 ```bash
 prefect deployment build /app/final/data_pipeline.py:etl_total -n "ETL GCS to BGQ Monthly" --cron "0 0 1 * *" -a
 ```
+![image](https://user-images.githubusercontent.com/99194827/228199147-79b85c4e-5b77-4b7e-89fe-0a1e0889d3e0.png) <br>
 Don't forget to start a Prefect Agent for the deployment by executing command below:
 ```bash
 prefect agent start -q 'default'
 ```
-This deployment will run batch processing of previous month at 1st date of current month.
+This deployment will run batch processing of previous month at 1st date of current month. <br>
+![image](https://user-images.githubusercontent.com/99194827/228199616-21aebd77-ac91-4572-a5d7-878adc86f62b.png)
 
 ## Data Transformation on Data Warehouse with dbt Cloud
-Register or Sign in
-Account settings > Add project > Connect github repo (connect with Github account and select repository) and bigquery connection (upload service account key file)
-Profile settings > Credentials > Select project > Development credentials > Dataset final_project
-Go to `Develop` tab, then commit and push that to development branch on remote repository.
+### Access dbt cloud [here](https://cloud.getdbt.com/login). Register as usual if you have never create one. Click gear icon on top right side. Then, click "Account Settings".
+![image](https://user-images.githubusercontent.com/99194827/228206587-74e90eb9-ea0a-437b-bc2a-eb629d9dbdef.png)
+### Click "+ New Project". Fill name for this project. Then, click "Continue".
+![image](https://user-images.githubusercontent.com/99194827/228201875-81b7d241-3e6f-486b-8293-1e11f7a0c11f.png)
+### Choose a connection. For this project, choose "BigQuery". Upload service account keyfile that has been downloaded before.
+![image](https://user-images.githubusercontent.com/99194827/228202847-e169514d-22bc-4367-842c-cebf5434b988.png)
+### In "Development Credentials" part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click "Test Connection"
+![image](https://user-images.githubusercontent.com/99194827/228203128-88b8de68-83e9-4489-93f6-93783ea225b9.png)
+### In "Setup a Repository" part, click "Github" to choose a repository for dbt versioning.
+You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-transformation) and choose this in this part.
+### Go to `Develop` tab. Execute this command on dbt terminal.
+```bash
 dbt seed
 dbt run
+```
 
-## Looker studio
-Add data source
+## Data Visualization with Looker Data Studio
+### Access Looker Data Studio [here](https://lookerstudio.google.com) and login with google account. Then, click "Create" and "Data source".
+![image](https://user-images.githubusercontent.com/99194827/228208676-08ab15b4-294c-4ff1-b3f2-7884c1ed25ff.png)
+### Choose "BigQuery".
+![image](https://user-images.githubusercontent.com/99194827/228208786-4607c008-5772-420e-bee4-baccffe30b0b.png)
+### Choose project, dataset, and table on BigQuery that will be used as data source. Then, click "Connect"
+![image](https://user-images.githubusercontent.com/99194827/228209201-f62779bb-f196-4c44-b047-c9c34b46d982.png)
+### Click "Create" and "Report".
+![image](https://user-images.githubusercontent.com/99194827/228209589-574d4bad-15ab-48c5-b969-5697bed9ab46.png)
+### Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
+![image](https://user-images.githubusercontent.com/99194827/228211673-6f5fde7f-4e38-4934-9885-3516dde4cf99.png)
