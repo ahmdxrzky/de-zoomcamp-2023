@@ -35,6 +35,7 @@ def write_parquet_gcs(local_path: Path, gcs_path: Path) -> None:
     )
     return
 
+@task()
 def extract_from_gcs(year: int, month: int) -> Path:
     """Download trip data from GCS"""
     gcs_path = Path(os.path.join("data", str(year), f"{year}_{month:02}.parquet"))
