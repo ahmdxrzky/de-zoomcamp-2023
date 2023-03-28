@@ -9,7 +9,7 @@ Data source: Kaggle, Denpasar Weather Data
 3. Transform the data in the data warehouse.
 4. Create a dashboard to see pattern of weather by year. <br>
 
-This project's guidance assumed readers have already know basic syntax for linux administration, such as `nano` to edit file on linux.
+This project's guidance assumed readers have already know basic syntax for linux administration, such as `nano` to edit file on linux or `cat` to see content from a file in linux terminal.
 
 # Tools
 ### Cloud
@@ -136,7 +136,7 @@ prefect server start --host 0.0.0.0
 ### Open new terminal and access vm in the new terminal using ssh (same as before). Access same container by checking its id and run with exec command.
 ```bash
 docker ps -a
-docker exec -it <container-id> /bin/bash
+docker exec -it <container-id> bash
 ```
 Replace `<container-id>` with container id shown in output of command `docker ps -a`. <br>
 ![Screenshot 2023-03-28 062241](https://user-images.githubusercontent.com/99194827/228088746-9e988e0a-998a-484a-a7ee-d6558460ce58.png)
