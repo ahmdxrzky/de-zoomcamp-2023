@@ -78,7 +78,7 @@ def etl_monthly(year: int, month: int) -> None:
     return 
 
 @flow(log_prints=True)
-def etl_total(initial: bool = False, years: list = list(range(2011, 2023)), months: list = list(range(1, 13))) -> None:
+def etl_total(initial: bool = False, years: list = list(range(2015, 2023)), months: list = list(range(1, 13))) -> None:
     """"The main ETL function"""
     if initial == True:
         for year in years:
