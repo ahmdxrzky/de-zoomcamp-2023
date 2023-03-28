@@ -142,7 +142,7 @@ Replace `<container-id>` with container id shown in output of command `docker ps
 ![Screenshot 2023-03-28 062241](https://user-images.githubusercontent.com/99194827/228088746-9e988e0a-998a-484a-a7ee-d6558460ce58.png)
 ### Activate and Access Prefect UI
 ```bash
-prefect config set PREFECT_API_URL=/api
+prefect config set PREFECT_API_URL=http://<external-ip>:4200/api
 ```
 Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`. Replace `<external-ip>` with external IP address of the VM.
 ### Create Prefect Block for GCP Credentials
@@ -159,19 +159,14 @@ Fill `gcs-bucket-final-project` for the block on `Block Name`, `dezoomcamp_final
 ![image](https://user-images.githubusercontent.com/99194827/228090227-34a9c702-6468-4979-871d-12bea89a86f8.png)
 
 ## Ingest Initial Dataset
-In this project, we simulate to do batch processing from data lake to data warehouse. Therefore, we should first define making sure that there are all data needed in data lake. To do this, we do ETL process using Prefect from source on internet into Google Cloud Storage by executing command below:
+In this project, we simulate to do batch processing from source to data lake to data warehouse. Now, we'll ingest data from Jan 2011 to Jan 2023 as initial state of dataset. It can be done by executing command below:
 ```bash
 python3 final/data_pipeline.py True
-```
-By executing command above, we make sure weather data of Denpasar City from Jan 2011 to Dec 2023 are already on GCS. Why data from 2023 are already available to December? Surely, this data is imitative. I make it like that to stimulate real batch processing done monthly.<br>
-Now, we'll ingest data from Jan 2011 to Jan 2023 only to Google BigQuery, because the rest of it will be ingested batch per month. It can be done by executing command below:
-```bash
-python3 final/data_pipeline.py
 ```
 Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 and data of Mar 2023 will be ingested in Apr 1st, 2023, etc.
 
 ## Create, Apply, and Run Prefect Deployment for Monthly Batch Processing
-To ingesting dataset batch per month, we create and apply Prefect Deployment and set the cron to run monthly, by executing command below:
+To ingest data per batch monthly, we create and apply Prefect Deployment and set the cron to run monthly, by executing command below:
 ```bash
 prefect deployment build /app/final/extract_dataset.py:etl_monthly -n "ETL GCS to BGQ Monthly" --cron "0 0 1 * *" -a
 ```
