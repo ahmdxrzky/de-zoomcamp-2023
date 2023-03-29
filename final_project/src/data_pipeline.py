@@ -99,6 +99,32 @@ def write_dataframe_to_gbq(df: pd.DataFrame) -> None:
     return
 
 @flow(log_prints=True)
+def etl_ingest_to_data_lake(url: str, year: int, month: int) -> None:
+    """
+    ETL process from data source to data lake.
+
+    :param url: (str) URL of data source.
+    :param year: (int) Year of data will be processed.
+    :param month: (int) Month of data will be processed.
+    """
+    df = extract_from_source(url)
+    local_path, gcs_path = write_parquet_to_local(df, year, month)
+    write_parquet_to_gcs(local_path, gcs_path)
+    return
+
+@flow(log_prints=True)
+def etl_ingest_to_data_warehouse(year: int, month: int) -> None:
+    """
+    ETL process from data lake to data warehouse.
+
+    :param year: (int) Year of data will be processed.
+    :param month: (int) Month of data will be processed.
+    """
+    local_path = extract_from_gcs(year, month)
+    df = read_parquet_as_dataframe(local_path)
+    write_dataframe_to_gbq(df)
+
+@flow(log_prints=True)
 def etl_for_a_month(year: int, month: int) -> None:
     """
     ETL function for a month.
@@ -107,17 +133,12 @@ def etl_for_a_month(year: int, month: int) -> None:
     :param month: (int) Month of data will be processed.
     """
     url = f"https://raw.githubusercontent.com/ahmdxrzky/de-zoomcamp-2023/main/final_project/assets/dataset/{year}/{year}_{month:02}.csv"
-    df = extract_from_source(url)
-    local_path, gcs_path = write_parquet_to_local(df, year, month)
-    write_parquet_to_gcs(local_path, gcs_path)
-    local_path = extract_from_gcs(year, month)
-    df = read_parquet_as_dataframe(local_path)
-    write_dataframe_to_gbq(df)
-    
+    etl_ingest_to_data_lake(url, year, month)
+    etl_ingest_to_data_warehouse(year, month)
     return 
 
 @flow(log_prints=True)
-def etl_total(
+def etl_main_function(
     initial: bool = False,
     years: list = list(range(2015, 2023)),
     months: list = list(range(1, 13))
@@ -146,6 +167,6 @@ def etl_total(
 if __name__ == "__main__":
     try:
         arg1 = sys.argv[1]
-        etl_total(initial = arg1)
+        etl_main_function(initial = arg1)
     except:
-        etl_total()
+        etl_main_function()
