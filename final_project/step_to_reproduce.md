@@ -111,17 +111,11 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Check project id. <br>
   Personal project id can be seen in google cloud console.
   ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
-- Edit variables.tf on terraform folder. Change `<gcp-project-id>` with your personal project id. <br>
-  Before: <br>
-  ![Screenshot 2023-03-28 060756](https://user-images.githubusercontent.com/99194827/228086951-05b40b94-1ade-4074-a072-c1e9174c0bb6.png) <br>
-  After: <br>
-  ![Screenshot 2023-03-28 060905](https://user-images.githubusercontent.com/99194827/228086971-8687b1d2-7e64-4e93-b731-4ec493a2a0cc.png) <br>
-- Create environment variable for project id. <br>
-  Execute command below and also add this to .bashrc file on home folder.
+- Change `<gcp-project-id>` string on Dockerfile and variables.tf file on terraform folder with your personal project id. This process can be done in a single execution like this.
   ```bash
-  export PROJECT_ID="<project-id>"
+  python3 src/manipulation_project_id.py <project-id>
   ```
-  Replace `<project-id>` with personal project id.
+  Replace `project-id` with personal project id seen from cloud console in previous step.
   
 ### Build Docker Image and Run Docker Container
 - Install docker on virtual machine.
@@ -138,32 +132,50 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
   ```
 
-## Activate and Configurate Prefect
-### Activate and Access Prefect UI.
-```bash
-prefect config set PREFECT_API_URL=http://<external-ip>:4200/api
-prefect server start --host 0.0.0.0
-```
-Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`. Replace `<external-ip>` with external IP address of the VM.
-### Create Prefect Block for GCP Credentials
-From Prefect UI, move to 'Blocks' tab.
-![Screenshot 2023-03-28 062930](https://user-images.githubusercontent.com/99194827/228089527-687c69f4-3ba6-42f1-94c1-b5ad9d115cc3.png) <br>
-Click "+" button, search "GCP Credentials", then click "+ Add". <br>
-![Screenshot 2023-03-28 063111](https://user-images.githubusercontent.com/99194827/228089771-b5d2a243-7ecc-4f8a-b032-7a01bd335d23.png) <br>
-Fill `gcp-credentials-final-project` for the block on `Block Name` and `/app/config/keyfile.json` on `Service Account File`. Then, click `Create`.
-![image](https://user-images.githubusercontent.com/99194827/228089865-a8b74240-f14b-4504-92c9-69938e2f6d2c.png)
-### Create Prefect Block for GCS Bucket
+### Activate and Configurate Prefect
+- Activate and Access Prefect UI.
+  ```bash
+  prefect config set PREFECT_API_URL=http://<external-ip>:4200/api
+  prefect server start --host 0.0.0.0
+  ```
+  Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`. Replace `<external-ip>` with external IP address of the VM.
+- Create Prefect Block for GCP Credentials <br>
+  From Prefect UI, move to 'Blocks' tab.
+  ![Screenshot 2023-03-28 062930](https://user-images.githubusercontent.com/99194827/228089527-687c69f4-3ba6-42f1-94c1-b5ad9d115cc3.png) <br>
+  Click "+" button, search "GCP Credentials", then click "+ Add". <br>
+  ![Screenshot 2023-03-28 063111](https://user-images.githubusercontent.com/99194827/228089771-b5d2a243-7ecc-4f8a-b032-7a01bd335d23.png) <br>
+  Fill `gcp-credentials-final-project` for the block on `Block Name` and `/app/config/keyfile.json` on `Service Account File`. Then, click `Create`.
+  ![image](https://user-images.githubusercontent.com/99194827/228089865-a8b74240-f14b-4504-92c9-69938e2f6d2c.png)
+- Create Prefect Block for GCS Bucket
 Move again to 'Blocks' tab. Click "+" button, search "GCS Bucket", then click "+ Add". <br>
 ![image](https://user-images.githubusercontent.com/99194827/228090032-a5a7d758-543b-4296-9404-411202c0398c.png) <br>
 Fill `gcs-bucket-final-project` for the block on `Block Name`, `dezoomcamp_final_project` on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`. <br>
 ![image](https://user-images.githubusercontent.com/99194827/228090227-34a9c702-6468-4979-871d-12bea89a86f8.png)
-### Open new terminal and access vm in the new terminal using ssh (same as before). Access same container by checking its id and run with exec command.
+- Open new terminal and access vm in the new terminal using ssh (same as before). Access same container by checking its id and run with exec command.
 ```bash
 docker ps -a
 docker exec -it <container-id> bash
 ```
 Replace `<container-id>` with container id shown in output of command `docker ps -a`. <br>
 ![Screenshot 2023-03-28 062241](https://user-images.githubusercontent.com/99194827/228088746-9e988e0a-998a-484a-a7ee-d6558460ce58.png)
+
+## Create, Apply, and Run Prefect Deployment
+- To create and apply Prefect Deployment and set the cron to run monthly, execute this command.
+  ```bash
+  prefect deployment build /app/src/data_pipeline.py:etl_main_function -n "ETL_GCS_to_BGQ_Monthly" --cron "0 0 1 * *" -a
+  ```
+  ![image](https://user-images.githubusercontent.com/99194827/228199147-79b85c4e-5b77-4b7e-89fe-0a1e0889d3e0.png) <br>
+- Do quick run to ingest initial dataset (Jan 2015 to Feb 2023), since March 1st, 2023 has already passed.
+  ```bash
+  prefect deployment run etl-main-function/ETL_GCS_to_BGQ_Monthly --param initial=True
+  ```
+  ![image](https://user-images.githubusercontent.com/99194827/228421509-62e3fe15-5181-46a9-8b39-e18d3a25455b.png)
+- Don't forget to start a Prefect Agent for the deployment by executing command below:
+  ```bash
+  prefect agent start -q 'default'
+  ```
+  This deployment will run batch processing of previous month at 1st date of current month. <br>
+  ![image](https://user-images.githubusercontent.com/99194827/228199616-21aebd77-ac91-4572-a5d7-878adc86f62b.png)
 
 ## Ingest Initial Dataset
 In this project, we simulate to do batch processing from source to data lake to data warehouse. Now, we'll ingest data from Jan 2015 to Jan 2023 as initial state of dataset. It can be done by executing command below:
@@ -173,21 +185,8 @@ python3 src/data_pipeline.py True
 Terminal's condition on prefect running: <br>
 ![image](https://user-images.githubusercontent.com/99194827/228159806-2600a11d-5324-4a8d-9c93-8a4634c86407.png) <br>
 BigQuery's query when initial dataset has been ingested: <br>
-![image](https://user-images.githubusercontent.com/99194827/228160232-18edf66c-72e7-44d1-8338-008f0c5ec1f3.png) <br>
-Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 and data of Mar 2023 will be ingested in Apr 1st, 2023, etc.
-
-## Create, Apply, and Run Prefect Deployment for Monthly Batch Processing
-To ingest data per batch monthly, we create and apply Prefect Deployment and set the cron to run monthly, by executing command below:
-```bash
-prefect deployment build /app/src/data_pipeline.py:etl_main_function -n "ETL GCS to BGQ Monthly" --cron "0 0 1 * *" -a
-```
-![image](https://user-images.githubusercontent.com/99194827/228199147-79b85c4e-5b77-4b7e-89fe-0a1e0889d3e0.png) <br>
-Don't forget to start a Prefect Agent for the deployment by executing command below:
-```bash
-prefect agent start -q 'default'
-```
-This deployment will run batch processing of previous month at 1st date of current month. <br>
-![image](https://user-images.githubusercontent.com/99194827/228199616-21aebd77-ac91-4572-a5d7-878adc86f62b.png)
+![image](https://user-images.githubusercontent.com/99194827/228420131-f3dc6bb4-1e6b-4b46-9387-1b35bdb73686.png) <br>
+Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 (quick run of deployment since the date has already passed) and data of Mar 2023 will be ingested in Apr 1st, 2023, etc (scheduled run).
 
 ## Data Transformation on Data Warehouse with dbt Cloud
 ### Access dbt cloud [here](https://cloud.getdbt.com/login). Register as usual if you have never create one. Click gear icon on top right side. Then, click "Account Settings".
