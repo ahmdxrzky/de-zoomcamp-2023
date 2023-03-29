@@ -1,9 +1,9 @@
 # Problem Statement
-Pattern of weather is getting more difficult to be identified year by year. There are many factors led to this phenomenon, especially global warming. Usually, Indonesian people could be certain that the dry season would occur from March to September and the rainy season on the rest of the year. Now, we can no longer use this knowledge as reference. Therefore, I am interested to build this project in order to answer the question of whether there have been changes in weather patterns or not.
+Pattern of weather is getting more difficult to be identified year by year. There are many factors led to this phenomenon, especially global warming. Usually, Indonesian people could be certain that the dry season would occur from March to September and the rainy season on the other hand. Now, we can no longer use this knowledge as reference. Therefore, I am interested to build this project in order to answer the question of _whether there have been changes in weather patterns or not_.
 
 # Data Source
 #### [_Denpasar Weather Data on Kaggle_](https://www.kaggle.com/datasets/cornflake15/denpasarbalihistoricalweatherdata?resource=download) ####
-Disclaimer: Actually, dataset above only provides weather data of Denpasar City from 1990 to 2020 (even the data for 2020 is not complete to December). In order to make this data engineering project (which batch processes the data) look real and simulate the actual workflow of data engineering, I manipulate the dataset by adding 4 years to the actual date data and dividing it per year and month, so the data for 2023 are available and can be used to simulate batch processing per month.
+Disclaimer: Actually, dataset above only provides weather data of Denpasar City from 1990 to 2020 (even the data for 2020 is not complete to December). In order to make this data engineering project (which batch processes the data) look real and simulate the actual workflow of data engineering, I _manipulate_ the dataset by _adding_ 4 years to the actual date data and _dividing_ it per year and month, so the data for 2023 are available and can be used to simulate batch processing per month.
 
 # Prerequisites
 1. Basic bash syntax, such as `nano` to edit file on linux or `cat` to see content from a file in linux terminal.
@@ -31,20 +31,20 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - **Google Looker Studio**. Tool for visualizing data in two tiles (for this project).
 
 # Steps to Reproduce this Project
-## Create Service Account
-### Access Google Cloud Console [here](https://console.cloud.google.com/getting-started). Then, move to "Service Accounts" tab.
+### Create Service Account
+1. Access **Google Cloud Console** [here](https://console.cloud.google.com/getting-started). Login with your google account. Then, move to **Service Accounts** tab. (You have to select a cloud project or create one if you didn't have any)
 ![Cloud Console](https://user-images.githubusercontent.com/99194827/228078545-add2b3b8-202d-4ffd-989f-0122b5969980.png)
-### Click "Create Service Account".
+2. Click **Create Service Account**.
 ![Screenshot 2023-03-28 051305](https://user-images.githubusercontent.com/99194827/228079307-30829881-8e52-44d0-8aed-39f20d25f849.png)
-### Fill in name and description (ID is auto-generate based on name) for service account, then click "Create".
+3. Fill in name and description (ID is auto-generate based on name) for service account, then click **Create and Continue**.
 ![Screenshot 2023-03-28 051359](https://user-images.githubusercontent.com/99194827/228079334-9bd09e3c-ab51-400a-ace9-cbeffbfc1592.png)
-### Grant all access needed by this service account to the project. Since this project will work around Cloud Storage and BigQuery, so I grant these roles for this service account. Then, click "Continue". Then, click "Done" on bottom of the page.
+4. Grant all access needed by this service account to the project. Since this project will work around Cloud Storage and BigQuery, so I grant these roles for this service account. Then, click **Continue**. Then, click **Done** on bottom of the page.
 ![Screenshot 2023-03-28 051754](https://user-images.githubusercontent.com/99194827/228079475-2a304a14-01ae-4646-ab5f-b710d20203a9.png)
-### Click three dots on row of the newly built Service Account and click "Manage keys".
+5. Click three dots on row of the newly built Service Account and click **Manage keys**.
 ![Screenshot 2023-03-28 052039](https://user-images.githubusercontent.com/99194827/228079986-950b8695-1e61-4fd0-8d1e-20476df5b441.png)
-### Click "Add key" and "Create new key".
+6. Click **Add key**, then click **Create new key**.
 ![Screenshot 2023-03-28 052151](https://user-images.githubusercontent.com/99194827/228080151-dd07124c-5182-46d1-9d7e-2d4ddc656426.png)
-### Choose "JSON" option and a keyfile in json format will be downloaded automatically. Save this for later.
+7. Choose **JSON** option, then click **Create**. A keyfile in json format will be downloaded automatically.
 ![Screenshot 2023-03-28 052232](https://user-images.githubusercontent.com/99194827/228080289-f73e2675-3bf9-44f3-b6a1-dd6a812852cf.png)
 
 ## Create a Virtual Machine Instance on Google Compute Engine
