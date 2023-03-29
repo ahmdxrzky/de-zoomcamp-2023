@@ -10,7 +10,7 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
 
 # Copy static files (files that doesn't need any adjustment) from local to container
 COPY ./requirements.txt /app/requirements.txt
-COPY ./final/data_pipeline.py /app/final/data_pipeline.py
+COPY ./src/data_pipeline.py /app/src/data_pipeline.py
 COPY ./terraform/main.tf /app/terraform/main.tf
 COPY ./terraform/variables.tf /app/terraform/variables.tf
 COPY ./config/keyfile.json /app/config/keyfile.json
