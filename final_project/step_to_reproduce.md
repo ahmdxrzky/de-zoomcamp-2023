@@ -1,34 +1,34 @@
 # Problem Statement
-Patterns of weather are getting more difficult to be identified year by year. There are many factors that causing this, especially global warming. In the past, Indonesian people could be certain that the dry season would occur from this month to that month and the rainy on the other hand. Now, this is no longer the case. Therefore, this project aims to investigate the seasonal patterns in Denpasar City from 2015 to the present. <br>
-Data source: Kaggle, Denpasar Weather Data
+Pattern of weather is getting more difficult to be identified year by year. There are many factors led to this phenomenon, especially global warming. Usually, Indonesian people could be certain that the dry season would occur from March to September and the rainy season on the rest of the year. Now, we can no longer use this knowledge as reference. Therefore, I am interested to build this project in order to answer the question of whether there have been changes in weather patterns or not.
+
+# Data Source
+#### [_Denpasar Weather Data on Kaggle_](https://www.kaggle.com/datasets/cornflake15/denpasarbalihistoricalweatherdata?resource=download) ####
+Disclaimer: Actually, dataset above only provides weather data of Denpasar City from 1990 to 2020 (even the data for 2020 is not complete to December). In order to make this data engineering project (which batch processes the data) look real and simulate the actual workflow of data engineering, I manipulate the dataset by adding 4 years to the actual date data and dividing it per year and month, so the data for 2023 are available and can be used to simulate batch processing per month.
+
+# Prerequisites
+1. Basic bash syntax, such as `nano` to edit file on linux or `cat` to see content from a file in linux terminal.
+2. Github
 
 # Project Framework
 ![assets](https://user-images.githubusercontent.com/99194827/227752387-4736cd2d-ecf3-4579-a40e-1558f48d6413.png)
 1. Pipeline for processing dataset and extracting it from source to a data lake.
 2. Pipeline for batch moving the data from the data lake to a data warehouse.
 3. Transform the data in the data warehouse.
-4. Create a dashboard to see pattern of weather by year. <br>
-
-This project's guidance assumed readers have already know basic syntax for linux administration, such as `nano` to edit file on linux or `cat` to see content from a file in linux terminal.
+4. Create a dashboard to see pattern of weather by year.
 
 # Tools
 ### Cloud
-![assets_cloud](https://user-images.githubusercontent.com/99194827/227749263-755e2813-5c6e-4c10-93d7-4a2b32515922.png)
-- Google Compute Engine (GCE). A GCE virtual machine used to develop and run this project along with Google Cloud Storage (GCS) and Google BigQuery (GBQ).
-- Terraform. Infrastructure as Code (IaC) tool to create a GCS Bucket and GBQ Dataset.
+- **Google Compute Engine (GCE)**. A GCE virtual machine used to develop and run this project along with Google Cloud Storage (GCS) and Google BigQuery (GBQ).
+- **Terraform**. Infrastructure as Code (IaC) tool to create a GCS Bucket and GBQ Dataset in a code execution only.
 ### Data Ingestion
-![assets_ingestion](https://user-images.githubusercontent.com/99194827/227752393-db2c208e-8de5-40cb-bcf1-14c1dd8750b2.png)
-- Prefect. Workflow Orchestration tool to orchestrarize data pipeline.
-- Google Cloud Storage (GCS). GCS as Data Lake.
+- **Prefect**. Workflow Orchestration tool to orchestrarize data pipeline.
+- **Google Cloud Storage (GCS)**. GCS as Data Lake.
 ### Data Warehouse
-![assets_warehouse](https://user-images.githubusercontent.com/99194827/227752398-cfe9a2c7-d9ca-4c5c-aa71-e47548758bf2.png) <br>
-Google BigQuery (GBQ). GBQ as Data Warehouse. Table being partitioned by datetime.
+- **Google BigQuery (GBQ)**. GBQ as Data Warehouse. Table being partitioned by datetime.
 ### Data Transformations
-![assets_transform](https://user-images.githubusercontent.com/99194827/227749726-b8a42fab-b1d3-4edf-80c3-c1cf4d7d10a7.png) <br>
-data build tools (dbt). Tool for transforming data in data warehouse.
+- **data build tools (dbt)**. Tool for transforming data in data warehouse.
 ### Dashboard
-![assets_dashboard](https://user-images.githubusercontent.com/99194827/227749757-ba2583de-a0b9-4815-bb6b-da7b5f62722a.png) <br>
-Google Looker Studio. Tool for visualizing data in two tiles (for this project).
+- **Google Looker Studio**. Tool for visualizing data in two tiles (for this project).
 
 # Steps to Reproduce this Project
 ## Create Service Account
@@ -105,13 +105,20 @@ Before: <br>
 ![Screenshot 2023-03-28 060505](https://user-images.githubusercontent.com/99194827/228086611-ea35c539-5b90-4566-9807-29799240608c.png) <br>
 After: <br>
 ![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
+### Check project id
+Personal project id can be obtained from service account keyfile downloaded and copied before. <br>
+![image](https://user-images.githubusercontent.com/99194827/228087061-9a8bdd2c-c733-403d-9e8c-f84b27ff2d08.png)
 ### Edit variables.tf on terraform folder. Change default "project" to personal project id.
 Before: <br>
 ![Screenshot 2023-03-28 060756](https://user-images.githubusercontent.com/99194827/228086951-05b40b94-1ade-4074-a072-c1e9174c0bb6.png) <br>
 After: <br>
 ![Screenshot 2023-03-28 060905](https://user-images.githubusercontent.com/99194827/228086971-8687b1d2-7e64-4e93-b731-4ec493a2a0cc.png) <br>
-Personal project id can be obtained from service account keyfile downloaded and copied before. <br>
-![image](https://user-images.githubusercontent.com/99194827/228087061-9a8bdd2c-c733-403d-9e8c-f84b27ff2d08.png)
+### Add environment variable
+Execute command below and also add this to .bashrc file on home folder.
+```bash
+export PROJECT_ID="<project-id>"
+```
+Replace `<project-id>` with personal project id
   
 ## Build Docker Image and Run Docker Container
 ### Install docker on virtual machine.
@@ -158,7 +165,7 @@ Replace `<container-id>` with container id shown in output of command `docker ps
 ## Ingest Initial Dataset
 In this project, we simulate to do batch processing from source to data lake to data warehouse. Now, we'll ingest data from Jan 2015 to Jan 2023 as initial state of dataset. It can be done by executing command below:
 ```bash
-python3 final/data_pipeline.py True
+python3 src/data_pipeline.py True
 ```
 Terminal's condition on prefect running: <br>
 ![image](https://user-images.githubusercontent.com/99194827/228159806-2600a11d-5324-4a8d-9c93-8a4634c86407.png) <br>
@@ -169,7 +176,7 @@ Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 a
 ## Create, Apply, and Run Prefect Deployment for Monthly Batch Processing
 To ingest data per batch monthly, we create and apply Prefect Deployment and set the cron to run monthly, by executing command below:
 ```bash
-prefect deployment build /app/final/data_pipeline.py:etl_total -n "ETL GCS to BGQ Monthly" --cron "0 0 1 * *" -a
+prefect deployment build /app/src/data_pipeline.py:etl_main_function -n "ETL GCS to BGQ Monthly" --cron "0 0 1 * *" -a
 ```
 ![image](https://user-images.githubusercontent.com/99194827/228199147-79b85c4e-5b77-4b7e-89fe-0a1e0889d3e0.png) <br>
 Don't forget to start a Prefect Agent for the deployment by executing command below:
