@@ -16,7 +16,7 @@ COPY ./terraform/variables.tf /app/terraform/variables.tf
 COPY ./config/keyfile.json /app/config/keyfile.json
 
 # Set project id as environment variable
-ENV PROJECT_ID=de-zoomcamp-375916
+ENV PROJECT_ID=<gcp-project-id>
 
 # Set working directory
 WORKDIR /app
