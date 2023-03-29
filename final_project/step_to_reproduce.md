@@ -7,7 +7,8 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 
 # Prerequisites
 1. Basic bash syntax, such as `nano` to edit file on linux or `cat` to see content from a file in linux terminal.
-2. Github
+2. SSH Key Generation.
+3. Github
 
 # Project Framework
 ![assets](https://user-images.githubusercontent.com/99194827/227752387-4736cd2d-ecf3-4579-a40e-1558f48d6413.png)
@@ -32,64 +33,66 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 
 # Steps to Reproduce this Project
 ### Create Service Account
-1. Access **Google Cloud Console** [here](https://console.cloud.google.com/getting-started). Login with your google account. Then, move to **Service Accounts** tab. (You have to select a cloud project or create one if you didn't have any)
-![Cloud Console](https://user-images.githubusercontent.com/99194827/228078545-add2b3b8-202d-4ffd-989f-0122b5969980.png)
-2. Click **Create Service Account**.
-![Screenshot 2023-03-28 051305](https://user-images.githubusercontent.com/99194827/228079307-30829881-8e52-44d0-8aed-39f20d25f849.png)
-3. Fill in name and description (ID is auto-generate based on name) for service account, then click **Create and Continue**.
-![Screenshot 2023-03-28 051359](https://user-images.githubusercontent.com/99194827/228079334-9bd09e3c-ab51-400a-ace9-cbeffbfc1592.png)
-4. Grant all access needed by this service account to the project. Since this project will work around Cloud Storage and BigQuery, so I grant these roles for this service account. Then, click **Continue**. Then, click **Done** on bottom of the page.
-![Screenshot 2023-03-28 051754](https://user-images.githubusercontent.com/99194827/228079475-2a304a14-01ae-4646-ab5f-b710d20203a9.png)
-5. Click three dots on row of the newly built Service Account and click **Manage keys**.
-![Screenshot 2023-03-28 052039](https://user-images.githubusercontent.com/99194827/228079986-950b8695-1e61-4fd0-8d1e-20476df5b441.png)
-6. Click **Add key**, then click **Create new key**.
-![Screenshot 2023-03-28 052151](https://user-images.githubusercontent.com/99194827/228080151-dd07124c-5182-46d1-9d7e-2d4ddc656426.png)
-7. Choose **JSON** option, then click **Create**. A keyfile in json format will be downloaded automatically.
-![Screenshot 2023-03-28 052232](https://user-images.githubusercontent.com/99194827/228080289-f73e2675-3bf9-44f3-b6a1-dd6a812852cf.png)
+- Access **Google Cloud Console** [here](https://console.cloud.google.com/getting-started). Login with your google account. Then, move to **Service Accounts** tab. (You have to select a cloud project or create one if you didn't have any)
+  ![Cloud Console](https://user-images.githubusercontent.com/99194827/228078545-add2b3b8-202d-4ffd-989f-0122b5969980.png)
+- Click **Create Service Account**.
+  ![Screenshot 2023-03-28 051305](https://user-images.githubusercontent.com/99194827/228079307-30829881-8e52-44d0-8aed-39f20d25f849.png)
+- Fill in name and description (ID is auto-generate based on name) for service account, then click **Create and Continue**.
+  ![Screenshot 2023-03-28 051359](https://user-images.githubusercontent.com/99194827/228079334-9bd09e3c-ab51-400a-ace9-cbeffbfc1592.png)
+- Grant all access needed by this service account to the project. Since this project will work around Cloud Storage and BigQuery, so I grant these roles for this service account. Then, click **Continue**. Then, click **Done** on bottom of the page.
+  ![Screenshot 2023-03-28 051754](https://user-images.githubusercontent.com/99194827/228079475-2a304a14-01ae-4646-ab5f-b710d20203a9.png)
+- Click three dots on row of the newly built Service Account and click **Manage keys**.
+  ![Screenshot 2023-03-28 052039](https://user-images.githubusercontent.com/99194827/228079986-950b8695-1e61-4fd0-8d1e-20476df5b441.png)
+- Drop **Add key** down, then click **Create new key**.
+  ![Screenshot 2023-03-28 052151](https://user-images.githubusercontent.com/99194827/228080151-dd07124c-5182-46d1-9d7e-2d4ddc656426.png)
+- Choose **JSON** option, then click **Create**. A keyfile in json format will be downloaded automatically.
+  ![Screenshot 2023-03-28 052232](https://user-images.githubusercontent.com/99194827/228080289-f73e2675-3bf9-44f3-b6a1-dd6a812852cf.png)
 
-## Create a Virtual Machine Instance on Google Compute Engine
-### Still in Google Cloud Console, move to "VM Instances" tab.
-![Screenshot 2023-03-28 052449](https://user-images.githubusercontent.com/99194827/228080597-900e3bb8-96b9-4e12-b1b4-f81a03683aa3.png)
-### Click "Create Instance".
-![Screenshot 2023-03-28 052531](https://user-images.githubusercontent.com/99194827/228080697-2cf00073-8e38-48c3-a1ff-012784f3a330.png)
-### Fill in name, region, and zone.
-![Screenshot 2023-03-28 052637](https://user-images.githubusercontent.com/99194827/228080851-981302b9-4a28-49fe-8839-6d1463c60b37.png)
-### Scroll down. In Firewall part, allow HTTP and HTTPS traffic.
-![Screenshot 2023-03-28 052723](https://user-images.githubusercontent.com/99194827/228081008-64cd7a46-d291-4eb5-839e-11c373d19493.png)
-### Scroll down again and drop down "Advanced options". In Networking part, fill in network tags and enable IP forwarding. Then, click "Create" on bottom of the page.
-![Screenshot 2023-03-28 052913](https://user-images.githubusercontent.com/99194827/228081268-5154c229-14d0-47e1-bf8c-826f2aaba207.png)
-### Remember value from "External IP" column. It will be used for accessing this VM from local machine.
-![Screenshot 2023-03-28 053032](https://user-images.githubusercontent.com/99194827/228081528-30053ed9-8a82-48d6-b9e1-ec2cf55b1f86.png)
-### Move to "Firewall" tab. Then, click "Create Firewall Rule"
-![Screenshot 2023-03-28 053143](https://user-images.githubusercontent.com/99194827/228081668-97d46b2e-6e3c-43a7-8aa3-ff07643cf54a.png)
-![Screenshot 2023-03-28 053232](https://user-images.githubusercontent.com/99194827/228085307-0d8c1bac-d9fa-4545-8509-824f9957472e.png)
-### Adjust name and description of firewall rule.
-![Screenshot 2023-03-28 053336](https://user-images.githubusercontent.com/99194827/228081917-55e32bf8-7662-4a80-9360-236cf464dcb9.png)
-### Fill in "project" on target tags (so this rule will apply to all VM with this tag, including the newly built one), "0.0.0.0/0" on Source IPv4 ranges (so all external machine can access this VM), and 4200 on TCP ports (port for Prefect UI). Then, click "Create" on bottom of the page.
-![Screenshot 2023-03-28 053556](https://user-images.githubusercontent.com/99194827/228082396-ce6819db-415a-42bb-bc11-6997f2ca55e8.png)
-### Move to local terminal (I use wsl terminal on Visual Studio Code. This also can be done with command prompt for windows). Then, generate SSH Keygen.
-```bash
-ssh-keygen
-```
-### Copy output of this command.
-```bash
-cat ~/.ssh/id_rsa.pub
-```
-### Click previously built VM instance.
-![Screenshot 2023-03-28 054131](https://user-images.githubusercontent.com/99194827/228083451-edcf0d0f-57e4-4821-9252-c469a4266e49.png)
-### Click "Edit".
-![Screenshot 2023-03-28 054144](https://user-images.githubusercontent.com/99194827/228083508-78e27ad8-fe32-4a97-9a21-f43123c13447.png)
-### On "SSH Keys" part, click "Add item" and paste RSA key from local terminal copied before. Then, click "Save" on bottom of the page.
-Before: <br>
-![Screenshot 2023-03-28 054214](https://user-images.githubusercontent.com/99194827/228083563-630142b0-6277-47fd-83d7-084ac24d699e.png) <br>
-After: <br>
-![Screenshot 2023-03-28 054235](https://user-images.githubusercontent.com/99194827/228083588-598ead42-e167-4309-a80c-981893591987.png)
-### VM can be accessed through local terminal-cli now.
-```bash
-ssh <username>@<external-ip>
-```
-Replace `<username>` with username of wsl machine and `<external-ip>` with value of external IP address of VM instance.
-![Screenshot 2023-03-28 054703](https://user-images.githubusercontent.com/99194827/228083970-62a10890-d508-4384-91d5-9756529ae59f.png)
+### Create a Virtual Machine Instance on Google Compute Engine
+- Still in Google Cloud Console, move to **VM Instances** tab.
+  ![Screenshot 2023-03-28 052449](https://user-images.githubusercontent.com/99194827/228080597-900e3bb8-96b9-4e12-b1b4-f81a03683aa3.png)
+- Click **Create Instance**.
+  ![Screenshot 2023-03-28 052531](https://user-images.githubusercontent.com/99194827/228080697-2cf00073-8e38-48c3-a1ff-012784f3a330.png)
+- Fill in name, region, and zone.
+  ![Screenshot 2023-03-28 052637](https://user-images.githubusercontent.com/99194827/228080851-981302b9-4a28-49fe-8839-6d1463c60b37.png)
+- Scroll down. In Firewall part, allow **HTTP** and **HTTPS** traffic.
+  ![Screenshot 2023-03-28 052723](https://user-images.githubusercontent.com/99194827/228081008-64cd7a46-d291-4eb5-839e-11c373d19493.png)
+- Scroll down again and drop **Advanced options** down. Drop **Networking** down, fill in network tags and enable **IP forwarding**. Then, click **Create** on bottom of the page.
+  ![Screenshot 2023-03-28 052913](https://user-images.githubusercontent.com/99194827/228081268-5154c229-14d0-47e1-bf8c-826f2aaba207.png)
+- Remember value from **External IP** column. It will be used for accessing this VM from local machine.
+  ![Screenshot 2023-03-28 053032](https://user-images.githubusercontent.com/99194827/228081528-30053ed9-8a82-48d6-b9e1-ec2cf55b1f86.png)
+- Move to **Firewall** tab. Then, click **Create Firewall Rule**.
+  ![Screenshot 2023-03-28 053143](https://user-images.githubusercontent.com/99194827/228081668-97d46b2e-6e3c-43a7-8aa3-ff07643cf54a.png)
+  ![Screenshot 2023-03-28 053232](https://user-images.githubusercontent.com/99194827/228085307-0d8c1bac-d9fa-4545-8509-824f9957472e.png)
+- Fill in name and description of firewall rule.
+  ![Screenshot 2023-03-28 053336](https://user-images.githubusercontent.com/99194827/228081917-55e32bf8-7662-4a80-9360-236cf464dcb9.png)
+- Fill in **target tags** with **network tags** defined previously ("project" for my case), "0.0.0.0/0" on **Source IPv4 ranges** (so all external machine can access this VM), and 4200 on TCP **ports** (port for Prefect UI). Then, click **Create** on bottom of the page.
+  ![Screenshot 2023-03-28 053556](https://user-images.githubusercontent.com/99194827/228082396-ce6819db-415a-42bb-bc11-6997f2ca55e8.png)
+- Move to local terminal (I use wsl terminal on Visual Studio Code. This also can be done with command prompt for windows). Check have you generate a SSH key or not by executing this command.
+  ```bash
+  cat ~/.ssh/id_rsa.pub
+  ```
+  If there is no `id_rsa.pub` file on your machine, it means you haven't generate any SSH key. If there is output from the command above, you can skip this very next step.
+- Generate SSH key by executing this command.
+  ```bash
+  ssh-keygen
+  ```
+- Read content of `id_rsa.pub` file and copy it.
+- Back to **Google Cloud Console**. Go to **VM Instances** tab and click previously built VM instance.
+  ![Screenshot 2023-03-28 054131](https://user-images.githubusercontent.com/99194827/228083451-edcf0d0f-57e4-4821-9252-c469a4266e49.png)
+- Click **Edit**.
+  ![Screenshot 2023-03-28 054144](https://user-images.githubusercontent.com/99194827/228083508-78e27ad8-fe32-4a97-9a21-f43123c13447.png)
+- On **SSH Keys** part, click **+ Add item** and paste RSA key from local terminal copied on step 11. Then, click **Save** on bottom of the page. <br>
+  Before: <br>
+  ![Screenshot 2023-03-28 054214](https://user-images.githubusercontent.com/99194827/228083563-630142b0-6277-47fd-83d7-084ac24d699e.png) <br>
+  After: <br>
+  ![Screenshot 2023-03-28 054235](https://user-images.githubusercontent.com/99194827/228083588-598ead42-e167-4309-a80c-981893591987.png)
+- VM can be accessed through local terminal-cli now.
+  ```bash
+  ssh <username>@<external-ip>
+  ```
+  Replace `<username>` with username of machine and `<external-ip>` with value of external IP address of VM instance.
+  ![Screenshot 2023-03-28 054703](https://user-images.githubusercontent.com/99194827/228083970-62a10890-d508-4384-91d5-9756529ae59f.png)
 
 ## Clone Github Repository to Virtual Machine
 ### Install git on virtual machine.
