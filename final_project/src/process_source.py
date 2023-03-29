@@ -10,7 +10,7 @@ date_time = pd.Series(df['dt'].apply(lambda x: datetime.fromtimestamp(x)))
 df.insert(1, "datetime", date_time)
 df['year'] = df['datetime'].dt.year
 df['month'] = df['datetime'].dt.month
-df = df.drop(['dt_iso'], axis=1)
+df = df.drop(['dt_iso', 'weather_main', 'weather_description', 'weather_icon'], axis=1)
 
 for year in range(1995, 2024):
     for month in range(1, 13):
