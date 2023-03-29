@@ -188,31 +188,35 @@ BigQuery's query when initial dataset has been ingested: <br>
 ![image](https://user-images.githubusercontent.com/99194827/228420131-f3dc6bb4-1e6b-4b46-9387-1b35bdb73686.png) <br>
 Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 (quick run of deployment since the date has already passed) and data of Mar 2023 will be ingested in Apr 1st, 2023, etc (scheduled run).
 
-## Data Transformation on Data Warehouse with dbt Cloud
-### Access dbt cloud [here](https://cloud.getdbt.com/login). Register as usual if you have never create one. Click gear icon on top right side. Then, click "Account Settings".
+### Data Transformation on Data Warehouse with dbt Cloud
+- Access dbt cloud [here](https://cloud.getdbt.com/login). Register as usual if you have never create one. Click gear icon on top right side. Then, click "Account Settings".
 ![image](https://user-images.githubusercontent.com/99194827/228206587-74e90eb9-ea0a-437b-bc2a-eb629d9dbdef.png)
-### Click "+ New Project". Fill name for this project. Then, click "Continue".
+- Click "+ New Project". Fill name for this project. Then, click "Continue".
 ![image](https://user-images.githubusercontent.com/99194827/228201875-81b7d241-3e6f-486b-8293-1e11f7a0c11f.png)
-### Choose a connection. For this project, choose "BigQuery". Upload service account keyfile that has been downloaded before.
+- Choose a connection. For this project, choose "BigQuery". Upload service account keyfile that has been downloaded before.
 ![image](https://user-images.githubusercontent.com/99194827/228202847-e169514d-22bc-4367-842c-cebf5434b988.png)
-### In "Development Credentials" part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click "Test Connection"
+- In "Development Credentials" part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click "Test Connection"
 ![image](https://user-images.githubusercontent.com/99194827/228203128-88b8de68-83e9-4489-93f6-93783ea225b9.png)
-### In "Setup a Repository" part, click "Github" to choose a repository for dbt versioning.
+- In "Setup a Repository" part, click "Github" to choose a repository for dbt versioning.
 You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-transformation) and choose this in this part.
-### Go to `Develop` tab. Execute this command on dbt terminal.
+- Go to `Develop` tab. Execute this command on dbt terminal.
 ```bash
 dbt seed
 dbt run
 ```
+![image](https://user-images.githubusercontent.com/99194827/228423656-f197d010-d21c-45b8-86b7-a982e15a483d.png)
 
-## Data Visualization with Looker Data Studio
-### Access Looker Data Studio [here](https://lookerstudio.google.com) and login with google account. Then, click "Create" and "Data source".
-![image](https://user-images.githubusercontent.com/99194827/228208676-08ab15b4-294c-4ff1-b3f2-7884c1ed25ff.png)
-### Choose "BigQuery".
-![image](https://user-images.githubusercontent.com/99194827/228208786-4607c008-5772-420e-bee4-baccffe30b0b.png)
-### Choose project, dataset, and table on BigQuery that will be used as data source. Then, click "Connect"
-![image](https://user-images.githubusercontent.com/99194827/228209201-f62779bb-f196-4c44-b047-c9c34b46d982.png)
-### Click "Create" and "Report".
-![image](https://user-images.githubusercontent.com/99194827/228209589-574d4bad-15ab-48c5-b969-5697bed9ab46.png)
-### Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
-![image](https://user-images.githubusercontent.com/99194827/228211673-6f5fde7f-4e38-4934-9885-3516dde4cf99.png)
+### Data Visualization with Looker Data Studio
+- Access Looker Data Studio [here](https://lookerstudio.google.com) and login with google account. Then, click **Create** then **Data source**.
+  ![image](https://user-images.githubusercontent.com/99194827/228208676-08ab15b4-294c-4ff1-b3f2-7884c1ed25ff.png)
+- Choose **BigQuery**.
+  ![image](https://user-images.githubusercontent.com/99194827/228208786-4607c008-5772-420e-bee4-baccffe30b0b.png)
+- Choose project, dataset, and table on BigQuery that will be used as data source. Then, click **Connect**.
+  ![image](https://user-images.githubusercontent.com/99194827/228209201-f62779bb-f196-4c44-b047-c9c34b46d982.png)
+- Click **Create** then **Report**.
+  ![image](https://user-images.githubusercontent.com/99194827/228209589-574d4bad-15ab-48c5-b969-5697bed9ab46.png)
+- Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
+  ![image](https://user-images.githubusercontent.com/99194827/228211673-6f5fde7f-4e38-4934-9885-3516dde4cf99.png)
+  
+# Insights and Goals Fulfilling
+
