@@ -30,3 +30,7 @@ This repository contains files that I made or edit to fulfill my answer for task
 - Contents: Kafka, Kafka Streams, Kafka Connect and KSQL
 - Homework: [Homework](https://github.com/DataTalksClub/data-engineering-zoomcamp/blob/main/cohorts/2023/week_6_stream_processing/homework.md)
 - Answer: [Answer](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/week6/week6_homework.md)
+
+## Week 7: Final Project
+- Guidelines: [Guidelines](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/week_7_project)
+- Answer: [Answer](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/guide.md)
