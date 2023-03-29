@@ -189,7 +189,7 @@ You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-trans
   dbt seed
   dbt run
   ```
-  ![image](https://user-images.githubusercontent.com/99194827/228423656-f197d010-d21c-45b8-86b7-a982e15a483d.png)
+  ![image](https://user-images.githubusercontent.com/99194827/228480443-2c7144ca-ea66-4019-9c5f-69b07fd22ce9.png)
 
 ### Data Visualization with Looker Data Studio
 - Access Looker Data Studio [here](https://lookerstudio.google.com) and login with google account. Then, click **Create** then **Data source**.
