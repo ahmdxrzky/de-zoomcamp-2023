@@ -216,7 +216,7 @@ dbt run
 - Click **Create** then **Report**.
   ![image](https://user-images.githubusercontent.com/99194827/228209589-574d4bad-15ab-48c5-b969-5697bed9ab46.png)
 - Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
-  ![image](https://user-images.githubusercontent.com/99194827/228211673-6f5fde7f-4e38-4934-9885-3516dde4cf99.png)
+  ![image](https://user-images.githubusercontent.com/99194827/228429331-03a18479-7eb2-40fe-94c1-b32bea70221f.png)
   
 # Insights and Goals Fulfilling
-
+From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, we strongly believe that there is a shift in weather patternal in Denpasar.
