@@ -170,9 +170,8 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ```
   By executing command above, quick run to ingest initial dataset will run. BigQuery will start to store dataset from Jan 2015 to Feb 2023.
   ![image](https://user-images.githubusercontent.com/99194827/228421509-62e3fe15-5181-46a9-8b39-e18d3a25455b.png) <br>
-  It is also schedule batch processing data of Mar 2023 at 1st date of Apr, etc <br>
-  ![image](https://user-images.githubusercontent.com/99194827/228199616-21aebd77-ac91-4572-a5d7-878adc86f62b.png)
-png)
+  It is also schedule batch processing data of Mar 2023 at Apr 1st, Apr 2023 at May 1st, May 2023 at June 1st, etc <br>
+  ![image](https://user-images.githubusercontent.com/99194827/228478394-b8cc0348-d252-4e1f-b9ed-e407c40532f9.png)
 
 ### Data Transformation on Data Warehouse with dbt Cloud
 - Access dbt cloud [here](https://cloud.getdbt.com/login). Register as usual if you have never create one. Click gear icon on top right side. Then, click "Account Settings".
