@@ -126,7 +126,7 @@ def etl_total(
     The main function for all ETL process.
     
     :param initial: (bool)
-        If it sets as True, it means ETL process is ingesting initial dataset (1995 to Jan 2023).
+        If it sets as True, it means ETL process is ingesting initial dataset (2015 to Jan 2023).
         If it sets as False, it means ETL process is ingesting batch data (start with data from February 2023 that should be run with Deployment on Mar 1st, 2023).
     :param years: (list) Years of all data available.
     :param months: (list) Months in number.
