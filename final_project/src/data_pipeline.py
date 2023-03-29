@@ -1,5 +1,4 @@
 import os
-import sys
 import time
 import pandas as pd
 from pathlib import Path
@@ -157,6 +156,7 @@ def etl_main_function(
             for month in months:
                 etl_for_a_month(year, month)
         etl_for_a_month(2023, 1)
+        etl_for_a_month(2023, 2)
     else:
         current_datetime = datetime.fromtimestamp(time.time())
         current_year = current_datetime.year
@@ -165,8 +165,4 @@ def etl_main_function(
     return
 
 if __name__ == "__main__":
-    try:
-        arg1 = sys.argv[1]
-        etl_main_function(initial = arg1)
-    except:
-        etl_main_function()
+    etl_main_function()
