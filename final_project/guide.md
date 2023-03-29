@@ -1,14 +1,9 @@
 # Problem Statement
-Pattern of weather is getting more difficult to be identified year by year. There are many factors led to this phenomenon, especially global warming. Usually, Indonesian people could be certain that the dry season would occur from March to September and the rainy season on the other hand. Now, we can no longer use this knowledge as reference. Therefore, I am interested to build this project in order to answer the question of _whether there have been changes in weather patterns or not_.
+Pattern of weather is getting more difficult to be identified year by year. There are many factors led to this phenomenon, especially global warming. Usually, Indonesian people could be certain that the dry season would occur from March to September and the rainy season on the other hand. Now, we can no longer use this knowledge as reference. Therefore, I am interested to build this project in order to answer the question of _whether there have been changes in weather patterns in Indonesia or not_.
 
 # Data Source
 #### [_Denpasar Weather Data on Kaggle_](https://www.kaggle.com/datasets/cornflake15/denpasarbalihistoricalweatherdata?resource=download) ####
 Disclaimer: Actually, dataset above only provides weather data of Denpasar City from 1990 to 2020 (even the data for 2020 is not complete to December). In order to make this data engineering project (which batch processes the data) look real and simulate the actual workflow of data engineering, I _manipulate_ the dataset by _adding_ 4 years to the actual date data and _dividing_ it per year and month, so the data for 2023 are available and can be used to simulate batch processing per month.
-
-# Prerequisites
-1. Basic bash syntax, such as `nano` to edit file on linux or `cat` to see content from a file in linux terminal.
-2. SSH Key Generation.
-3. Github
 
 # Project Framework
 ![assets](https://user-images.githubusercontent.com/99194827/227752387-4736cd2d-ecf3-4579-a40e-1558f48d6413.png)
@@ -139,25 +134,25 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   prefect server start --host 0.0.0.0
   ```
   Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`. Replace `<external-ip>` with external IP address of the VM.
-- Create Prefect Block for GCP Credentials <br>
+- Create Prefect Block for GCP Credentials. <br>
   From Prefect UI, move to 'Blocks' tab.
   ![Screenshot 2023-03-28 062930](https://user-images.githubusercontent.com/99194827/228089527-687c69f4-3ba6-42f1-94c1-b5ad9d115cc3.png) <br>
   Click "+" button, search "GCP Credentials", then click "+ Add". <br>
   ![Screenshot 2023-03-28 063111](https://user-images.githubusercontent.com/99194827/228089771-b5d2a243-7ecc-4f8a-b032-7a01bd335d23.png) <br>
   Fill `gcp-credentials-final-project` for the block on `Block Name` and `/app/config/keyfile.json` on `Service Account File`. Then, click `Create`.
   ![image](https://user-images.githubusercontent.com/99194827/228089865-a8b74240-f14b-4504-92c9-69938e2f6d2c.png)
-- Create Prefect Block for GCS Bucket
-Move again to 'Blocks' tab. Click "+" button, search "GCS Bucket", then click "+ Add". <br>
-![image](https://user-images.githubusercontent.com/99194827/228090032-a5a7d758-543b-4296-9404-411202c0398c.png) <br>
-Fill `gcs-bucket-final-project` for the block on `Block Name`, `dezoomcamp_final_project` on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`. <br>
-![image](https://user-images.githubusercontent.com/99194827/228090227-34a9c702-6468-4979-871d-12bea89a86f8.png)
+- Create Prefect Block for GCS Bucket. <br>
+  Move again to 'Blocks' tab. Click "+" button, search "GCS Bucket", then click "+ Add". <br>
+  ![image](https://user-images.githubusercontent.com/99194827/228090032-a5a7d758-543b-4296-9404-411202c0398c.png) <br>
+  Fill `gcs-bucket-final-project` for the block on `Block Name`, `dezoomcamp_final_project` on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`. <br>
+  ![image](https://user-images.githubusercontent.com/99194827/228090227-34a9c702-6468-4979-871d-12bea89a86f8.png)
 - Open new terminal and access vm in the new terminal using ssh (same as before). Access same container by checking its id and run with exec command.
-```bash
-docker ps -a
-docker exec -it <container-id> bash
-```
-Replace `<container-id>` with container id shown in output of command `docker ps -a`. <br>
-![Screenshot 2023-03-28 062241](https://user-images.githubusercontent.com/99194827/228088746-9e988e0a-998a-484a-a7ee-d6558460ce58.png)
+  ```bash
+  docker ps -a
+  docker exec -it <container-id> bash
+  ```
+  Replace `<container-id>` with container id shown in output of command `docker ps -a`. <br>
+  ![Screenshot 2023-03-28 062241](https://user-images.githubusercontent.com/99194827/228088746-9e988e0a-998a-484a-a7ee-d6558460ce58.png)
 
 ## Create, Apply, and Run Prefect Deployment
 - To create and apply Prefect Deployment and set the cron to run monthly, execute this command.
@@ -169,24 +164,15 @@ Replace `<container-id>` with container id shown in output of command `docker ps
   ```bash
   prefect deployment run etl-main-function/ETL_GCS_to_BGQ_Monthly --param initial=True
   ```
-  ![image](https://user-images.githubusercontent.com/99194827/228421509-62e3fe15-5181-46a9-8b39-e18d3a25455b.png)
 - Don't forget to start a Prefect Agent for the deployment by executing command below:
   ```bash
   prefect agent start -q 'default'
   ```
-  This deployment will run batch processing of previous month at 1st date of current month. <br>
+  By executing command above, quick run to ingest initial dataset will run. BigQuery will start to store dataset from Jan 2015 to Feb 2023.
+  ![image](https://user-images.githubusercontent.com/99194827/228421509-62e3fe15-5181-46a9-8b39-e18d3a25455b.png) <br>
+  It is also schedule batch processing data of Mar 2023 at 1st date of Apr, etc <br>
   ![image](https://user-images.githubusercontent.com/99194827/228199616-21aebd77-ac91-4572-a5d7-878adc86f62b.png)
-
-## Ingest Initial Dataset
-In this project, we simulate to do batch processing from source to data lake to data warehouse. Now, we'll ingest data from Jan 2015 to Jan 2023 as initial state of dataset. It can be done by executing command below:
-```bash
-python3 src/data_pipeline.py True
-```
-Terminal's condition on prefect running: <br>
-![image](https://user-images.githubusercontent.com/99194827/228159806-2600a11d-5324-4a8d-9c93-8a4634c86407.png) <br>
-BigQuery's query when initial dataset has been ingested: <br>
-![image](https://user-images.githubusercontent.com/99194827/228420131-f3dc6bb4-1e6b-4b46-9387-1b35bdb73686.png) <br>
-Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 (quick run of deployment since the date has already passed) and data of Mar 2023 will be ingested in Apr 1st, 2023, etc (scheduled run).
+png)
 
 ### Data Transformation on Data Warehouse with dbt Cloud
 - Access dbt cloud [here](https://cloud.getdbt.com/login). Register as usual if you have never create one. Click gear icon on top right side. Then, click "Account Settings".
@@ -200,11 +186,11 @@ Using Prefect Deployment, data of Feb 2023 will be ingested in March 1st, 2023 (
 - In "Setup a Repository" part, click "Github" to choose a repository for dbt versioning.
 You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-transformation) and choose this in this part.
 - Go to `Develop` tab. Execute this command on dbt terminal.
-```bash
-dbt seed
-dbt run
-```
-![image](https://user-images.githubusercontent.com/99194827/228423656-f197d010-d21c-45b8-86b7-a982e15a483d.png)
+  ```bash
+  dbt seed
+  dbt run
+  ```
+  ![image](https://user-images.githubusercontent.com/99194827/228423656-f197d010-d21c-45b8-86b7-a982e15a483d.png)
 
 ### Data Visualization with Looker Data Studio
 - Access Looker Data Studio [here](https://lookerstudio.google.com) and login with google account. Then, click **Create** then **Data source**.
