@@ -1,5 +1,5 @@
 # Problem Statement
-Pattern of weather is getting more difficult to be identified year by year. There are many factors led to this phenomenon, especially global warming. Usually, Indonesian people could be certain that the dry season would occur from March to September and the rainy season on the other hand. Now, we can no longer use this knowledge as reference. Therefore, I am interested to build this project in order to answer the question of _whether there have been changes in weather patterns in Indonesia or not_.
+Pattern of weather is getting more difficult to be identified year by year. There are many factors led to this phenomenon, especially global warming. Usually, Indonesian people could be certain that the dry season would occur from March to September and the rainy season on the other hand. Now, we can no longer use this knowledge as reference. Therefore, I am interested to build this project in order to answer the question of _whether there have been changes in weather patterns in Denpasar or not_.
 
 # Data Source
 #### [_Denpasar Weather Data on Kaggle_](https://www.kaggle.com/datasets/cornflake15/denpasarbalihistoricalweatherdata?resource=download) ####
@@ -110,7 +110,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ```bash
   python3 src/manipulation_project_id.py <project-id>
   ```
-  Replace `project-id` with personal project id seen from cloud console in previous step.
+  Replace `<project-id>` with personal project id seen from cloud console in previous step.
   
 ### Build Docker Image and Run Docker Container
 - Install docker on virtual machine.
@@ -135,16 +135,16 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ```
   Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`. Replace `<external-ip>` with external IP address of the VM.
 - Create Prefect Block for GCP Credentials. <br>
-  From Prefect UI, move to 'Blocks' tab.
+  From Prefect UI, move to **Blocks** tab.
   ![Screenshot 2023-03-28 062930](https://user-images.githubusercontent.com/99194827/228089527-687c69f4-3ba6-42f1-94c1-b5ad9d115cc3.png) <br>
-  Click "+" button, search "GCP Credentials", then click "+ Add". <br>
+  Click **+** button, search **GCP Credentials**, then click **+ Add**. <br>
   ![Screenshot 2023-03-28 063111](https://user-images.githubusercontent.com/99194827/228089771-b5d2a243-7ecc-4f8a-b032-7a01bd335d23.png) <br>
-  Fill `gcp-credentials-final-project` for the block on `Block Name` and `/app/config/keyfile.json` on `Service Account File`. Then, click `Create`.
+  Fill `gcp-credentials-final-project` for the block on **Block Name** and `/app/config/keyfile.json` on **Service Account File**. Then, click **Create**.
   ![image](https://user-images.githubusercontent.com/99194827/228089865-a8b74240-f14b-4504-92c9-69938e2f6d2c.png)
 - Create Prefect Block for GCS Bucket. <br>
-  Move again to 'Blocks' tab. Click "+" button, search "GCS Bucket", then click "+ Add". <br>
+  Move again to **Blocks** tab. Click **+** button, search **GCS Bucket**, then click **+ Add**. <br>
   ![image](https://user-images.githubusercontent.com/99194827/228090032-a5a7d758-543b-4296-9404-411202c0398c.png) <br>
-  Fill `gcs-bucket-final-project` for the block on `Block Name`, `dezoomcamp_final_project` on `Bucket`, and choose which GCP Credentials embedded with the bucket on `Gcp Credentials`. Then, click `Create`. <br>
+  Fill `gcs-bucket-final-project` for the block on **Block Name**, `dezoomcamp_final_project` on **Bucket**, and choose which GCP Credentials embedded with the bucket on **Gcp Credentials**. Then, click **Create**. <br>
   ![image](https://user-images.githubusercontent.com/99194827/228090227-34a9c702-6468-4979-871d-12bea89a86f8.png)
 - Open new terminal and access vm in the new terminal using ssh (same as before). Access same container by checking its id and run with exec command.
   ```bash
@@ -174,22 +174,36 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ![image](https://user-images.githubusercontent.com/99194827/228478394-b8cc0348-d252-4e1f-b9ed-e407c40532f9.png)
 
 ### Data Transformation on Data Warehouse with dbt Cloud
-- Access dbt cloud [here](https://cloud.getdbt.com/login). Register as usual if you have never create one. Click gear icon on top right side. Then, click "Account Settings".
-![image](https://user-images.githubusercontent.com/99194827/228206587-74e90eb9-ea0a-437b-bc2a-eb629d9dbdef.png)
-- Click "+ New Project". Fill name for this project. Then, click "Continue".
-![image](https://user-images.githubusercontent.com/99194827/228201875-81b7d241-3e6f-486b-8293-1e11f7a0c11f.png)
-- Choose a connection. For this project, choose "BigQuery". Upload service account keyfile that has been downloaded before.
-![image](https://user-images.githubusercontent.com/99194827/228202847-e169514d-22bc-4367-842c-cebf5434b988.png)
-- In "Development Credentials" part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click "Test Connection"
-![image](https://user-images.githubusercontent.com/99194827/228203128-88b8de68-83e9-4489-93f6-93783ea225b9.png)
-- In "Setup a Repository" part, click "Github" to choose a repository for dbt versioning.
-You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-transformation) and choose this in this part.
-- Go to `Develop` tab. Execute this command on dbt terminal.
+- Access dbt cloud [here](https://cloud.getdbt.com/login). Register as usual if you have never create one. Click gear icon on top right side. Then, click **Account Settings**.
+  ![image](https://user-images.githubusercontent.com/99194827/228206587-74e90eb9-ea0a-437b-bc2a-eb629d9dbdef.png)
+- Click **+ New Project**. Fill name for this project. Then, click **Continue**.
+  ![image](https://user-images.githubusercontent.com/99194827/228201875-81b7d241-3e6f-486b-8293-1e11f7a0c11f.png)
+- Choose a connection. For this project, choose **BigQuery**. Upload service account keyfile that has been downloaded before.
+  ![image](https://user-images.githubusercontent.com/99194827/228202847-e169514d-22bc-4367-842c-cebf5434b988.png)
+- In **Development Credentials** part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click **Test Connection**.
+  ![image](https://user-images.githubusercontent.com/99194827/228203128-88b8de68-83e9-4489-93f6-93783ea225b9.png)
+  Until here, we have created a development environment for testing our query and request of data modelling.
+- In **Setup a Repository** part, click **Github** to choose a repository for dbt versioning.
+  You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-transformation) and choose this repository in **Setup a Repository** part. <br>
+- Go to **Develop** tab. Execute this command on dbt terminal.
   ```bash
   dbt seed
   dbt run
   ```
   ![image](https://user-images.githubusercontent.com/99194827/228480443-2c7144ca-ea66-4019-9c5f-69b07fd22ce9.png)
+  If it run well, then we can proceed to Deployment.
+- Drop down **Deploy** and click **Environments**.
+  ![image](https://user-images.githubusercontent.com/99194827/228686465-38acffd4-5d10-488b-8fa0-54548dbdd1b8.png)
+- Click **Create Environment**. Because development environment has been already built, we can only create deployment environment. Fill in **Name** and **Dataset** name for this deployment environment.
+  ![image](https://user-images.githubusercontent.com/99194827/228686925-c3a376cd-15f1-4835-b667-6161a6631c80.png)
+- It is automatically redirecting us to the environment dashboard menu. Click **+ Create One**. Fill in **Job Name** and **Target Name**.
+  ![image](https://user-images.githubusercontent.com/99194827/228687956-b1f7f706-2a47-428b-ab64-bae4313d215e.png)
+- Add commands that want to be run within the model. Since we only need two chunks of code in development to create everything, then we only need to write down these two commands.
+  ![image](https://user-images.githubusercontent.com/99194827/228688156-7631c9de-1007-4ae0-8a26-1d2e5a436a77.png)
+- Click the job that has been built just now and click **Run Now** to see if deployment process can be run or not.
+  ![image](https://user-images.githubusercontent.com/99194827/228703172-ebd7c212-9868-449d-9497-11b0a73dc194.png)
+- As a result, source and staging table are in different datasets.
+  ![image](https://user-images.githubusercontent.com/99194827/228703208-3c63d718-8570-4e0a-b1d6-b7cffe8de5db.png)
 
 ### Data Visualization with Looker Data Studio
 - Access Looker Data Studio [here](https://lookerstudio.google.com) and login with google account. Then, click **Create** then **Data source**.
@@ -201,7 +215,7 @@ You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-trans
 - Click **Create** then **Report**.
   ![image](https://user-images.githubusercontent.com/99194827/228209589-574d4bad-15ab-48c5-b969-5697bed9ab46.png)
 - Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
-  ![image](https://user-images.githubusercontent.com/99194827/228429331-03a18479-7eb2-40fe-94c1-b32bea70221f.png)
+  ![image](https://user-images.githubusercontent.com/99194827/228704494-b1caf290-7790-45af-a328-a336a2a74021.png)
   
 # Insights and Goals Fulfilling
 From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, we strongly believe that there is a shift in weather patternal in Denpasar.
