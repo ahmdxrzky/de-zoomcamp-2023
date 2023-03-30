@@ -185,14 +185,6 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   Until here, we have created a development environment for testing our query and request of data modelling.
 - In **Setup a Repository** part, click **Github** to choose a repository for dbt versioning.
   You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-transformation) and choose this repository in **Setup a Repository** part. <br>
-- Click gear icon on top right side. Then, click **Profile Settings**.
-  ![Screenshot 2023-03-30 055101](https://user-images.githubusercontent.com/99194827/228685354-43563bf4-ac51-4e22-8b52-e16a00062b69.png)
-- Scroll down and copy value from **API Key**.
-  ![image](https://user-images.githubusercontent.com/99194827/228685462-ba8b0462-035b-443a-9d0b-aeb393c95d65.png)
-- Go to Github repository that has been focked just before. Go to **Settings** and click **Deploy Keys**. Then, click **Add deploy key**.
-  ![Screenshot 2023-03-30 055403](https://user-images.githubusercontent.com/99194827/228695052-67e5b4d4-7ad3-45cd-9ccf-0360fae20d6a.png)
-- Fill in **Title** and copy copied key to **Key**. Don't forget to checklist **Allow write access** part.
-  ![image](https://user-images.githubusercontent.com/99194827/228686230-d6cc02c9-7ed1-44f6-87dc-9c3901f53331.png)
 - Go to **Develop** tab. Execute this command on dbt terminal.
   ```bash
   dbt seed
@@ -209,7 +201,9 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Add commands that want to be run within the model. Since we only need two chunks of code in development to create everything, then we only need to write down these two commands.
   ![image](https://user-images.githubusercontent.com/99194827/228688156-7631c9de-1007-4ae0-8a26-1d2e5a436a77.png)
 - Click the job that has been built just now and click **Run Now** to see if deployment process can be run or not.
-- 
+  ![image](https://user-images.githubusercontent.com/99194827/228703172-ebd7c212-9868-449d-9497-11b0a73dc194.png)
+- As a result, source and staging table are in different datasets.
+  ![image](https://user-images.githubusercontent.com/99194827/228703208-3c63d718-8570-4e0a-b1d6-b7cffe8de5db.png)
 
 ### Data Visualization with Looker Data Studio
 - Access Looker Data Studio [here](https://lookerstudio.google.com) and login with google account. Then, click **Create** then **Data source**.
@@ -221,7 +215,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Click **Create** then **Report**.
   ![image](https://user-images.githubusercontent.com/99194827/228209589-574d4bad-15ab-48c5-b969-5697bed9ab46.png)
 - Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
-  ![image](https://user-images.githubusercontent.com/99194827/228429331-03a18479-7eb2-40fe-94c1-b32bea70221f.png)
+  ![image](https://user-images.githubusercontent.com/99194827/228704494-b1caf290-7790-45af-a328-a336a2a74021.png)
   
 # Insights and Goals Fulfilling
 From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, we strongly believe that there is a shift in weather patternal in Denpasar.
