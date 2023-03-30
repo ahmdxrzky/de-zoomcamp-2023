@@ -8,27 +8,18 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
     && mv terraform /usr/local/bin \
     && rm terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-# Copy static files (files that doesn't need any adjustment) from local to container
+# Copy files from local to container
 COPY ./requirements.txt /app/requirements.txt
 COPY ./src/data_pipeline.py /app/src/data_pipeline.py
+COPY ./src/manipulation_project_id.py /app/src/manipulation_project_id.py
 COPY ./terraform/main.tf /app/terraform/main.tf
 COPY ./terraform/variables.tf /app/terraform/variables.tf
-COPY ./config/keyfile.json /app/config/keyfile.json
-
-# Set project id as environment variable
-ENV PROJECT_ID=<gcp-project-id>
 
 # Set working directory
 WORKDIR /app
 
 # Install all of dependency packages
 RUN pip install -r /app/requirements.txt
-
-# Build infrastructure with terraform
-RUN cd /app/terraform \
-    && terraform init \
-    && terraform plan \
-    && terraform apply -auto-approve
 
 # Use bash as the entrypoint of container
 ENTRYPOINT [ "bash" ]
