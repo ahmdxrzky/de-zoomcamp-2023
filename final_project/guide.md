@@ -105,23 +105,23 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ```
   ![image](https://user-images.githubusercontent.com/99194827/229013504-cde50a97-108c-4729-a2e7-f8a8c209bb3f.png) <br>
   Change `<project-id>` with personal project ID that can be seen in cloud console in the previous step.
-- Change value of a variable to terraform/variables.tf file by executing command below.
+- In container bash terminal, change value of a variable to terraform/variables.tf file by executing command below.
   ```bash
-  python3 src/manipulation_project_id.py
+  python3 /app/src/manipulation_project_id.py <project-id>
   ```
-  
-
-### Clone Github Repository to Virtual Machine
-- Copy contents of keyfile previously downloaded to replace content in the config/keyfile.json file. <br>
+  Replace `<project-id>` with personal project id seen from cloud console in previous step.
+- Then, copy contents of keyfile previously downloaded to replace content in the config/keyfile.json file. <br>
   Before: <br>
   ![Screenshot 2023-03-28 060505](https://user-images.githubusercontent.com/99194827/228086611-ea35c539-5b90-4566-9807-29799240608c.png) <br>
   After: <br>
   ![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
-- Change `<gcp-project-id>` string on Dockerfile and variables.tf file on terraform folder with your personal project id. This process can be done in a single execution like this.
+- Run terraform to create GCS Bucket and GBQ Dataset with single execution.
   ```bash
-  python3 src/manipulation_project_id.py <project-id>
+  cd /app/terraform \
+  && terraform init \
+  && terraform plan \
+  && terraform apply -auto-approve
   ```
-  Replace `<project-id>` with personal project id seen from cloud console in previous step.
 
 ### Activate and Configurate Prefect
 - Activate and Access Prefect UI.
