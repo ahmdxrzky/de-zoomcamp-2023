@@ -16,7 +16,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 ### Cloud
 - **Google Compute Engine (GCE)**. A GCE virtual machine used to develop and run this project along with Google Cloud Storage (GCS) and Google BigQuery (GBQ).
 - **Terraform**. Infrastructure as Code (IaC) tool to create a GCS Bucket and GBQ Dataset in a code execution only.
-- **Docker**. Tool for containerizing environment of this data pipeline project.
+- **Docker** and **Docker Hub**. Tool for containerizing environment of this data pipeline project.
 ### Data Ingestion
 - **Prefect**. Workflow Orchestration tool to orchestrarize data pipeline.
 - **Google Cloud Storage (GCS)**. GCS as Data Lake.
@@ -90,43 +90,38 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   Replace `<username>` with username of machine and `<external-ip>` with value of external IP address of VM instance.
   ![Screenshot 2023-03-28 054703](https://user-images.githubusercontent.com/99194827/228083970-62a10890-d508-4384-91d5-9756529ae59f.png)
 
-### Clone Github Repository to Virtual Machine
-- Install git on virtual machine.
-  ```bash
-  sudo apt-get install git -y
-  ```
-- In virtual machine terminal, clone this [github repository](https://github.com/ahmdxrzky/de-zoomcamp-2023). Then, change working directory to final_project folder.
-  ```bash
-  git clone https://github.com/ahmdxrzky/de-zoomcamp-2023.git && cd de-zoomcamp-2023/final_project
-  ```
-- Copy contents of keyfile previously downloaded to replace content in the config/keyfile.json file. <br>
-  Before: <br>
-  ![Screenshot 2023-03-28 060505](https://user-images.githubusercontent.com/99194827/228086611-ea35c539-5b90-4566-9807-29799240608c.png) <br>
-  After: <br>
-  ![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
-- Check project id. <br>
-  Personal project id can be seen in google cloud console.
-  ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
-- Change `<gcp-project-id>` string on Dockerfile and variables.tf file on terraform folder with your personal project id. This process can be done in a single execution like this.
-  ```bash
-  python3 src/manipulation_project_id.py <project-id>
-  ```
-  Replace `<project-id>` with personal project id seen from cloud console in previous step.
-  
-### Build Docker Image and Run Docker Container
+### Setup Environment with Docker
 - Install docker on virtual machine.
   ```bash
   sudo apt-get install docker.io -y
   sudo chmod 666 /var/run/docker.sock
   ```
-- Still in final_project working directory, build docker image based on Dockerfile
+- Check project id. <br>
+  Personal project id can be seen in google cloud console.
+  ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
+- Environment for this data engineering pipeline has been created and pushed to Image Registry of Docker which is Docker Hub. I've set it publicly accessible, so everyone can create a container based on this Docker Image.
   ```bash
-  docker build -t rizky_dezoomcamp_final_project ./
+  docker run -p 4200:4200 -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.2
   ```
-- Run docker container based on previously built docker image also exposing port 4200 for Prefect UI.
+  ![image](https://user-images.githubusercontent.com/99194827/229013504-cde50a97-108c-4729-a2e7-f8a8c209bb3f.png) <br>
+  Change `<project-id>` with personal project ID that can be seen in cloud console in the previous step.
+- Change value of a variable to terraform/variables.tf file by executing command below.
   ```bash
-  docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
+  python3 src/manipulation_project_id.py
   ```
+  
+
+### Clone Github Repository to Virtual Machine
+- Copy contents of keyfile previously downloaded to replace content in the config/keyfile.json file. <br>
+  Before: <br>
+  ![Screenshot 2023-03-28 060505](https://user-images.githubusercontent.com/99194827/228086611-ea35c539-5b90-4566-9807-29799240608c.png) <br>
+  After: <br>
+  ![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
+- Change `<gcp-project-id>` string on Dockerfile and variables.tf file on terraform folder with your personal project id. This process can be done in a single execution like this.
+  ```bash
+  python3 src/manipulation_project_id.py <project-id>
+  ```
+  Replace `<project-id>` with personal project id seen from cloud console in previous step.
 
 ### Activate and Configurate Prefect
 - Activate and Access Prefect UI.
