@@ -175,9 +175,8 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ![image](https://user-images.githubusercontent.com/99194827/228201875-81b7d241-3e6f-486b-8293-1e11f7a0c11f.png)
 - Choose a connection. For this project, choose **BigQuery**. Upload service account keyfile that has been downloaded before.
   ![image](https://user-images.githubusercontent.com/99194827/228202847-e169514d-22bc-4367-842c-cebf5434b988.png)
-- In **Development Credentials** part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click **Test Connection**.
+- In **Development Credentials** part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click **Test Connection**. This final_project dataset used as Data Source and Testing Environment before applying Data Modelling schema, since we ingest data from GCS to this GBQ dataset.
   ![image](https://user-images.githubusercontent.com/99194827/228203128-88b8de68-83e9-4489-93f6-93783ea225b9.png)
-  Until here, we have created a development environment for testing our query and request of data modelling.
 - In **Setup a Repository** part, click **Github** to choose a repository for dbt versioning.
   You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-transformation) and choose this repository in **Setup a Repository** part. <br>
 - Go to **Develop** tab. Execute this command on dbt terminal.
@@ -189,9 +188,9 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   If it run well, then we can proceed to Deployment.
 - Drop down **Deploy** and click **Environments**.
   ![image](https://user-images.githubusercontent.com/99194827/228686465-38acffd4-5d10-488b-8fa0-54548dbdd1b8.png)
-- Click **Create Environment**. Because development environment has been already built, we can only create deployment environment. Fill in **Name** and **Dataset** name for this deployment environment.
+- Click **Create Environment**. Because development environment has been already built, we can only create deployment environment. Fill in **Name** as name for this deployment environment and **Dataset** as name of dataset that will be used as final data warehouse after data transformation and used for visualization.
   ![image](https://user-images.githubusercontent.com/99194827/228686925-c3a376cd-15f1-4835-b667-6161a6631c80.png)
-- It is automatically redirecting us to the environment dashboard menu. Click **+ Create One**. Fill in **Job Name** and **Target Name**.
+- It is automatically redirecting us to the environment dashboard menu. Click **+ Create One**. Fill in **Job Name** and **Target Name**. Don't forget to make this target name here differs with target name on Dev Environment.
   ![image](https://user-images.githubusercontent.com/99194827/228687956-b1f7f706-2a47-428b-ab64-bae4313d215e.png)
 - Add commands that want to be run within the model. Since we only need two chunks of code in development to create everything, then we only need to write down these two commands.
   ![image](https://user-images.githubusercontent.com/99194827/228688156-7631c9de-1007-4ae0-8a26-1d2e5a436a77.png)
@@ -206,11 +205,11 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Choose **BigQuery**.
   ![image](https://user-images.githubusercontent.com/99194827/228208786-4607c008-5772-420e-bee4-baccffe30b0b.png)
 - Choose project, dataset, and table on BigQuery that will be used as data source. Then, click **Connect**.
-  ![image](https://user-images.githubusercontent.com/99194827/228209201-f62779bb-f196-4c44-b047-c9c34b46d982.png)
+  ![image](https://user-images.githubusercontent.com/99194827/229086381-9b4d8875-bd36-419d-920f-4f90bf6f78c1.png)
 - Click **Create** then **Report**.
   ![image](https://user-images.githubusercontent.com/99194827/228209589-574d4bad-15ab-48c5-b969-5697bed9ab46.png)
 - Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
   ![image](https://user-images.githubusercontent.com/99194827/228704494-b1caf290-7790-45af-a328-a336a2a74021.png)
   
 # Insights and Goals Fulfilling
-From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, we strongly believe that there is a shift in weather patternal in Denpasar.
+From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, I strongly believe that there is a shift in weather patternal in Denpasar.
