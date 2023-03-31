@@ -100,16 +100,15 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   Personal project id can be seen in google cloud console.
   ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
 - Environment for this data engineering pipeline has been created and pushed to Image Registry of Docker which is Docker Hub. I've set it publicly accessible, so everyone can create a container based on this Docker Image.
-  ```bash
-  docker run -p 4200:4200 -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.2
-  ```
   ![image](https://user-images.githubusercontent.com/99194827/229013504-cde50a97-108c-4729-a2e7-f8a8c209bb3f.png) <br>
-  Change `<project-id>` with personal project ID that can be seen in cloud console in the previous step.
+  ```bash
+  docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.2
+  ```
+  Change `<external-ip>` with external IP address of VM instance and `<project-id>` with personal project ID that can be seen in cloud console in the previous step.
 - In container bash terminal, change value of a variable to terraform/variables.tf file by executing command below.
   ```bash
-  python3 /app/src/manipulation_project_id.py <project-id>
+  python3 /app/src/manipulation_project_id.py $PROJECT_ID
   ```
-  Replace `<project-id>` with personal project id seen from cloud console in previous step.
 - Then, copy contents of keyfile previously downloaded to replace content in the config/keyfile.json file. <br>
   Before: <br>
   ![Screenshot 2023-03-28 060505](https://user-images.githubusercontent.com/99194827/228086611-ea35c539-5b90-4566-9807-29799240608c.png) <br>
@@ -118,18 +117,18 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Run terraform to create GCS Bucket and GBQ Dataset with single execution.
   ```bash
   cd /app/terraform \
-  && terraform init \
-  && terraform plan \
-  && terraform apply -auto-approve
+    && terraform init \
+    && terraform plan \
+    && terraform apply -auto-approve
   ```
 
 ### Activate and Configurate Prefect
 - Activate and Access Prefect UI.
   ```bash
-  prefect config set PREFECT_API_URL=http://<external-ip>:4200/api
+  prefect config set PREFECT_API_URL=http://$EXTERNAL_IP:4200/api
   prefect server start --host 0.0.0.0
   ```
-  Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`. Replace `<external-ip>` with external IP address of the VM.
+  Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`.
 - Create Prefect Block for GCP Credentials. <br>
   From Prefect UI, move to **Blocks** tab.
   ![Screenshot 2023-03-28 062930](https://user-images.githubusercontent.com/99194827/228089527-687c69f4-3ba6-42f1-94c1-b5ad9d115cc3.png) <br>
