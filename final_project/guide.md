@@ -6,7 +6,7 @@ Pattern of weather is getting more difficult to be identified year by year. Ther
 Disclaimer: Actually, dataset above only provides weather data of Denpasar City from 1990 to 2020 (even the data for 2020 is not complete to December). In order to make this data engineering project (which batch processes the data) look real and simulate the actual workflow of data engineering, I _manipulate_ the dataset by _adding_ 4 years to the actual date data and _dividing_ it per year and month, so the data for 2023 are available and can be used to simulate batch processing per month.
 
 # Project Framework
-![assets](https://user-images.githubusercontent.com/99194827/227752387-4736cd2d-ecf3-4579-a40e-1558f48d6413.png)
+![assets drawio](https://user-images.githubusercontent.com/99194827/229009417-e04e2add-29fa-45e3-aa8f-cf094ca23df9.png)
 1. Pipeline for processing dataset and extracting it from source to a data lake.
 2. Pipeline for batch moving the data from the data lake to a data warehouse.
 3. Transform the data in the data warehouse.
@@ -16,6 +16,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 ### Cloud
 - **Google Compute Engine (GCE)**. A GCE virtual machine used to develop and run this project along with Google Cloud Storage (GCS) and Google BigQuery (GBQ).
 - **Terraform**. Infrastructure as Code (IaC) tool to create a GCS Bucket and GBQ Dataset in a code execution only.
+- **Docker**. Tool for containerizing environment of this data pipeline project.
 ### Data Ingestion
 - **Prefect**. Workflow Orchestration tool to orchestrarize data pipeline.
 - **Google Cloud Storage (GCS)**. GCS as Data Lake.
