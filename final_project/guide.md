@@ -101,6 +101,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
 - Environment for this data engineering pipeline has been created and pushed to Image Registry of Docker which is Docker Hub. I've set it publicly accessible, so everyone can create a container based on this Docker Image.
   ![image](https://user-images.githubusercontent.com/99194827/229013504-cde50a97-108c-4729-a2e7-f8a8c209bb3f.png) <br>
+  Execute this command below to run docker container based on docker images above.
   ```bash
   docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.2
   ```
