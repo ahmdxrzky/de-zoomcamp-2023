@@ -103,17 +103,17 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ![image](https://user-images.githubusercontent.com/99194827/229013504-cde50a97-108c-4729-a2e7-f8a8c209bb3f.png) <br>
   Execute this command below to run docker container based on docker images above.
   ```bash
-  docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.2
+  docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.3
   ```
   Change `<external-ip>` with external IP address of VM instance and `<project-id>` with personal project ID that can be seen in cloud console in the previous step.
 - In container bash terminal, change value of a variable to terraform/variables.tf file by executing command below.
   ```bash
   python3 /app/src/manipulation_project_id.py $PROJECT_ID
   ```
-- Then, copy contents of keyfile previously downloaded to replace content in the config/keyfile.json file. <br>
-  Before: <br>
-  ![Screenshot 2023-03-28 060505](https://user-images.githubusercontent.com/99194827/228086611-ea35c539-5b90-4566-9807-29799240608c.png) <br>
-  After: <br>
+- Then, copy contents of keyfile previously downloaded in local machine to config/keyfile.json file in docker container. <br>
+  ```bash
+  nano /app/config/keyfile.json
+  ```
   ![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
 - Run terraform to create GCS Bucket and GBQ Dataset with single execution.
   ```bash
