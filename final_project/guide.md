@@ -6,7 +6,7 @@ Pattern of weather is getting more difficult to be identified year by year. Ther
 Disclaimer: Actually, dataset above only provides weather data of Denpasar City from 1990 to 2020 (even the data for 2020 is not complete to December). In order to make this data engineering project (which batch processes the data) look real and simulate the actual workflow of data engineering, I _manipulate_ the dataset by _adding_ 4 years to the actual date data and _dividing_ it per year and month, so the data for 2023 are available and can be used to simulate batch processing per month.
 
 # Project Framework
-![assets](https://user-images.githubusercontent.com/99194827/227752387-4736cd2d-ecf3-4579-a40e-1558f48d6413.png)
+![assets drawio](https://user-images.githubusercontent.com/99194827/229009417-e04e2add-29fa-45e3-aa8f-cf094ca23df9.png)
 1. Pipeline for processing dataset and extracting it from source to a data lake.
 2. Pipeline for batch moving the data from the data lake to a data warehouse.
 3. Transform the data in the data warehouse.
@@ -16,6 +16,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 ### Cloud
 - **Google Compute Engine (GCE)**. A GCE virtual machine used to develop and run this project along with Google Cloud Storage (GCS) and Google BigQuery (GBQ).
 - **Terraform**. Infrastructure as Code (IaC) tool to create a GCS Bucket and GBQ Dataset in a code execution only.
+- **Docker** and **Docker Hub**. Tool for containerizing environment of this data pipeline project.
 ### Data Ingestion
 - **Prefect**. Workflow Orchestration tool to orchestrarize data pipeline.
 - **Google Cloud Storage (GCS)**. GCS as Data Lake.
@@ -55,7 +56,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Scroll down again and drop **Advanced options** down. Drop **Networking** down, fill in network tags and enable **IP forwarding**. Then, click **Create** on bottom of the page.
   ![Screenshot 2023-03-28 052913](https://user-images.githubusercontent.com/99194827/228081268-5154c229-14d0-47e1-bf8c-826f2aaba207.png)
 - Remember value from **External IP** column. It will be used for accessing this VM from local machine.
-  ![Screenshot 2023-03-28 053032](https://user-images.githubusercontent.com/99194827/228081528-30053ed9-8a82-48d6-b9e1-ec2cf55b1f86.png)
+  ![Screenshot 2023-04-01 111110](https://user-images.githubusercontent.com/99194827/229265118-0e0230eb-e869-45d4-bbb5-01fa66e277a5.png)
 - Move to **Firewall** tab. Then, click **Create Firewall Rule**.
   ![Screenshot 2023-03-28 053143](https://user-images.githubusercontent.com/99194827/228081668-97d46b2e-6e3c-43a7-8aa3-ff07643cf54a.png)
   ![Screenshot 2023-03-28 053232](https://user-images.githubusercontent.com/99194827/228085307-0d8c1bac-d9fa-4545-8509-824f9957472e.png)
@@ -87,53 +88,50 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ssh <username>@<external-ip>
   ```
   Replace `<username>` with username of machine and `<external-ip>` with value of external IP address of VM instance.
-  ![Screenshot 2023-03-28 054703](https://user-images.githubusercontent.com/99194827/228083970-62a10890-d508-4384-91d5-9756529ae59f.png)
+  ![Screenshot 2023-04-01 105951](https://user-images.githubusercontent.com/99194827/229264688-5f51e356-03ce-44fa-b886-ea4ad4598896.png)
 
-### Clone Github Repository to Virtual Machine
-- Install git on virtual machine.
-  ```bash
-  sudo apt-get install git -y
-  ```
-- In virtual machine terminal, clone this [github repository](https://github.com/ahmdxrzky/de-zoomcamp-2023). Then, change working directory to final_project folder.
-  ```bash
-  git clone https://github.com/ahmdxrzky/de-zoomcamp-2023.git && cd de-zoomcamp-2023/final_project
-  ```
-- Copy contents of keyfile previously downloaded to replace content in the config/keyfile.json file. <br>
-  Before: <br>
-  ![Screenshot 2023-03-28 060505](https://user-images.githubusercontent.com/99194827/228086611-ea35c539-5b90-4566-9807-29799240608c.png) <br>
-  After: <br>
-  ![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
-- Check project id. <br>
-  Personal project id can be seen in google cloud console.
-  ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
-- Change `<gcp-project-id>` string on Dockerfile and variables.tf file on terraform folder with your personal project id. This process can be done in a single execution like this.
-  ```bash
-  python3 src/manipulation_project_id.py <project-id>
-  ```
-  Replace `<project-id>` with personal project id seen from cloud console in previous step.
-  
-### Build Docker Image and Run Docker Container
+### Setup Environment with Docker
 - Install docker on virtual machine.
   ```bash
   sudo apt-get install docker.io -y
   sudo chmod 666 /var/run/docker.sock
   ```
-- Still in final_project working directory, build docker image based on Dockerfile
+- Check project id. <br>
+  Personal project id can be seen in google cloud console.
+  ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
+- Environment for this data engineering pipeline has been created and pushed to Image Registry of Docker which is Docker Hub. I've set it publicly accessible, so everyone can create a container based on this Docker Image.
+  ![image](https://user-images.githubusercontent.com/99194827/229265278-54a15a85-94aa-49f6-8c95-0abe645d316a.png) <br>
+  Execute this command below to run docker container based on docker images above.
   ```bash
-  docker build -t rizky_dezoomcamp_final_project ./
+  docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.3
   ```
-- Run docker container based on previously built docker image also exposing port 4200 for Prefect UI.
+  Change `<external-ip>` with external IP address of VM instance and `<project-id>` with personal project ID that can be seen in cloud console in the previous step. <br>
+  ![Screenshot 2023-04-01 110443](https://user-images.githubusercontent.com/99194827/229264813-07a4ca3c-ddf7-402e-8c03-843dcdbc7207.png)
+- In container bash terminal, change value of a variable to terraform/variables.tf file by executing command below.
   ```bash
-  docker run -p 4200:4200 -it rizky_dezoomcamp_final_project
+  python3 /app/src/manipulation_project_id.py $PROJECT_ID
+  ```
+- Then, copy contents of keyfile previously downloaded in local machine to config/keyfile.json file in docker container. <br>
+  ```bash
+  nano /app/config/keyfile.json
+  ```
+  ![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
+- Run terraform to create GCS Bucket and GBQ Dataset with single execution.
+  ```bash
+  cd /app/terraform \
+    && terraform init \
+    && terraform plan \
+    && terraform apply -auto-approve
   ```
 
 ### Activate and Configurate Prefect
 - Activate and Access Prefect UI.
   ```bash
-  prefect config set PREFECT_API_URL=http://<external-ip>:4200/api
+  prefect config set PREFECT_API_URL=http://$EXTERNAL_IP:4200/api
   prefect server start --host 0.0.0.0
   ```
-  Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`. Replace `<external-ip>` with external IP address of the VM.
+  Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`.
+  ![Screenshot 2023-04-01 105736](https://user-images.githubusercontent.com/99194827/229264603-4dd9bd7d-c097-4e31-9213-ca047d622a25.png)
 - Create Prefect Block for GCP Credentials. <br>
   From Prefect UI, move to **Blocks** tab.
   ![Screenshot 2023-03-28 062930](https://user-images.githubusercontent.com/99194827/228089527-687c69f4-3ba6-42f1-94c1-b5ad9d115cc3.png) <br>
@@ -149,16 +147,20 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Open new terminal and access vm in the new terminal using ssh (same as before). Access same container by checking its id and run with exec command.
   ```bash
   docker ps -a
+  ```
+  Remember CONTAINER ID of the container. This id will be used to access its bash terminal.
+  ```bash
   docker exec -it <container-id> bash
   ```
-  Replace `<container-id>` with container id shown in output of command `docker ps -a`. <br>
-  ![Screenshot 2023-03-28 062241](https://user-images.githubusercontent.com/99194827/228088746-9e988e0a-998a-484a-a7ee-d6558460ce58.png)
+  Replace `<container-id>` with CONTAINER ID above.
+  ![image](https://user-images.githubusercontent.com/99194827/229264890-4972df8c-5e71-466d-91ba-0caa46acae3d.png)
 
 ## Create, Apply, and Run Prefect Deployment
 - To create and apply Prefect Deployment and set the cron to run monthly, execute this command.
   ```bash
   prefect deployment build /app/src/data_pipeline.py:etl_main_function -n "ETL_GCS_to_BGQ_Monthly" --cron "0 0 1 * *" -a
   ```
+  A Deployment (as same as job being scheduled) has been built and will be run monthly at 1st day of the month.
   ![image](https://user-images.githubusercontent.com/99194827/228199147-79b85c4e-5b77-4b7e-89fe-0a1e0889d3e0.png) <br>
 - Do quick run to ingest initial dataset (Jan 2015 to Feb 2023), since March 1st, 2023 has already passed.
   ```bash
@@ -180,9 +182,8 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ![image](https://user-images.githubusercontent.com/99194827/228201875-81b7d241-3e6f-486b-8293-1e11f7a0c11f.png)
 - Choose a connection. For this project, choose **BigQuery**. Upload service account keyfile that has been downloaded before.
   ![image](https://user-images.githubusercontent.com/99194827/228202847-e169514d-22bc-4367-842c-cebf5434b988.png)
-- In **Development Credentials** part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click **Test Connection**.
+- In **Development Credentials** part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click **Test Connection**. This final_project dataset used as Data Source and Testing Environment before applying Data Modelling schema, since we ingest data from GCS to this GBQ dataset.
   ![image](https://user-images.githubusercontent.com/99194827/228203128-88b8de68-83e9-4489-93f6-93783ea225b9.png)
-  Until here, we have created a development environment for testing our query and request of data modelling.
 - In **Setup a Repository** part, click **Github** to choose a repository for dbt versioning.
   You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-transformation) and choose this repository in **Setup a Repository** part. <br>
 - Go to **Develop** tab. Execute this command on dbt terminal.
@@ -194,9 +195,9 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   If it run well, then we can proceed to Deployment.
 - Drop down **Deploy** and click **Environments**.
   ![image](https://user-images.githubusercontent.com/99194827/228686465-38acffd4-5d10-488b-8fa0-54548dbdd1b8.png)
-- Click **Create Environment**. Because development environment has been already built, we can only create deployment environment. Fill in **Name** and **Dataset** name for this deployment environment.
+- Click **Create Environment**. Because development environment has been already built, we can only create deployment environment. Fill in **Name** as name for this deployment environment and **Dataset** as name of dataset that will be used as final data warehouse after data transformation and used for visualization.
   ![image](https://user-images.githubusercontent.com/99194827/228686925-c3a376cd-15f1-4835-b667-6161a6631c80.png)
-- It is automatically redirecting us to the environment dashboard menu. Click **+ Create One**. Fill in **Job Name** and **Target Name**.
+- It is automatically redirecting us to the environment dashboard menu. Click **+ Create One**. Fill in **Job Name** and **Target Name**. Don't forget to make this target name here differs with target name on Dev Environment.
   ![image](https://user-images.githubusercontent.com/99194827/228687956-b1f7f706-2a47-428b-ab64-bae4313d215e.png)
 - Add commands that want to be run within the model. Since we only need two chunks of code in development to create everything, then we only need to write down these two commands.
   ![image](https://user-images.githubusercontent.com/99194827/228688156-7631c9de-1007-4ae0-8a26-1d2e5a436a77.png)
@@ -211,11 +212,11 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Choose **BigQuery**.
   ![image](https://user-images.githubusercontent.com/99194827/228208786-4607c008-5772-420e-bee4-baccffe30b0b.png)
 - Choose project, dataset, and table on BigQuery that will be used as data source. Then, click **Connect**.
-  ![image](https://user-images.githubusercontent.com/99194827/228209201-f62779bb-f196-4c44-b047-c9c34b46d982.png)
+  ![image](https://user-images.githubusercontent.com/99194827/229086381-9b4d8875-bd36-419d-920f-4f90bf6f78c1.png)
 - Click **Create** then **Report**.
   ![image](https://user-images.githubusercontent.com/99194827/228209589-574d4bad-15ab-48c5-b969-5697bed9ab46.png)
 - Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
-  ![image](https://user-images.githubusercontent.com/99194827/228704494-b1caf290-7790-45af-a328-a336a2a74021.png)
-  
+  ![Screenshot 2023-04-01 112809](https://user-images.githubusercontent.com/99194827/229265595-575a93d4-6895-43d5-bb04-170960a4ee34.png)
+
 # Insights and Goals Fulfilling
-From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, we strongly believe that there is a shift in weather patternal in Denpasar.
+From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, I strongly believe that there is a shift in weather patternal in Denpasar.
