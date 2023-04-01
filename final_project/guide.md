@@ -56,7 +56,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Scroll down again and drop **Advanced options** down. Drop **Networking** down, fill in network tags and enable **IP forwarding**. Then, click **Create** on bottom of the page.
   ![Screenshot 2023-03-28 052913](https://user-images.githubusercontent.com/99194827/228081268-5154c229-14d0-47e1-bf8c-826f2aaba207.png)
 - Remember value from **External IP** column. It will be used for accessing this VM from local machine.
-  ![Screenshot 2023-03-28 053032](https://user-images.githubusercontent.com/99194827/228081528-30053ed9-8a82-48d6-b9e1-ec2cf55b1f86.png)
+  ![Screenshot 2023-04-01 111110](https://user-images.githubusercontent.com/99194827/229265118-0e0230eb-e869-45d4-bbb5-01fa66e277a5.png)
 - Move to **Firewall** tab. Then, click **Create Firewall Rule**.
   ![Screenshot 2023-03-28 053143](https://user-images.githubusercontent.com/99194827/228081668-97d46b2e-6e3c-43a7-8aa3-ff07643cf54a.png)
   ![Screenshot 2023-03-28 053232](https://user-images.githubusercontent.com/99194827/228085307-0d8c1bac-d9fa-4545-8509-824f9957472e.png)
@@ -88,7 +88,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ssh <username>@<external-ip>
   ```
   Replace `<username>` with username of machine and `<external-ip>` with value of external IP address of VM instance.
-  ![Screenshot 2023-03-28 054703](https://user-images.githubusercontent.com/99194827/228083970-62a10890-d508-4384-91d5-9756529ae59f.png)
+  ![Screenshot 2023-04-01 105951](https://user-images.githubusercontent.com/99194827/229264688-5f51e356-03ce-44fa-b886-ea4ad4598896.png)
 
 ### Setup Environment with Docker
 - Install docker on virtual machine.
@@ -100,12 +100,13 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   Personal project id can be seen in google cloud console.
   ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
 - Environment for this data engineering pipeline has been created and pushed to Image Registry of Docker which is Docker Hub. I've set it publicly accessible, so everyone can create a container based on this Docker Image.
-  ![image](https://user-images.githubusercontent.com/99194827/229013504-cde50a97-108c-4729-a2e7-f8a8c209bb3f.png) <br>
+  ![image](https://user-images.githubusercontent.com/99194827/229265278-54a15a85-94aa-49f6-8c95-0abe645d316a.png) <br>
   Execute this command below to run docker container based on docker images above.
   ```bash
   docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.3
   ```
-  Change `<external-ip>` with external IP address of VM instance and `<project-id>` with personal project ID that can be seen in cloud console in the previous step.
+  Change `<external-ip>` with external IP address of VM instance and `<project-id>` with personal project ID that can be seen in cloud console in the previous step. <br>
+  ![Screenshot 2023-04-01 110443](https://user-images.githubusercontent.com/99194827/229264813-07a4ca3c-ddf7-402e-8c03-843dcdbc7207.png)
 - In container bash terminal, change value of a variable to terraform/variables.tf file by executing command below.
   ```bash
   python3 /app/src/manipulation_project_id.py $PROJECT_ID
@@ -130,6 +131,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   prefect server start --host 0.0.0.0
   ```
   Now, Prefect UI can be accessed from web browser with URL `<external-ip>:4200`.
+  ![Screenshot 2023-04-01 105736](https://user-images.githubusercontent.com/99194827/229264603-4dd9bd7d-c097-4e31-9213-ca047d622a25.png)
 - Create Prefect Block for GCP Credentials. <br>
   From Prefect UI, move to **Blocks** tab.
   ![Screenshot 2023-03-28 062930](https://user-images.githubusercontent.com/99194827/228089527-687c69f4-3ba6-42f1-94c1-b5ad9d115cc3.png) <br>
@@ -145,16 +147,20 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Open new terminal and access vm in the new terminal using ssh (same as before). Access same container by checking its id and run with exec command.
   ```bash
   docker ps -a
+  ```
+  Remember CONTAINER ID of the container. This id will be used to access its bash terminal.
+  ```bash
   docker exec -it <container-id> bash
   ```
-  Replace `<container-id>` with container id shown in output of command `docker ps -a`. <br>
-  ![Screenshot 2023-03-28 062241](https://user-images.githubusercontent.com/99194827/228088746-9e988e0a-998a-484a-a7ee-d6558460ce58.png)
+  Replace `<container-id>` with CONTAINER ID above.
+  ![image](https://user-images.githubusercontent.com/99194827/229264890-4972df8c-5e71-466d-91ba-0caa46acae3d.png)
 
 ## Create, Apply, and Run Prefect Deployment
 - To create and apply Prefect Deployment and set the cron to run monthly, execute this command.
   ```bash
   prefect deployment build /app/src/data_pipeline.py:etl_main_function -n "ETL_GCS_to_BGQ_Monthly" --cron "0 0 1 * *" -a
   ```
+  A Deployment (as same as job being scheduled) has been built and will be run monthly at 1st day of the month.
   ![image](https://user-images.githubusercontent.com/99194827/228199147-79b85c4e-5b77-4b7e-89fe-0a1e0889d3e0.png) <br>
 - Do quick run to ingest initial dataset (Jan 2015 to Feb 2023), since March 1st, 2023 has already passed.
   ```bash
@@ -210,7 +216,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Click **Create** then **Report**.
   ![image](https://user-images.githubusercontent.com/99194827/228209589-574d4bad-15ab-48c5-b969-5697bed9ab46.png)
 - Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
-  ![image](https://user-images.githubusercontent.com/99194827/228704494-b1caf290-7790-45af-a328-a336a2a74021.png)
-  
+  ![Screenshot 2023-04-01 112809](https://user-images.githubusercontent.com/99194827/229265595-575a93d4-6895-43d5-bb04-170960a4ee34.png)
+
 # Insights and Goals Fulfilling
 From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, I strongly believe that there is a shift in weather patternal in Denpasar.
