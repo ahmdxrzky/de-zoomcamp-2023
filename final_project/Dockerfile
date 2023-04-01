@@ -19,7 +19,7 @@ COPY ./src/data_pipeline.py /app/src/data_pipeline.py
 COPY ./src/manipulation_project_id.py /app/src/manipulation_project_id.py
 COPY ./terraform/main.tf /app/terraform/main.tf
 COPY ./terraform/variables.tf /app/terraform/variables.tf
-RUN mkdir config
+RUN mkdir -p /app/config
 
 # Set working directory
 WORKDIR /app
