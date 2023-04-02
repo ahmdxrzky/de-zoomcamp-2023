@@ -109,7 +109,14 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
     ![Screenshot 2023-04-01 110443](https://user-images.githubusercontent.com/99194827/229264813-07a4ca3c-ddf7-402e-8c03-843dcdbc7207.png)
 
   _LOGICAL FRAMEWORK_ <br>
-  _I build this docker image based on this [Dockerfile](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/Dockerfile) which use **Python:3.8** as base image. This image containerize: **Install** sudo and nano; **Install Terraform**; **Copy** [requirements.txt](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/requirements.txt), [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/data_pipeline.py), [manipulation_project_id.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/manipulation_project_id.py), [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/main.tf), and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/variables.tf); **Create** config folder; **Use** /app folder as working directory; **Install** dependency libraries for Python from requirements.txt; also **Use** bash as entrypoint._
+  _I build this docker image based on this [Dockerfile](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/Dockerfile) which use **Python:3.8** as base image. This image containerize:_
+  1. _**Install** sudo and nano_
+  2. _**Install Terraform**_
+  3. _**Copy** [requirements.txt](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/requirements.txt), [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/data_pipeline.py), [manipulation_project_id.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/manipulation_project_id.py), [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/main.tf), and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/variables.tf)_
+  4. _**Create** config folder_
+  5. _**Use** /app folder as working directory_
+  6. _**Install** dependency libraries for Python from requirements.txt_
+  7. _**Use** bash as entrypoint._
 
 - In container bash terminal, change value of a variable to terraform/variables.tf file by executing command below.
   ```bash
