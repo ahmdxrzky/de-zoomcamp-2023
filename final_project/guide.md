@@ -1,5 +1,5 @@
 # Problem Statement
-Pattern of weather is getting more difficult to be identified year by year. There are many factors led to this phenomenon, especially global warming. Usually, Indonesian people could be certain that the dry season would occur from March to September and the rainy season on the other hand. Now, we can no longer use this knowledge as reference. Therefore, I am interested to build this project in order to answer the question of _whether there have been changes in weather patterns in Denpasar or not_.
+Pattern of weather is getting more difficult to be identified year by year. Usually, Indonesian people could certain that the dry season would occur from March to September and the rainy season on the other hand. Now, we can no longer use this knowledge as reference. Therefore, I am interested to build this project in order to answer the question of _whether there have been changes in weather patterns in Denpasar or not_.
 
 # Data Source
 #### [_Denpasar Weather Data on Kaggle_](https://www.kaggle.com/datasets/cornflake15/denpasarbalihistoricalweatherdata?resource=download) ####
@@ -106,11 +106,19 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.3
   ```
   Change `<external-ip>` with external IP address of VM instance and `<project-id>` with personal project ID that can be seen in cloud console in the previous step. <br>
-  ![Screenshot 2023-04-01 110443](https://user-images.githubusercontent.com/99194827/229264813-07a4ca3c-ddf7-402e-8c03-843dcdbc7207.png)
+    ![Screenshot 2023-04-01 110443](https://user-images.githubusercontent.com/99194827/229264813-07a4ca3c-ddf7-402e-8c03-843dcdbc7207.png)
+
+  _LOGICAL FRAMEWORK_ <br>
+  _I build this docker image based on this [Dockerfile](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/Dockerfile) which use **Python:3.8** as base image. This image containerize: **Install** sudo and nano; **Install Terraform**; **Copy** [requirements.txt](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/requirements.txt), [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/data_pipeline.py), [manipulation_project_id.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/manipulation_project_id.py), [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/main.tf), and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/variables.tf); **Create** config folder; **Use** /app folder as working directory; **Install** dependency libraries for Python from requirements.txt; also **Use** bash as entrypoint._
+
 - In container bash terminal, change value of a variable to terraform/variables.tf file by executing command below.
   ```bash
   python3 /app/src/manipulation_project_id.py $PROJECT_ID
   ```
+  
+  _LOGICAL FRAMEWORK_ <br>
+  _Because project id is different for each account, I create [manipulation_project_id.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/manipulation_project_id.py) that open terraform/variables.tf file and ingest project id of the user as default value of **project** variable. Through this, we can simplify process of open file, replace value, and save file only in a single command execution._
+  
 - Then, copy contents of keyfile previously downloaded in local machine to config/keyfile.json file in docker container. <br>
   ```bash
   nano /app/config/keyfile.json
@@ -124,12 +132,10 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
     && terraform apply -auto-approve
   ```
   
-#### LOGICAL FRAMEWORK
-1. I build the docker image based on this [Dockerfile](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/Dockerfile) which use **Python:3.8** as base image. This image containerize: **Install** sudo and nano; **Install Terraform**; **Copy** [requirements.txt](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/requirements.txt), [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/data_pipeline.py), [manipulation_project_id.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/manipulation_project_id.py), [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/main.tf), and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/variables.tf); **Create** config folder, **Use** /app folder as working directory, **Install** dependency libraries for Python from requirements.txt, and **Use** bash as entrypoint.
-2. **Terraform**, as Iac Tool, creates infrastructures by read these two files, [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/main.tf) and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/variables.tf).
-3. **variables.tf** file contains definition (name, description, default value, and data type) of variables that will be used in main.tf file. In this project, I created **data_lake_bucket**, **project**, **region**, **credentials**, **storage_class**, and **BQ_DATASET** variables which contain value of name for GCS Bucket, personal project id, region for resource, path to service account keyfile, storage class, and name for GBQ Dataset, respectively.
-4. **main.tf** file contains codes to build GCS Bucket and GBQ Dataset based on variables on variables.tf file.
-5. Because project id can different for each person, I create [manipulation_project_id.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/manipulation_project_id.py) that open terraform/variables.tf file and ingest project id of the user to variables.tf. Through this, we can simplify open file, replace value, and save file only in a single command execution.
+  _LOGICAL FRAMEWORK_ <br>
+  1. _**Terraform**, as Iac Tool, creates infrastructures by read these two files, [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/main.tf) and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/variables.tf)_
+  2. _**variables.tf** file contains definition (name, description, default value, and data type) of variables that will be used in main.tf file. In this project, I created **data_lake_bucket**, **project**, **region**, **credentials**, **storage_class**, and **BQ_DATASET** variables which contain value of name for GCS Bucket, personal project id, region for resource, path to service account keyfile, storage class, and name for GBQ Dataset, respectively._
+  3. _**main.tf** file contains codes to build GCS Bucket and GBQ Dataset based on variables on variables.tf file._
 
 ### Activate and Configurate Prefect
 - Activate and Access Prefect UI.
@@ -169,6 +175,13 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ```
   A Deployment (as same as job being scheduled) has been built and will be run monthly at 1st day of the month.
   ![image](https://user-images.githubusercontent.com/99194827/228199147-79b85c4e-5b77-4b7e-89fe-0a1e0889d3e0.png) <br>
+  
+  _LOGICAL FRAMEWORK_ <br>
+  _I've created [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/data_pipeline.py) that contains data pipeline consists of: A flow, a subflow, two subsubflows with 3 tasks in each subsubflow._
+  1. _A flow called **etl_main_function** that accepts 3 params, which means this flow is parameterized. It will ingest initial dataset or ingest previous month data depends on value of **initial** param._
+  2. _A sub flow called **etl_for_a_month** that accepts 2 param (year and month) and handles ingest process of a file of data per month._
+  3. _Two subsubflows called **etl_ingest_to_data_lake** and **etl_ingest_to_data_warehouse**. **etl_ingest_to_data_lake** subsubflow consists of 3 tasks, which are **extract_from_source** (Read csv file as dataframe), **write_parquet_to_local** (Transform dataframe to parquet file), and **write_parquet_to_gcs** (Upload parquet file to Data Lake). **etl_ingest_to_data_warehouse** subsubflow consists of 3 tasks too, which are **extract_from_gcs** (Download parquet files from Data Lake), **read_parquet_as_dataframe** (Read parquet file as dataframe), and **write_dataframe_to_gbq** (Ingest dataframe to Data Warehouse)._
+  
 - Do quick run to ingest initial dataset (Jan 2015 to Feb 2023), since March 1st, 2023 has already passed.
   ```bash
   prefect deployment run etl-main-function/ETL_GCS_to_BGQ_Monthly --param initial=True
@@ -181,14 +194,6 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ![image](https://user-images.githubusercontent.com/99194827/228421509-62e3fe15-5181-46a9-8b39-e18d3a25455b.png) <br>
   It is also schedule batch processing data of Mar 2023 at Apr 1st, Apr 2023 at May 1st, May 2023 at June 1st, etc <br>
   ![image](https://user-images.githubusercontent.com/99194827/228478394-b8cc0348-d252-4e1f-b9ed-e407c40532f9.png)
-  
-#### LOGICAL FRAMEWORK
-I've created [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/data_pipeline.py) that contains data pipeline for this project. What is content of this file?
-1. A main flow called **etl_main_function**. It accepts 3 params, which means this flow is parameterized. It will ingest initial dataset or ingest previous month data depends on value of **initial** param.
-2. A sub flow called **etl_for_a_month**. It accepts 2 param (year and month) and handles ingest process of a file of data per month.
-3. Two subsubflows called **etl_ingest_to_data_lake** and **etl_ingest_to_data_warehouse**.
-4. **etl_ingest_to_data_lake** subsubflow consists of 3 tasks, which are **extract_from_source** (Read csv file as dataframe), **write_parquet_to_local** (Transform dataframe to parquet file), and **write_parquet_to_gcs** (Upload parquet file to Data Lake).
-5. **etl_ingest_to_data_warehouse** subsubflow consists of 3 tasks too, which are **extract_from_gcs** (Download parquet files from Data Lake), **read_parquet_as_dataframe** (Read parquet file as dataframe), and **write_dataframe_to_gbq** (Ingest dataframe to Data Warehouse).
 
 ### Data Transformation on Data Warehouse with dbt Cloud
 - Access dbt cloud [here](https://cloud.getdbt.com/login). Register as usual if you have never create one. Click gear icon on top right side. Then, click **Account Settings**.
@@ -221,13 +226,13 @@ I've created [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/bl
 - As a result, source and staging table are in different datasets.
   ![image](https://user-images.githubusercontent.com/99194827/228703208-3c63d718-8570-4e0a-b1d6-b7cffe8de5db.png)
   
-#### LOGICAL FRAMEWORK
-1. **dbt** initiates a folder as data modelling schema by creating folders. It uses external file as data source for table if the file is being put in **seeds** folder. It also creates models if the models' schema are defined in **models** folder.
-2. I use [weather_lookup.csv](https://github.com/ahmdxrzky/dbt-cloud-data-transformation/blob/main/seeds/weather_lookup.csv) as seed file. It contains weather id used in weather data that corresponds with its weather name and description.
-3. I define two kinds of model schema, which are **staging** and **facts**.
-4. I define a [model](https://github.com/ahmdxrzky/dbt-cloud-data-transformation/tree/main/models/staging) in staging to be implemented as **view** in GBQ. It takes several columns from partitioned **all_weather_data** table and converts their data types.
-5. I define a [**dimensional table**](https://github.com/ahmdxrzky/dbt-cloud-data-transformation/blob/main/models/facts/dim_weather.sql) from seed file.
-6. I define a [**fact table**](https://github.com/ahmdxrzky/dbt-cloud-data-transformation/blob/main/models/facts/fact_weather.sql) which join weather data with dimensional table based on weather_id.
+  _LOGICAL FRAMEWORK_ <br>
+  1. _**dbt** initiates a folder as data modelling schema by creating folders. It uses external file as data source for table if the file is being put in **seeds** folder. It also creates models if the models' schema are defined in **models** folder._
+  2. _I use [weather_lookup.csv](https://github.com/ahmdxrzky/dbt-cloud-data-transformation/blob/main/seeds/weather_lookup.csv) as seed file. It contains weather id used in weather data that corresponds with its weather name and description._
+  3. _I define two kinds of model schema, which are **staging** and **facts**._
+  4. _I define a [staging model](https://github.com/ahmdxrzky/dbt-cloud-data-transformation/blob/main/models/staging/stg_weather_data.sql) as **view** in GBQ. It takes several columns from partitioned **all_weather_data** table and converts their data types._
+  5. _I define a [**dimensional table**](https://github.com/ahmdxrzky/dbt-cloud-data-transformation/blob/main/models/facts/dim_weather.sql) from seed file._
+  6. _I define a [**fact table**](https://github.com/ahmdxrzky/dbt-cloud-data-transformation/blob/main/models/facts/fact_weather.sql) which join weather data with dimensional table based on weather_id._
 
 ### Data Visualization with Looker Data Studio
 - Access Looker Data Studio [here](https://lookerstudio.google.com) and login with google account. Then, click **Create** then **Data source**.
@@ -241,9 +246,9 @@ I've created [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/bl
 - Define dashboard as your wish. My dashboard project can be accessed [here](https://lookerstudio.google.com/reporting/ece80e5f-5838-47eb-ba58-b64ff5576b1c)
   ![Screenshot 2023-04-01 112809](https://user-images.githubusercontent.com/99194827/229265595-575a93d4-6895-43d5-bb04-170960a4ee34.png)
   
-#### LOGICAL FRAMEWORK
-1. The first visualization is created using three columns. I use **record_datetime** as filter, **record_month** as x-axis, and count of **weather_category** per month as y-axis. I also use **weather_category** itself as detail dimension.
-2. The second visualization is created using two columns. I use **record_datetime** as filter and x-axis also average of **temperature** on a day as y-axis. 
+  _LOGICAL FRAMEWORK_ <br>
+  1. _The first visualization is created using three columns. I use **record_datetime** as filter, **record_month** as x-axis, and count of **weather_category** per month as y-axis. I also use **weather_category** itself as detail dimension._
+  2. _The second visualization is created using two columns. I use **record_datetime** as filter and x-axis also average of **temperature** on a day as y-axis._
 
 # Insights and Goals Fulfilling
 From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, I strongly believe that there is a shift in weather patternal in Denpasar.
