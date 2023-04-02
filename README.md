@@ -33,4 +33,4 @@ This repository contains files that I made or edit to fulfill my answer for task
 
 ## Week 7: Final Project
 - Guidelines: [Guidelines](https://github.com/DataTalksClub/data-engineering-zoomcamp/tree/main/week_7_project)
-- Answer: [Answer](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/guide.md)
+- Answer: [Answer](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/README.md)
