@@ -258,4 +258,4 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   2. _The second visualization is created using two columns. I use **record_datetime** as filter and x-axis also average of **temperature** on a day as y-axis._
 
 # Insights and Goals Fulfilling
-From visualization of data, it can be clearly seen that month with highest total of rainy day is January and the lowest is October, where October is assumed as rainy season. Therefore, I strongly believe that there is a shift in weather patternal in Denpasar.
+A data pipeline of Denpasar Weather Data from data source to dashboard has been **created**. From visualization of data, it can be clearly seen that month with highest total of rainy day is **January** and the lowest is **October**, where October is assumed as **rainy** season. Therefore, I strongly believe that there is a **shift** in weather patternal in Denpasar.
