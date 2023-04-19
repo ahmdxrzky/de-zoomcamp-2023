@@ -3,7 +3,7 @@ Pattern of weather is getting more difficult to be identified year by year. Usua
 
 # Data Source
 #### [_Denpasar Weather Data on Kaggle_](https://www.kaggle.com/datasets/cornflake15/denpasarbalihistoricalweatherdata?resource=download) ####
-Disclaimer: Actually, dataset above only provides weather data of Denpasar City from 1990 to 2020 (even the data for 2020 is not complete to December). In order to make this data engineering project (which batch processes the data) look real and simulate the actual workflow of data engineering, I _manipulate_ the dataset by _adding_ 4 years to the actual date data and _dividing_ it per year and month, so the data for 2023 are available and can be used to simulate batch processing per month. I put this splitted data [here](https://github.com/ahmdxrzky/de-zoomcamp-2023/tree/main/final_project/assets/dataset).
+Disclaimer: Actually, dataset above only provides weather data of Denpasar City from 1990 to 2020 (even the data for 2020 is not complete to December). In order to make this data engineering project (which batch processes the data) looks real and simulate the actual workflow of data engineering, I _manipulate_ the dataset by _adding_ 4 years to the actual date data and _dividing_ it per year and month, so the data for 2023 are available and can be used to simulate batch processing per month. I put this splitted data [here](https://github.com/ahmdxrzky/de-zoomcamp-2023/tree/main/final_project/assets/dataset).
 
 # Project Framework
 ![assets drawio](https://user-images.githubusercontent.com/99194827/229009417-e04e2add-29fa-45e3-aa8f-cf094ca23df9.png)
@@ -15,7 +15,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 # Tools
 ### Cloud
 - **Google Compute Engine (GCE)**. A GCE virtual machine used to develop and run this project along with Google Cloud Storage (GCS) and Google BigQuery (GBQ).
-- **Terraform**. Infrastructure as Code (IaC) tool to create a GCS Bucket and GBQ Dataset in a code execution only.
+- **Terraform**. Infrastructure as Code (IaC) tool to create a GCE VM Instance, GCS Bucket and GBQ Dataset in a code execution only.
 - **Docker** and **Docker Hub**. Tool for containerizing environment of this data pipeline project.
 ### Data Ingestion
 - **Prefect**. Workflow Orchestration tool to orchestrarize data pipeline.
@@ -35,8 +35,8 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ![Screenshot 2023-03-28 051305](https://user-images.githubusercontent.com/99194827/228079307-30829881-8e52-44d0-8aed-39f20d25f849.png)
 - Fill in name and description (ID is auto-generate based on name) for service account, then click **Create and Continue**.
   ![Screenshot 2023-03-28 051359](https://user-images.githubusercontent.com/99194827/228079334-9bd09e3c-ab51-400a-ace9-cbeffbfc1592.png)
-- Grant all access needed by this service account to the project. Since this project will work around Cloud Storage and BigQuery, so I grant these roles for this service account. Then, click **Continue**. Then, click **Done** on bottom of the page.
-  ![Screenshot 2023-03-28 051754](https://user-images.githubusercontent.com/99194827/228079475-2a304a14-01ae-4646-ab5f-b710d20203a9.png)
+- Grant all access needed by this service account to the project. I grant these roles for this service account. Then, click **Continue**. Then, click **Done** on bottom of the page.
+  ![image](https://user-images.githubusercontent.com/99194827/233023621-5458c1c4-3a83-4dbc-b5a2-1cc45ae6247e.png)
 - Click three dots on row of the newly built Service Account and click **Manage keys**.
   ![Screenshot 2023-03-28 052039](https://user-images.githubusercontent.com/99194827/228079986-950b8695-1e61-4fd0-8d1e-20476df5b441.png)
 - Drop **Add key** down, then click **Create new key**.
@@ -44,26 +44,42 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Choose **JSON** option, then click **Create**. A keyfile in json format will be downloaded automatically.
   ![Screenshot 2023-03-28 052232](https://user-images.githubusercontent.com/99194827/228080289-f73e2675-3bf9-44f3-b6a1-dd6a812852cf.png)
 
-### Create a Virtual Machine Instance on Google Compute Engine
-- Still in Google Cloud Console, move to **VM Instances** tab.
-  ![Screenshot 2023-03-28 052449](https://user-images.githubusercontent.com/99194827/228080597-900e3bb8-96b9-4e12-b1b4-f81a03683aa3.png)
-- Click **Create Instance**.
-  ![Screenshot 2023-03-28 052531](https://user-images.githubusercontent.com/99194827/228080697-2cf00073-8e38-48c3-a1ff-012784f3a330.png)
-- Fill in name, region, and zone.
-  ![Screenshot 2023-03-28 052637](https://user-images.githubusercontent.com/99194827/228080851-981302b9-4a28-49fe-8839-6d1463c60b37.png)
-- Scroll down. In Firewall part, allow **HTTP** and **HTTPS** traffic.
-  ![Screenshot 2023-03-28 052723](https://user-images.githubusercontent.com/99194827/228081008-64cd7a46-d291-4eb5-839e-11c373d19493.png)
-- Scroll down again and drop **Advanced options** down. Drop **Networking** down, fill in network tags and enable **IP forwarding**. Then, click **Create** on bottom of the page.
-  ![Screenshot 2023-03-28 052913](https://user-images.githubusercontent.com/99194827/228081268-5154c229-14d0-47e1-bf8c-826f2aaba207.png)
-- Remember value from **External IP** column. It will be used for accessing this VM from local machine.
-  ![Screenshot 2023-04-01 111110](https://user-images.githubusercontent.com/99194827/229265118-0e0230eb-e869-45d4-bbb5-01fa66e277a5.png)
-- Move to **Firewall** tab. Then, click **Create Firewall Rule**.
-  ![Screenshot 2023-03-28 053143](https://user-images.githubusercontent.com/99194827/228081668-97d46b2e-6e3c-43a7-8aa3-ff07643cf54a.png)
-  ![Screenshot 2023-03-28 053232](https://user-images.githubusercontent.com/99194827/228085307-0d8c1bac-d9fa-4545-8509-824f9957472e.png)
-- Fill in name and description of firewall rule.
-  ![Screenshot 2023-03-28 053336](https://user-images.githubusercontent.com/99194827/228081917-55e32bf8-7662-4a80-9360-236cf464dcb9.png)
-- Fill in **target tags** with **network tags** defined previously ("project" for my case), "0.0.0.0/0" on **Source IPv4 ranges** (so all external machine can access this VM), and 4200 on TCP **ports** (port for Prefect UI). Then, click **Create** on bottom of the page.
-  ![Screenshot 2023-03-28 053556](https://user-images.githubusercontent.com/99194827/228082396-ce6819db-415a-42bb-bc11-6997f2ca55e8.png)
+### Build GCE VM Instance, GCS Bucket, GBQ Dataset, and Firewall Rule with Terraform
+- Clone this repository to your host machine and move to  by executing this command.
+  ```bash
+  git clone https://github.com/ahmdxrzky/de-zoomcamp-2023.git
+  cd de-zoomcamp-2023/final_project/terraform
+  ```
+- Install Terraform by executing this command.
+  ```bash
+  wget https://releases.hashicorp.com/terraform/1.4.0/terraform_1.4.0_linux_amd64.zip \
+    && unzip terraform_1.4.0_linux_amd64.zip \
+    && sudo mv terraform /usr/local/bin \
+    && rm terraform_1.4.0_linux_amd64.zip
+  ```
+- Insert project id to terraform/variables.tf file. <br>
+  Personal project id can be seen in google cloud console.
+  ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
+  Replace `<gcp-project-id>` in terraform/variables.tf file with copied project id above.
+- Copy content of keyfile json downloaded before. Execute this command below.
+  ```bash
+  mkdir -p ../config
+  nano ../config/keyfile.json
+  ```
+  Then, paste content of keyfile json in here.
+  ![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
+  Last, save the file.
+- Build all infrastructure needed with Terraform by executing this command below.
+  ```
+  terraform init \
+    && terraform plan \
+    && terraform apply -auto-approve
+  ```
+  
+  _LOGICAL FRAMEWORK_ <br>
+  1. _**Terraform**, as Iac Tool, creates infrastructures by read these two files, [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/main.tf) and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/variables.tf)_
+  2. _**variables.tf** file contains definition (name, description, default value, and data type) of variables that will be used in main.tf file. In this project, I created **resource_name**, **project**, **region**, **zone**, **credentials**, **storage_class**, and **BQ_DATASET** variables which contain value of name for VM Instance and GCS Bucket, personal project id, region and zone for resource, path to service account keyfile, storage class, and name for GBQ Dataset, respectively._
+  3. _**main.tf** file contains codes to build GCE Instance, Firewall Rule, GCS Bucket, and GBQ Dataset based on variables on variables.tf file._
 - Move to local terminal (I use wsl terminal on Visual Studio Code. This also can be done with command prompt for windows). Check have you generate a SSH key or not by executing this command.
   ```bash
   cat ~/.ssh/id_rsa.pub
@@ -74,7 +90,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ssh-keygen
   ```
 - Read content of `id_rsa.pub` file and copy it.
-- Back to **Google Cloud Console**. Go to **VM Instances** tab and click previously built VM instance.
+- Back to **Google Cloud Console**. Go to **VM Instances** tab and click newly built VM instance.
   ![Screenshot 2023-03-28 054131](https://user-images.githubusercontent.com/99194827/228083451-edcf0d0f-57e4-4821-9252-c469a4266e49.png)
 - Click **Edit**.
   ![Screenshot 2023-03-28 054144](https://user-images.githubusercontent.com/99194827/228083508-78e27ad8-fe32-4a97-9a21-f43123c13447.png)
@@ -91,58 +107,31 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ![Screenshot 2023-04-01 105951](https://user-images.githubusercontent.com/99194827/229264688-5f51e356-03ce-44fa-b886-ea4ad4598896.png)
 
 ### Setup Environment with Docker
-- Install docker on virtual machine.
-  ```bash
-  sudo apt-get install docker.io -y
-  sudo chmod 666 /var/run/docker.sock
-  ```
-- Check project id. <br>
-  Personal project id can be seen in google cloud console.
-  ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
-- Environment for this data engineering pipeline has been created and pushed to Image Registry of Docker which is Docker Hub. I've set it publicly accessible, so everyone can create a container based on this Docker Image.
-  ![image](https://user-images.githubusercontent.com/99194827/229265278-54a15a85-94aa-49f6-8c95-0abe645d316a.png) <br>
+- Make sure you are already in terminal of VM. Docker has been installed when VM Instance being built.
+- Environment for this data engineering pipeline has been created based on this [Dockerfile](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/Dockerfile) and pushed to Image Registry of Docker which is Docker Hub. I've set it publicly accessible, so everyone can create a container based on this Docker Image.
+  ![image](https://user-images.githubusercontent.com/99194827/233032298-9d069671-c2d1-4975-86c6-cec49fa2b183.png) <br>
   Execute this command below to run docker container based on docker images above.
   ```bash
-  docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -e PROJECT_ID=<project-id> -it ahmdxrzky/dezoomcamp_final_project:0.0.3
+  docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -it ahmdxrzky/dezoomcamp_final_project:0.0.5
   ```
-  Change `<external-ip>` with external IP address of VM instance and `<project-id>` with personal project ID that can be seen in cloud console in the previous step. <br>
-    ![Screenshot 2023-04-01 110443](https://user-images.githubusercontent.com/99194827/229264813-07a4ca3c-ddf7-402e-8c03-843dcdbc7207.png)
+  Change `<external-ip>` with external IP address of VM instance <br>
+  ![Screenshot 2023-04-19 163226](https://user-images.githubusercontent.com/99194827/233033302-dd826597-d910-481f-8610-3402a4e1000b.png)
 
   _LOGICAL FRAMEWORK_ <br>
   _I build this docker image based on this [Dockerfile](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/Dockerfile) which use **Python:3.8** as base image. This image containerize:_
   1. _**Install** sudo and nano_
-  2. _**Install Terraform**_
-  3. _**Copy** [requirements.txt](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/requirements.txt), [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/data_pipeline.py), [manipulation_project_id.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/manipulation_project_id.py), [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/main.tf), and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/variables.tf)_
-  4. _**Create** config folder_
-  5. _**Use** /app folder as working directory_
-  6. _**Install** dependency libraries for Python from requirements.txt_
-  7. _**Use** bash as entrypoint._
-
-- In container bash terminal, change value of a variable to terraform/variables.tf file by executing command below.
-  ```bash
-  python3 /app/src/manipulation_project_id.py $PROJECT_ID
-  ```
-  
-  _LOGICAL FRAMEWORK_ <br>
-  _Because project id is different for each account, I create [manipulation_project_id.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/manipulation_project_id.py) that open terraform/variables.tf file and ingest project id of the user as default value of **project** variable. Through this, we can simplify process of open file, replace value, and save file only in a single command execution._
-  
-- Then, copy contents of keyfile previously downloaded in local machine to config/keyfile.json file in docker container. <br>
+  2. _**Copy** [requirements.txt](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/requirements.txt) and [data_pipeline.py](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/src/data_pipeline.py)_
+  3. _**Create** config folder_
+  4. _**Use** /app folder as working directory_
+  5. _**Install** dependency libraries for Python from requirements.txt_
+  6. _**Use** bash as entrypoint._  
+- Copy content of keyfile json downloaded before. Execute this command below.
   ```bash
   nano /app/config/keyfile.json
   ```
+  Then, paste content of keyfile json in here.
   ![Screenshot 2023-03-28 060521](https://user-images.githubusercontent.com/99194827/228086639-eb88867c-22cb-4afa-8cd2-336c0d6ec04d.png)
-- Run terraform to create GCS Bucket and GBQ Dataset with single execution.
-  ```bash
-  cd /app/terraform \
-    && terraform init \
-    && terraform plan \
-    && terraform apply -auto-approve
-  ```
-  
-  _LOGICAL FRAMEWORK_ <br>
-  1. _**Terraform**, as Iac Tool, creates infrastructures by read these two files, [main.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/main.tf) and [variables.tf](https://github.com/ahmdxrzky/de-zoomcamp-2023/blob/main/final_project/terraform/variables.tf)_
-  2. _**variables.tf** file contains definition (name, description, default value, and data type) of variables that will be used in main.tf file. In this project, I created **data_lake_bucket**, **project**, **region**, **credentials**, **storage_class**, and **BQ_DATASET** variables which contain value of name for GCS Bucket, personal project id, region for resource, path to service account keyfile, storage class, and name for GBQ Dataset, respectively._
-  3. _**main.tf** file contains codes to build GCS Bucket and GBQ Dataset based on variables on variables.tf file._
+  Last, save the file.
 
 ### Activate and Configurate Prefect
 - Activate and Access Prefect UI.
@@ -162,7 +151,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - Create Prefect Block for GCS Bucket. <br>
   Move again to **Blocks** tab. Click **+** button, search **GCS Bucket**, then click **+ Add**. <br>
   ![image](https://user-images.githubusercontent.com/99194827/228090032-a5a7d758-543b-4296-9404-411202c0398c.png) <br>
-  Fill `gcs-bucket-final-project` for the block on **Block Name**, `dezoomcamp_final_project` on **Bucket**, and choose which GCP Credentials embedded with the bucket on **Gcp Credentials**. Then, click **Create**. <br>
+  Fill `gcs-bucket-final-project` for the block on **Block Name**, `dezoomcamp-final-project` on **Bucket**, and choose which GCP Credentials embedded with the bucket on **Gcp Credentials**. Then, click **Create**. <br>
   ![image](https://user-images.githubusercontent.com/99194827/228090227-34a9c702-6468-4979-871d-12bea89a86f8.png)
 - Open new terminal and access vm in the new terminal using ssh (same as before). Access same container by checking its id and run with exec command.
   ```bash
