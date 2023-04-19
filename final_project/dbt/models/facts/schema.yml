@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: fact_trips
+    description: >
+      Weather data of Denpasar City.
+      The table contains records where weather_id explained by detail from weather_lookup table. 
+      Each record uniquely identified by record_id.
