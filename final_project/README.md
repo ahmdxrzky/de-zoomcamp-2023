@@ -212,7 +212,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
 - In **Development Credentials** part, fill "final_project" in Dataset as we define this dataset with Terraform before. Then, click **Test Connection**. This final_project dataset used as Data Source and Testing Environment before applying Data Modelling schema, since we ingest data from GCS to this GBQ dataset.
   ![image](https://user-images.githubusercontent.com/99194827/228203128-88b8de68-83e9-4489-93f6-93783ea225b9.png)
 - In **Setup a Repository** part, click **Github** to choose a repository for dbt versioning.
-  You can fork [this repository](https://github.com/ahmdxrzky/dbt-cloud-data-transformation) and choose this repository in **Setup a Repository** part. <br>
+  You can fork this repository, since dbt configuration folder are on [this folder](https://github.com/ahmdxrzky/de-zoomcamp-2023/tree/main/final_project/dbt) and choose this repository in **Setup a Repository** part. <br>
 - Go to **Develop** tab. Execute this command on dbt terminal.
   ```bash
   dbt seed
