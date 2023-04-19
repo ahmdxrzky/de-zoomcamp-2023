@@ -1,5 +1,5 @@
 locals {
-  data_lake_bucket = "dezoomcamp_final_project"
+  resource_name = "dezoomcamp-final-project"
 }
 
 variable "project" {
@@ -9,7 +9,13 @@ variable "project" {
 
 variable "region" {
   description = "Region for GCP resources. Choose as per your location: https://cloud.google.com/about/locations"
-  default = "US"
+  default = "asia-southeast2"
+  type = string
+}
+
+variable "zone" {
+  description = "Zone for GCP resources."
+  default = "asia-southeast2-a"
   type = string
 }
 

@@ -151,16 +151,18 @@ def etl_main_function(
     :param years: (list) Years of all data available.
     :param months: (list) Months in number.
     """
+    current_datetime = datetime.fromtimestamp(time.time())
+    current_year = current_datetime.year
+    current_month = current_datetime.month
+
     if initial == True:
         for year in years:
             for month in months:
                 etl_for_a_month(year, month)
-        etl_for_a_month(2023, 1)
-        etl_for_a_month(2023, 2)
+        for month in range(1, current_month):
+            etl_for_a_month(2023, month)
     else:
-        current_datetime = datetime.fromtimestamp(time.time())
-        current_year = current_datetime.year
-        current_month = current_datetime.month - 1
+        current_month -= 1
         etl_for_a_month(current_year, current_month)
     return
 
