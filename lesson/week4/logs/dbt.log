@@ -1,0 +1,10 @@
+
+
+============================== 2023-02-18 13:12:55.230157 | 0a2cfdce-1a37-4417-95b1-9034bde33948 ==============================
+[0m13:12:55.230157 [info ] [MainThread]: Running with dbt=1.4.1
+[0m13:12:55.230982 [debug] [MainThread]: running dbt with arguments {'write_json': True, 'use_colors': True, 'printer_width': 80, 'version_check': True, 'partial_parse': True, 'static_parser': True, 'profiles_dir': '/home/rizky/.dbt', 'send_anonymous_usage_stats': True, 'quiet': False, 'no_print': False, 'cache_selected_only': False, 'skip_profile_setup': False, 'which': 'init', 'indirect_selection': 'eager'}
+[0m13:12:55.231132 [debug] [MainThread]: Tracking: tracking
+[0m13:12:55.240580 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f4e3ab36e50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f4e3aa9ad30>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f4e3aa9ac10>]}
+[0m13:12:55.241029 [info ] [MainThread]: Creating dbt configuration folder at /home/rizky/.dbt
+[0m13:12:55.242128 [debug] [MainThread]: Flushing usage events
+[0m13:13:06.442766 [debug] [MainThread]: Error sending anonymous usage statistics. Disabling tracking for this execution. If you wish to permanently disable tracking, see: https://docs.getdbt.com/reference/global-configs#send-anonymous-usage-stats.
