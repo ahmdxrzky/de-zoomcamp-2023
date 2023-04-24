@@ -116,7 +116,7 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
   ![image](https://user-images.githubusercontent.com/99194827/233032298-9d069671-c2d1-4975-86c6-cec49fa2b183.png) <br>
   Execute this command below to run docker container based on docker images above.
   ```bash
-  docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -it ahmdxrzky/dezoomcamp_final_project:0.0.5
+  docker run -p 4200:4200 -e EXTERNAL_IP=<external-ip> -it ahmdxrzky/dezoomcamp_final_project:0.0.1
   ```
   Change `<external-ip>` with external IP address of VM instance <br>
   ![Screenshot 2023-04-19 163226](https://user-images.githubusercontent.com/99194827/233033302-dd826597-d910-481f-8610-3402a4e1000b.png)
