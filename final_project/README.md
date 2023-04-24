@@ -58,6 +58,10 @@ Disclaimer: Actually, dataset above only provides weather data of Denpasar City 
     && rm terraform_1.4.0_linux_amd64.zip
   ```
 - Insert project id to terraform/variables.tf file. <br>
+  Open terraform/variables.tf by executing command below.
+  ```
+  nano variables.tf
+  ```
   Personal project id can be seen in google cloud console.
   ![Screenshot 2023-03-29 093459](https://user-images.githubusercontent.com/99194827/228412084-a15023e3-2fe5-4823-ab0a-614b3a7caf3d.png)
   Replace `<gcp-project-id>` in terraform/variables.tf file with copied project id above.
